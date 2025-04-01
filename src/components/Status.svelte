@@ -33,7 +33,8 @@
         "❤️": "red_heart",
         "💔": "broken_heart",
         "😇": "smiling_face_with_halo",
-        "☀️": "star"
+        "☀️": "star",
+        "🥱": "yawning_face"
     }
 </script>
 
