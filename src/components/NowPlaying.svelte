@@ -122,7 +122,7 @@ function stitchArtistCredits(
 	artists: ListenBrainzRes["listens"][0]["track_metadata"]["mbid_mapping"]["artists"],
 ) {
 	return artists
-		.map((artist) => artist.artist_credit_name + (artist.join_phrase || ", "))
+		.map((artist) => artist.artist_credit_name + (artist.join_phrase || ""))
 		.join("");
 }
 </script>
