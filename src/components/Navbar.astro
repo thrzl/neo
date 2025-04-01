@@ -1,0 +1,52 @@
+---
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="top-nav">
+    <ul>
+        <li><a class=`${currentPath === '/' ? 'selected' : ''}` href="/">home</a></li>
+        <li><a class=`${currentPath === '/blog' ? 'selected' : ''}` href="/blog">blog</a></li>
+        <li><a href="#">gallery</a></li>
+        <li><a href="#">museum</a></li>
+        <li><a href="#">links</a></li>
+    </ul>
+</nav>
+
+<style>
+    .top-nav {
+        background: #000;
+        /* font-family: "Chicago", sans-serif; */
+        font-size: 1rem;
+        /* border-bottom: 1px solid #000; */
+        border-left: 1.5px solid #000;
+        border-right: 1.5px solid #000;
+    }
+
+    .top-nav ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        /* align-items: center; */
+        padding: 0.5rem;
+        margin: 0;
+    }
+
+    .top-nav li {
+        height: 100%
+    }
+
+    .top-nav a {
+        /* padding-top: -0.5rem; */
+        text-decoration: none;
+        color: #fff;
+        background: #000;
+        font-weight: bold;
+        padding: 0.5rem 1.5rem;
+        padding-top: 0.55rem; /* don't know why this is necessary but whatever */
+        height: 100%;
+    }
+    .top-nav a:hover, .top-nav a.selected {
+        color: #000;
+        background: #fff;
+    }
+</style>

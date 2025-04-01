@@ -1,22 +1,242 @@
+---
+import Header from "../components/Header.astro";
+import Navbar from "../components/Navbar.astro";
+import NowPlaying from "../components/NowPlaying.svelte";
+import Status from "../components/Status.svelte";
+---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>thrizzle</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <Header />
+
+      <Navbar/>
+
+      <div class="content">
+        <aside class="sidebar-left">
+          <section>
+            <h2>status</h2>
+            <Status client:only="svelte">
+              <span slot="fallback" style="font-weight: bolder">loading</span> / please be patient <img height="16rem" src="/skype/thinking_face.png" alt="thinking face"/>
+            </Status>
+          </section>
+          <section>
+            <div class="flex items-center justify-between" style="display: flex; justify-content: space-between; align-items: center;">
+              <h2 style="margin-bottom: 0; border: 0;">tunes</h2>
+              <a style="font-family: Chicago; color: black; margin-top: 1rem; font-size: 0.65rem" href="/music">more music</a>
+            </div>
+            <NowPlaying client:only="svelte">
+              <div slot="fallback" class="container box" style="display:flex;flex-direction:row;align-items:center;color:#000 ">
+                <img
+                    src="/skype/sign_of_the_horns.png"
+                    alt="placeholder cover art"
+                    style="width:5rem;padding:1rem;height:100%;margin:.5rem;border:2px solid #000"
+                />
+        <div
+            style="margin-left: 0.5rem; margin-right: 0.75rem; overflow: scroll"
+        >
+            <p
+                style="font-size: 1.25rem; font-weight: bold; margin:0; max-width: 400px"
+            >
+                now loading data...
+            </p>
+            <p style="margin:0">almost done!</p>
+        </div>
+    </div>
+            </NowPlaying>
+          </section>
+        </aside>
+
+        <main>
+          <slot />
+        </main>
+
+        <aside class="sidebar-right">
+          <section>
+            <h2>changelog</h2>
+            <p>yibber yabber</p>
+          </section>
+          <section>
+            <h2>sum else idk what to put here</h2>
+            <p>blah blah</p>
+          </section>
+        </aside>
+      </div>
+
+      <footer>
+        <p>version 4.3.2 | <a href="#">RSS feed</a> …</p>
+      </footer>
+    </div>
+  </body>
 </html>
 
+<style is:global>
+  .box {
+    border: 2px solid #000;
+  }
+
+  @font-face {
+    font-family:'Apple Garamond';
+    src: url('/fonts/Apple Garamond Bold Italic.woff2') format('woff2');
+    font-weight: 700;
+    font-style: italic;
+    font-stretch: normal;
+    unicode-range: U+0020-02DC;
+}
+
+@font-face {
+    font-family:'Apple Garamond';
+    src: url('/fonts/Apple Garamond Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+0020-02DC;
+}
+
+@font-face {
+    font-family:'Apple Garamond';
+    src: url('/fonts/Apple Garamond Italic.woff2') format('woff2');
+    font-weight: 400;
+    font-style: italic;
+    font-stretch: normal;
+    unicode-range: U+0020-02DC;
+}
+
+@font-face {
+    font-family:'Apple Garamond';
+    src: url('/fonts/Apple Garamond.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+0020-02DC;
+}
+
+  p {
+    font-family: "Apple Garamond", serif;
+    font-size: 18px; 
+    line-height: 1.2;
+  }
+</style>
+
 <style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+  body {
+    background: #000;
+    color: #000;
+    font-family:
+      "Apple Garamond",
+      monospace;
+    margin: 0;
+  }
+  .wrapper {
+    background: #fff;
+  }
+
+  /* Header */
+  header {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    color: #000;
+    min-height: 650px;
+    background-color: #000;
+  }
+
+  header h1 {
+    font-size: 2rem;
+    text-transform: lowercase;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  header span {
+    color: #ccc;
+  }
+
+  /* Top Navigation */
+  .top-nav {
+    background: #fff;
+    border-bottom: 1px solid #000;
+    border-left: 1.5px solid #000;
+    border-right: 1.5px solid #000;
+  }
+
+  .top-nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem;
+    margin: 0;
+  }
+
+  .top-nav a {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+    padding: 0.5rem 1.5rem;
+  }
+  .top-nav a:hover {
+    color: #fff;
+    background: #000;
+  }
+
+  .content {
+    display: flex;
+    padding: 1rem;
+    border-left: 1.5px solid #000;
+    border-right: 1.5px solid #000;
+  }
+
+  .sidebar-left,
+  .sidebar-right {
+    width: 25%;
+    padding: 0 1rem;
+  }
+
+  main {
+    width: 50%;
+    padding: 0 1rem;
+  }
+
+  .sidebar-left {
+    border-right: 2px solid #000;
+  }
+
+  .sidebar-right {
+    border-left: 2px solid #000;
+  }
+
+  h2 {
+    border-bottom: 2px solid #000;
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
+    text-transform: lowercase;
+    font-size: 1.2rem;
+  }
+
+  .subtitle {
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    margin: 0.5rem 0;
+    line-height: 1.4;
+  }
+
+  footer {
+    border-top: 2px solid #000;
+    padding: 1rem;
+    text-align: center;
+    background: #eee;
+  }
+
+  footer a {
+    color: #000;
+    text-decoration: none;
+  }
 </style>
