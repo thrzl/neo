@@ -7,12 +7,14 @@
     };
 
     function htmlDecode(input: string) {
-      const doc = new DOMParser().parseFromString(input, "text/html");
-      return doc.documentElement.textContent;
+        const doc = new DOMParser().parseFromString(input, "text/html");
+        return doc.documentElement.textContent;
     }
 
     async function getStatus() {
-        const res = await fetch("https://status.cafe/users/thrizzle/status.json");
+        const res = await fetch(
+            "https://status.cafe/users/thrizzle/status.json",
+        );
         if (!res.ok) {
             throw new Error("Network response was not ok");
         }
@@ -34,18 +36,32 @@
         "💔": "broken_heart",
         "😇": "smiling_face_with_halo",
         "☀️": "star",
-        "🥱": "yawning_face"
-    }
+        "🥱": "yawning_face",
+    };
 </script>
 
 {#await status}
-<div>
-    <span style="font-weight: bolder">loading</span> / please be patient <img height="16rem" src="/skype/thinking_face.png" alt="thinking face"/>
-</div>
+<span class="font-800">loading &nbsp;</span>
+<p class="inline">
+    / please wait...
+    <img
+            class="h-4 inline align-middle"
+            height="16px"
+            src="/skype/mantelpiece_clock.png"
+            alt="clock emoji"
+        />
+</p>
 {:then status}
-    <div>
-        <span style="font-weight: bolder">{status.timeAgo}</span> / {htmlDecode(status.content)} {#if emoji_map.hasOwnProperty(status.face)} <img height="16rem" src={`/skype/${emoji_map[status.face]}.png`} alt={status.face.replace("_", " ")}/>{/if}
-    </div>
+    <span class="font-800">{status.timeAgo}&nbsp;</span>
+    <p class="inline">
+        / {htmlDecode(status.content)}
+        {#if emoji_map.hasOwnProperty(status.face)}<img
+                class="h-4 inline align-middle"
+                height="16px"
+                src={`/skype/${emoji_map[status.face]}.png`}
+                alt={status.face.replace("_", " ")}
+            />{/if}
+    </p>
 {:catch error}
     <div class="text-red-500">Error: {error.message}</div>
 {/await}

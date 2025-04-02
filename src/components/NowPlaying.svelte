@@ -128,8 +128,8 @@ function stitchArtistCredits(
 </script>
 
 {#await res}
-<div class="container box">
-            <img
+<div class="flex flex-row items-center border-black b-2">
+            <img class="border-black border-2 w-[6rem] h-full m-2"
                 src="/skype/sign_of_the_horns.png"
                 alt="placeholder cover art"
                 style="width:5rem;padding:1rem;height: 100%"
@@ -146,21 +146,21 @@ function stitchArtistCredits(
     </div>
 </div>
 {:then { track, now_playing }}
-    <div class="container box">
+    <div class="flex flex-row items-center border-black b-2">
         {#if track.mbid_mapping}
             <a
                 href={`https://listenbrainz.org/release/${track.mbid_mapping.release_mbid}`}
                 target="_blank"
                 rel="noopener noreferrer"
             >
-                <img
+                <img class="border-black border-2 w-[6rem] h-full m-2"
                     src={`http://wsrv.nl/?url=coverartarchive.org/release/${track.mbid_mapping?.release_mbid}/front-250/`}
                     alt="cover art"
                     style="width: 6rem; height: 100%"
                 />
             </a>
         {:else}
-            <img src="/skype/musical_notes.png" alt="cover art placeholder" style="width:5rem;padding:1rem;height: 100%"/>
+            <img class="border-black border-2 w-[6rem] h-full m-2" src="/skype/musical_notes.png" alt="cover art placeholder" style="width:5rem;padding:1rem;height: 100%"/>
         {/if}
         <div
             style="margin-left: 0.5rem; margin-right: 0.75rem; overflow: scroll"

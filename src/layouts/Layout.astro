@@ -5,11 +5,26 @@ import NowPlaying from "../components/NowPlaying.svelte";
 import Status from "../components/Status.svelte";
 ---
 
+<script>
+  window.addEventListener("beforeunload", () => {
+    sessionStorage.setItem("scrollPosition", window.scrollY.toString());
+  });
+  window.addEventListener("load", () => {
+    const scrollPosition = sessionStorage.getItem("scrollPosition");
+    if (scrollPosition) {
+      window.scrollTo(0, parseInt(scrollPosition, 10));
+      console.log(`Restoring scroll position to ${scrollPosition}`);
+    }
+  });
+</script>
+
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>thrizzle</title>
+    <link rel="icon" type="image/png" href="/skype/mantelpiece_clock.png"/>
   </head>
   <body>
     <div class="wrapper">
@@ -19,15 +34,15 @@ import Status from "../components/Status.svelte";
 
       <div class="content">
         <aside class="sidebar-left">
-          <section>
-            <h2>status</h2>
+          <section class="mb-4">
+            <h2 class="font-800">status</h2>
             <Status client:only="svelte">
               <span slot="fallback" style="font-weight: bolder">loading</span> / please be patient <img height="16rem" src="/skype/thinking_face.png" alt="thinking face"/>
             </Status>
           </section>
           <section>
             <div class="flex items-center justify-between" style="display: flex; justify-content: space-between; align-items: center;">
-              <h2 style="margin-bottom: 0; border: 0;">tunes</h2>
+              <h2 class="font-800 mb-0 border-b-0 mb-0" style="border: none">tunes</h2>
               <a style="font-family: Chicago; color: black; margin-top: 1rem; font-size: 0.65rem" href="/music">more music</a>
             </div>
             <NowPlaying client:only="svelte">
@@ -57,19 +72,19 @@ import Status from "../components/Status.svelte";
         </main>
 
         <aside class="sidebar-right">
-          <section>
-            <h2>changelog</h2>
+          <section class="mb-4">
+            <h2 class="font-800">changelog</h2>
             <p>yibber yabber</p>
           </section>
           <section>
-            <h2>sum else idk what to put here</h2>
+            <h2 class="font-800">sum else idk what to put here</h2>
             <p>blah blah</p>
           </section>
         </aside>
       </div>
 
       <footer>
-        <p>version 4.3.2 | <a href="#">RSS feed</a> …</p>
+        <p class="text-red">version 4.3.2 | <a href="#">RSS feed</a> …</p>
       </footer>
     </div>
   </body>
@@ -212,8 +227,8 @@ import Status from "../components/Status.svelte";
 
   h2 {
     border-bottom: 2px solid #000;
-    padding-bottom: 0.25rem;
-    margin-bottom: 0.5rem;
+    /* padding-bottom: 0.25rem; */
+    /* margin-bottom: 0.5rem; */
     text-transform: lowercase;
     font-size: 1.2rem;
   }
