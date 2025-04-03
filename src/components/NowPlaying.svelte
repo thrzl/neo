@@ -154,7 +154,7 @@ function stitchArtistCredits(
                 rel="noopener noreferrer"
             >
                 <img class="border-black border-2 w-24 aspect-ratio-square m-2"
-                    src={`http://wsrv.nl/?url=coverartarchive.org/release/${track.mbid_mapping?.release_mbid}/front-250/`}
+                    src={`https://wsrv.nl/?url=coverartarchive.org/release/${track.mbid_mapping?.release_mbid}/front-250/`}
 					on:error="{(e) => e.target.src = '/music.avif'}"
                     alt="cover art"
 
