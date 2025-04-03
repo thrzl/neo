@@ -3,19 +3,20 @@ import Header from "../components/Header.astro";
 import Navbar from "../components/Navbar.astro";
 import NowPlaying from "../components/NowPlaying.svelte";
 import Status from "../components/Status.svelte";
+import ClientRouter from "astro/components/ClientRouter.astro";
 ---
 
 <script>
   window.addEventListener("beforeunload", () => {
     sessionStorage.setItem("scrollPosition", window.scrollY.toString());
   });
-  window.addEventListener("load", () => {
-    const scrollPosition = sessionStorage.getItem("scrollPosition");
-    if (scrollPosition) {
-      window.scrollTo(0, parseInt(scrollPosition, 10));
-      console.log(`Restoring scroll position to ${scrollPosition}`);
-    }
-  });
+  // window.addEventListener("load", () => {
+  //   const scrollPosition = sessionStorage.getItem("scrollPosition");
+  //   if (scrollPosition) {
+  //     window.scrollTo(0, parseInt(scrollPosition, 10));
+  //     console.log(`Restoring scroll position to ${scrollPosition}`);
+  //   }
+  // });
 </script>
 
 
@@ -25,6 +26,7 @@ import Status from "../components/Status.svelte";
     <meta charset="UTF-8" />
     <title>thrizzle</title>
     <link rel="icon" type="image/png" href="/skype/mantelpiece_clock.png"/>
+    <ClientRouter />
   </head>
   <body>
     <div class="wrapper">
@@ -38,7 +40,7 @@ import Status from "../components/Status.svelte";
       </marquee>
 
       <div class="content">
-        <aside class="sidebar-left">
+        <aside class="sidebar-left" transition:persist>
           <section class="mb-4">
             <h2 class="font-800">status</h2>
             <Status client:only="svelte">
@@ -138,8 +140,8 @@ import Status from "../components/Status.svelte";
 
   p {
     font-family: "Apple Garamond", serif;
-    font-size: 18px; 
-    line-height: 1.2;
+    /* font-size: 18px;  */
+    /* line-height: 1.2; */
   }
 </style>
 
