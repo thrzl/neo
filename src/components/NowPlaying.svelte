@@ -128,7 +128,7 @@ function stitchArtistCredits(
 </script>
 
 {#await res}
-<div class="flex flex-row items-center border-black b-2">
+<div class="flex flex-col lg:flex-row items-center border-black b-2">
             <img class="border-black border-2 w-[6rem] h-full m-2"
                 src="/skype/sign_of_the_horns.png"
                 alt="placeholder cover art"
@@ -146,17 +146,18 @@ function stitchArtistCredits(
     </div>
 </div>
 {:then { track, now_playing }}
-    <div class="flex flex-row items-center border-black b-2">
+    <div class="flex flex-col lg:flex-row items-center border-black b-2">
         {#if track.mbid_mapping}
             <a
                 href={`https://listenbrainz.org/release/${track.mbid_mapping.release_mbid}`}
                 target="_blank"
                 rel="noopener noreferrer"
             >
-                <img class="border-black border-2 w-[6rem] h-full m-2"
+                <img class="border-black border-2 w-24 aspect-ratio-square m-2"
                     src={`http://wsrv.nl/?url=coverartarchive.org/release/${track.mbid_mapping?.release_mbid}/front-250/`}
+					on:error="{(e) => e.target.src = '/music.avif'}"
                     alt="cover art"
-                    style="width: 6rem; height: 100%"
+
                 />
             </a>
         {:else}
@@ -164,20 +165,23 @@ function stitchArtistCredits(
         {/if}
         <div
             style="margin-left: 0.5rem; margin-right: 0.75rem; overflow: scroll"
+			class="text-center lg:text-left"
         >
-            <p
+            <a
+				href="{track.mbid_mapping?.recording_mbid ? `//musicbrainz.org/recording/${track.mbid_mapping.recording_mbid}` : '#'}"
                 bind:this={container}
                 on:load={checkOverflow}
-                class={`${isOverflowing ? "marquee" : ""}`}
+                class="{isOverflowing ? 'marquee' : ''} duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none"
                 data-speed="0.25"
                 style="font-size: 1.25rem; font-weight: bold; margin:0; max-width: 400px"
             >
-                {track.mbid_mapping
+                {track.mbid_mapping?.recording_name
                     ? track.mbid_mapping.recording_name.toLowerCase()
                     : track.track_name.toLowerCase()}
-            </p>
+            </a>
             <!-- ik its gross bro watch out -->
-            <p style="margin:0">{track.mbid_mapping ? stitchArtistCredits(track.mbid_mapping.artists).toLowerCase() : track.artist_name.toLocaleLowerCase()}</p>
+			 {console.log(track.mbid_mapping)}
+            <p class="duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help lg:w-fit line-height-none mt-0.5" style="margin: 0">{track.mbid_mapping?.artists.length > 0 ? stitchArtistCredits(track.mbid_mapping.artists).toLowerCase() : track.artist_name.toLocaleLowerCase()}</p>
             {#if now_playing}
                 <p style="color: green; margin: 0">now playing!</p>
             {/if}

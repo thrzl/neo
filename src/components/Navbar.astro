@@ -44,8 +44,13 @@ const currentPath = Astro.url.pathname;
         padding: 0.7rem 1.5rem;
         padding-top: 0.7rem; /* don't know why this is necessary but whatever */
         height: 100%;
+        transition: background-color, color;
+        transition-duration: 250ms;
+        cursor: cell;
     }
     .top-nav a:hover, .top-nav a.selected {
+        transition: background-color, color;
+        transition-duration: 250ms;
         color: #000;
         background: #fff;
     }
