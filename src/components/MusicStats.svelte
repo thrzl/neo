@@ -47,7 +47,7 @@
         <p>Total Releases: {stats.total_release_count}</p>
         <ul class="grid auto-rows-max lg:grid-cols-3 gap-0">
             {#each stats.releases as release}
-                <a href="//listenbrainz.org/release/{release.release_mbid}" class="relative overflow-hidden inline-block md:min-w-48 group aspect-ratio-square b-2 b-black p-2 hover:p-0 duration-300 cursor-help">
+                <a href="https://wsrv.nl/?url=listenbrainz.org/release/{release.release_mbid}" class="relative overflow-hidden inline-block md:min-w-48 group aspect-ratio-square b-2 b-black p-2 hover:p-0 duration-300 cursor-help">
                     <!-- <strong>{release.release_name}</strong> by {release.artist_name} 
                     (Listens: {release.listen_count}) -->
                     <img src="//coverartarchive.org/release/{release.release_mbid}/front-500" 
@@ -56,8 +56,8 @@
                          class="w-full h-auto mb-2 group-hover:scale-100 group-hover:brightness-30 group-hover:blur-none transition duration-300" />
                     <!-- show title and artist in center on hover, and darken background -->
                     <div class="absolute bottom-0 op-0 group-hover:op-100 transition-delay-150 transition-200 w-full h-full z-1 flex justify-center items-center flex-col lowercase">
-                            <p class="text-white text-lg line-height-none font-800 text-center w-4/5">{release.release_name}</p>
-                            <p class="text-sm text-neutral-300 text-center w-full">{release.artist_name}</p>
+                        <p class="text-sm text-neutral-300 text-center w-full">{release.artist_name}</p>
+                            <p class="text-white text-lg lg:text-2xl !line-height-none font-800 text-center w-4/5">{release.release_name}</p>
                     </div>
                     <!-- <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2 text-sm">
                         <p>{release.release_name}</p>
