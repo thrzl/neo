@@ -62,7 +62,7 @@
 				recording.releases.length === 0 ||
 				recording.releases[0].title !== cleaned_release_name
 			) {
-				if (!recording.isrcs.includes(track.additional_info.isrc)) {
+				if (!recording?.isrcs.includes(track.additional_info.isrc)) {
 					console.error("no valid media found for the current track! :(");
 					return {
 						track: res.listens[0].track_metadata,
