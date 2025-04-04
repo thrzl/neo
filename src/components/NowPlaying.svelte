@@ -1,47 +1,5 @@
 <script lang="ts">
-type ListenBrainzRes = {
-	listens: Array<{
-		inserted_at: number;
-		listened_at: number | null;
-		recording_msid: string;
-		track_metadata: {
-			additional_info: {
-				duration_ms: number;
-				media_player: string;
-				music_service: string;
-				recording_msid: string;
-				submission_client: string;
-			};
-			artist_name: string;
-			mbid_mapping: {
-				artist_mbids: Array<string>;
-				artists: Array<{
-					artist_credit_name: string;
-					artist_mbid: string;
-					join_phrase: string;
-				}>;
-				caa_id: number;
-				caa_release_mbid: string;
-				recording_mbid: string;
-				recording_name: string;
-				release_mbid: string;
-			};
-			track_name: string;
-		};
-		user_name: string;
-	}>;
-	oldest_listen_ts: number;
-	user_id: string;
-};
-
-type ListenBrainzMetadata = {
-	artist_credit_name: string;
-	artist_mbids: Array<string>;
-	recording_mbid: string;
-	recording_name: string;
-	release_mbid: string;
-	release_name: string;
-};
+import type {ListenBrainzRes, MusicBrainzRecordingSearch} from "../lib/types";
 
 async function getNowPlaying() {
 	const res = await fetch(
@@ -72,7 +30,7 @@ async function getData() {
 	} else if (!res.listens[0].track_metadata.mbid_mapping) {
 		const track = res.listens[0].track_metadata; // started pissin me off
 		const true_res = await fetch(
-			`https://api.listenbrainz.org/1/metadata/lookup/?recording_name=${track.track_name}&artist_name=${track.artist_name}`,
+			`https://musicbrainz.org/ws/2/recording?fmt=json&query=isrc:${track.additional_info.isrc}`,
 		);
 		if (!true_res.ok) {
 			console.error(
@@ -83,23 +41,29 @@ async function getData() {
 				now_playing: res.listens[0].listened_at === undefined,
 			};
 		}
-		const true_track_data: ListenBrainzMetadata = await true_res.json();
+		const true_track_data: MusicBrainzRecordingSearch = await true_res.json();
+		const recording = true_track_data.recordings[0];
+		if (!recording) {
+			console.error("No valid media found for the track");
+			return {
+				track: res.listens[0].track_metadata,
+				now_playing: res.listens[0].listened_at === undefined,
+			};
+		}
+
+		const release = recording.releases[0];
 		res.listens[0].track_metadata.mbid_mapping = {
-			artist_mbids: true_track_data.artist_mbids || [],
-			artists: true_track_data.artist_credit_name
-				? [
-						{
-							artist_credit_name: true_track_data.artist_credit_name,
-							artist_mbid: "",
-							join_phrase: "",
-						},
-					]
-				: [],
-			caa_id: 0,
-			caa_release_mbid: true_track_data.release_mbid || "",
-			recording_mbid: true_track_data.recording_mbid || "",
-			recording_name: true_track_data.recording_name || "",
-			release_mbid: true_track_data.release_mbid || "",
+			release_mbid: release.id,
+			recording_mbid: true_track_data.recordings[0].id,
+			recording_name: track.track_name,
+			caa_id: 0, // cover art archive id
+			caa_release_mbid: release.id,
+			artist_mbids: recording["artist-credit"].map((artist) => artist.artist.id),
+			artists: recording["artist-credit"].map((artist) => ({
+				artist_credit_name: artist.name,
+				artist_mbid: artist.artist.id,
+				join_phrase: artist.joinphrase || "",
+			})),
 		};
 	}
 	return {
@@ -146,15 +110,15 @@ function stitchArtistCredits(
     </div>
 </div>
 {:then { track, now_playing }}
-    <div class="flex flex-col lg:flex-row items-center border-black b-2">
+    <div class="flex flex-col items-center border-black b-2 lg:items-start">
         {#if track.mbid_mapping}
             <a
                 href={`https://listenbrainz.org/release/${track.mbid_mapping.release_mbid}`}
                 target="_blank"
                 rel="noopener noreferrer"
             >
-                <img class="border-black border-2 w-24 aspect-ratio-square m-2"
-                    src={`https://wsrv.nl/?url=coverartarchive.org/release/${track.mbid_mapping?.release_mbid}/front-250/`}
+                <img class="border-black border-b-2 w-full aspect-ratio-square"
+                    src={`https://wsrv.nl/?url=coverartarchive.org/release/${track.mbid_mapping?.release_mbid}/front-500/`}
 					on:error="{(e) => e.target.src = '/music.avif'}"
                     alt="cover art"
 
@@ -164,14 +128,14 @@ function stitchArtistCredits(
             <img class="border-black border-2 w-[6rem] h-full m-2" src="/skype/musical_notes.png" alt="cover art placeholder" style="width:5rem;padding:1rem;height: 100%"/>
         {/if}
         <div
-            style="margin-left: 0.5rem; margin-right: 0.75rem; overflow: scroll"
-			class="text-center lg:text-left"
+			class="text-left my-5 h-auto lg:ml-5 max-w-3/4"
         >
+		<p class="text-sm w-max duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none mt-0.5" style="margin: 0">{track.mbid_mapping?.artists.length > 0 ? stitchArtistCredits(track.mbid_mapping.artists).toLowerCase() : track.artist_name.toLocaleLowerCase()}</p>
             <a
 				href="{track.mbid_mapping?.recording_mbid ? `//musicbrainz.org/recording/${track.mbid_mapping.recording_mbid}` : '#'}"
                 bind:this={container}
                 on:load={checkOverflow}
-                class="{isOverflowing ? 'marquee' : ''} duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none"
+                class="duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none"
                 data-speed="0.25"
                 style="font-size: 1.25rem; font-weight: bold; margin:0; max-width: 400px"
             >
@@ -181,9 +145,11 @@ function stitchArtistCredits(
             </a>
             <!-- ik its gross bro watch out -->
 			 {console.log(track.mbid_mapping)}
-            <p class="duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help lg:w-fit line-height-none mt-0.5" style="margin: 0">{track.mbid_mapping?.artists.length > 0 ? stitchArtistCredits(track.mbid_mapping.artists).toLowerCase() : track.artist_name.toLocaleLowerCase()}</p>
+            <!-- <p class="duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help lg:w-fit line-height-none mt-0.5" style="margin: 0">{track.mbid_mapping?.artists.length > 0 ? stitchArtistCredits(track.mbid_mapping.artists).toLowerCase() : track.artist_name.toLocaleLowerCase()}</p> -->
             {#if now_playing}
-                <p style="color: green; margin: 0">now playing!</p>
+                <p class="line-height-none w-max text-sm animate-pulse duration-100 m-0 text-green-600">now playing!</p>
+			{:else}
+				<p class="line-height-none w-max text-sm animate-pulse duration-100 m-0 text-neutral-600">recent track</p>
             {/if}
         </div>
     </div>
@@ -194,7 +160,7 @@ function stitchArtistCredits(
         white-space: nowrap;
         overflow: hidden;
         display: inline-block;
-        animation: marquee 7.5s linear infinite;
+        animation: marquee 2.5s linear infinite;
     }
 
     @keyframes marquee {
@@ -218,9 +184,5 @@ function stitchArtistCredits(
         height: 100%;
         margin: 0.5rem;
         border: 2px solid #000;
-    }
-
-    p {
-        margin: 0.5rem;
     }
 </style>
