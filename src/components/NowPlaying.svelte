@@ -72,7 +72,11 @@
 			}
 			console.debug("found match!");
 
-			const release = recording.releases[0];
+			// first release where media.format[0] is Digital Media
+			const release = recording.releases.find(
+				(rel) => rel.media && rel.media.length > 0 && rel.media[0].format === "Digital Media",
+			) || recording.releases[0];
+			// const release = recording.releases[0];
 			res.listens[0].track_metadata.mbid_mapping = {
 				release_mbid: release.id,
 				recording_mbid: recording.id,
