@@ -30,7 +30,7 @@ async function getData() {
 	} else if (!res.listens[0].track_metadata.mbid_mapping) {
 		const track = res.listens[0].track_metadata; // started pissin me off
 		const true_res = await fetch(
-			`https://musicbrainz.org/ws/2/recording?fmt=json&query=isrc:${track.additional_info.isrc}`,
+			`https://musicbrainz.org/ws/2/recording?fmt=json&query=isrc:${track.additional_info.isrc} OR (recording:${track.track_name} AND artist:${track.artist_name} AND release:${track.release_name.replace(/\s*-\s*[^-]+$/, '')})`,
 		);
 		if (!true_res.ok) {
 			console.error(
@@ -54,8 +54,8 @@ async function getData() {
 		const release = recording.releases[0];
 		res.listens[0].track_metadata.mbid_mapping = {
 			release_mbid: release.id,
-			recording_mbid: true_track_data.recordings[0].id,
-			recording_name: track.track_name,
+			recording_mbid: recording.id,
+			recording_name: recording.title,
 			caa_id: 0, // cover art archive id
 			caa_release_mbid: release.id,
 			artist_mbids: recording["artist-credit"].map((artist) => artist.artist.id),
@@ -92,22 +92,24 @@ function stitchArtistCredits(
 </script>
 
 {#await res}
-<div class="flex flex-col lg:flex-row items-center border-black b-2">
-            <img class="border-black border-2 w-[6rem] h-full m-2"
-                src="/skype/sign_of_the_horns.png"
-                alt="placeholder cover art"
-                style="width:5rem;padding:1rem;height: 100%"
-            />
-    <div
-        style="margin-left: 0.5rem; margin-right: 0.75rem; overflow: scroll"
-    >
-        <p
-            style="font-size: 1.25rem; font-weight: bold; margin:0; max-width: 400px"
-        >
-            now loading data...
-        </p>
-        <p style="margin:0">almost done!</p>
-    </div>
+<div class="flex flex-col items-center border-black b-2 lg:items-start">
+	<img class="border-black border-b-2 w-full aspect-ratio-square p-5"
+		src="/skype/sign_of_the_horns.png"
+		alt="cover art"
+
+	/>
+	<div
+		class="text-left my-5 h-auto lg:ml-5 max-w-3/4"
+	>
+	<p class="block text-sm w-max duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none mt-0.5" style="margin: 0">one moment</p>
+		<p
+			class="duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none"
+			data-speed="0.25"
+			style="font-size: 1.25rem; font-weight: bold; margin:0; max-width: 400px"
+		>
+			loading...
+	</p>
+	</div>
 </div>
 {:then { track, now_playing }}
     <div class="flex flex-col items-center border-black b-2 lg:items-start">
@@ -143,8 +145,6 @@ function stitchArtistCredits(
                     ? track.mbid_mapping.recording_name.toLowerCase()
                     : track.track_name.toLowerCase()}
             </a>
-            <!-- ik its gross bro watch out -->
-			 {console.log(track.mbid_mapping)}
             <!-- <p class="duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help lg:w-fit line-height-none mt-0.5" style="margin: 0">{track.mbid_mapping?.artists.length > 0 ? stitchArtistCredits(track.mbid_mapping.artists).toLowerCase() : track.artist_name.toLocaleLowerCase()}</p> -->
             {#if now_playing}
                 <p class="line-height-none w-max text-sm animate-pulse duration-100 m-0 text-green-600">now playing!</p>

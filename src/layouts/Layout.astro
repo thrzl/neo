@@ -68,24 +68,23 @@ import ClientRouter from "astro/components/ClientRouter.astro";
               >
             </div>
             <NowPlaying client:only="svelte">
-              <div
-                class="flex flex-col lg:flex-row items-center border-black b-2"
-              >
-                <img
-                  class="border-black border-2 w-[6rem] h-full m-2"
+              <div class="flex flex-col items-center border-black b-2 lg:items-start">
+                <img class="border-black border-b-2 w-full aspect-ratio-square p-5"
                   src="/skype/sign_of_the_horns.png"
-                  alt="placeholder cover art"
-                  style="width:5rem;padding:1rem;height: 100%"
+                  alt="cover art"
+              
                 />
                 <div
-                  class="absolute bottom-0 op-0 group-hover:op-100 transition-delay-150 transition-200 w-full h-full z-1 flex justify-center items-center flex-col lowercase"
+                  class="text-left my-5 h-auto lg:ml-5 max-w-3/4"
                 >
+                <p class="block text-sm w-max duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none mt-0.5" style="margin: 0">one moment</p>
                   <p
+                    class="duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none"
+                    data-speed="0.25"
                     style="font-size: 1.25rem; font-weight: bold; margin:0; max-width: 400px"
                   >
-                    now loading data...
-                  </p>
-                  <p style="margin:0">almost done!</p>
+                    loading...
+                </p>
                 </div>
               </div>
             </NowPlaying>
