@@ -19,23 +19,25 @@ import ClientRouter from "astro/components/ClientRouter.astro";
   // });
 </script>
 
-
-<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>thrizzle</title>
-    <link rel="icon" type="image/png" href="/skype/mantelpiece_clock.png"/>
+    <link rel="icon" type="image/png" href="/skype/mantelpiece_clock.png" />
     <ClientRouter />
   </head>
   <body>
-    <div class="wrapper">
+    <div class="wrapper w-full lg:w-3/4 m-auto my-10">
       <Header />
 
-      <Navbar/>
+      <Navbar />
       <marquee class="bg-yellow absolute top-0 w-full py-2 md:hidden">
-        <span style="font-family: 'Apple Garamond', serif; font-size: 1.2rem; color: #000;">
-          this site is designed for desktop. for the best experience, please visit on a computer or tablet. no promises for how this looks on mobile ✌🏽
+        <span
+          style="font-family: 'Apple Garamond', serif; font-size: 1.2rem; color: #000;"
+        >
+          this site is designed for desktop. for the best experience, please
+          visit on a computer or tablet. no promises for how this looks on
+          mobile ✌🏽
         </span>
       </marquee>
 
@@ -44,32 +46,48 @@ import ClientRouter from "astro/components/ClientRouter.astro";
           <section class="mb-4">
             <h2 class="font-800">status</h2>
             <Status client:only="svelte">
-              <span slot="fallback" style="font-weight: bolder">loading</span> / please be patient <img height="16rem" src="/skype/thinking_face.png" alt="thinking face"/>
+              <span slot="fallback" style="font-weight: bolder">loading</span> /
+              please be patient <img
+                height="16rem"
+                src="/skype/thinking_face.png"
+                alt="thinking face"
+              />
             </Status>
           </section>
           <section>
-            <div class="flex items-center justify-between" style="display: flex; justify-content: space-between; align-items: center;">
-              <h2 class="font-800 mb-0 border-b-0 mb-0" style="border: none">tunes</h2>
-              <a style="font-family: Chicago; color: black; margin-top: 1rem; font-size: 0.65rem" href="/music">more music</a>
+            <div
+              class="flex items-center justify-between"
+              style="display: flex; justify-content: space-between; align-items: center;"
+            >
+              <h2 class="font-800 mb-0 border-b-0 mb-0" style="border: none">
+                tunes
+              </h2>
+              <a
+                style="font-family: Chicago; color: black; margin-top: 1rem; font-size: 0.65rem"
+                href="/music">more music</a
+              >
             </div>
             <NowPlaying client:only="svelte">
-              <div class="flex flex-col lg:flex-row items-center border-black b-2">
-                <img class="border-black border-2 w-[6rem] h-full m-2"
-                    src="/skype/sign_of_the_horns.png"
-                    alt="placeholder cover art"
-                    style="width:5rem;padding:1rem;height: 100%"
+              <div
+                class="flex flex-col lg:flex-row items-center border-black b-2"
+              >
+                <img
+                  class="border-black border-2 w-[6rem] h-full m-2"
+                  src="/skype/sign_of_the_horns.png"
+                  alt="placeholder cover art"
+                  style="width:5rem;padding:1rem;height: 100%"
                 />
-        <div
-            class="absolute bottom-0 op-0 group-hover:op-100 transition-delay-150 transition-200 w-full h-full z-1 flex justify-center items-center flex-col lowercase"
-        >
-            <p
-                style="font-size: 1.25rem; font-weight: bold; margin:0; max-width: 400px"
-            >
-                now loading data...
-            </p>
-            <p style="margin:0">almost done!</p>
-        </div>
-    </div>
+                <div
+                  class="absolute bottom-0 op-0 group-hover:op-100 transition-delay-150 transition-200 w-full h-full z-1 flex justify-center items-center flex-col lowercase"
+                >
+                  <p
+                    style="font-size: 1.25rem; font-weight: bold; margin:0; max-width: 400px"
+                  >
+                    now loading data...
+                  </p>
+                  <p style="margin:0">almost done!</p>
+                </div>
+              </div>
             </NowPlaying>
           </section>
         </aside>
@@ -103,40 +121,40 @@ import ClientRouter from "astro/components/ClientRouter.astro";
   }
 
   @font-face {
-    font-family:'Apple Garamond';
-    src: url('/fonts/Apple Garamond Bold Italic.woff2') format('woff2');
+    font-family: "Apple Garamond";
+    src: url("/fonts/Apple Garamond Bold Italic.woff2") format("woff2");
     font-weight: 700;
     font-style: italic;
     font-stretch: normal;
     unicode-range: U+0020-02DC;
-}
+  }
 
-@font-face {
-    font-family:'Apple Garamond';
-    src: url('/fonts/Apple Garamond Bold.woff2') format('woff2');
+  @font-face {
+    font-family: "Apple Garamond";
+    src: url("/fonts/Apple Garamond Bold.woff2") format("woff2");
     font-weight: 700;
     font-style: normal;
     font-stretch: normal;
     unicode-range: U+0020-02DC;
-}
+  }
 
-@font-face {
-    font-family:'Apple Garamond';
-    src: url('/fonts/Apple Garamond Italic.woff2') format('woff2');
+  @font-face {
+    font-family: "Apple Garamond";
+    src: url("/fonts/Apple Garamond Italic.woff2") format("woff2");
     font-weight: 400;
     font-style: italic;
     font-stretch: normal;
     unicode-range: U+0020-02DC;
-}
+  }
 
-@font-face {
-    font-family:'Apple Garamond';
-    src: url('/fonts/Apple Garamond.woff2') format('woff2');
+  @font-face {
+    font-family: "Apple Garamond";
+    src: url("/fonts/Apple Garamond.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
     font-stretch: normal;
     unicode-range: U+0020-02DC;
-}
+  }
 
   p {
     font-family: "Apple Garamond", serif;
@@ -149,9 +167,7 @@ import ClientRouter from "astro/components/ClientRouter.astro";
   body {
     background: #000;
     color: #000;
-    font-family:
-      "Apple Garamond",
-      monospace;
+    font-family: "Apple Garamond", monospace;
     margin: 0;
   }
   .wrapper {
