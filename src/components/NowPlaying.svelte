@@ -130,7 +130,7 @@ function stitchArtistCredits(
         <div
 			class="text-left my-5 h-auto lg:ml-5 max-w-3/4"
         >
-		<p class="text-sm w-max duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none mt-0.5" style="margin: 0">{track.mbid_mapping?.artists.length > 0 ? stitchArtistCredits(track.mbid_mapping.artists).toLowerCase() : track.artist_name.toLocaleLowerCase()}</p>
+		<a href="//listenbrainz.org/artist/{track.mbid_mapping?.artists[0].artist_mbid}" class="block text-sm w-max duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none mt-0.5" style="margin: 0">{track.mbid_mapping?.artists.length > 0 ? stitchArtistCredits(track.mbid_mapping.artists).toLowerCase() : track.artist_name.toLocaleLowerCase()}</a>
             <a
 				href="{track.mbid_mapping?.recording_mbid ? `//musicbrainz.org/recording/${track.mbid_mapping.recording_mbid}` : '#'}"
                 bind:this={container}
@@ -149,7 +149,7 @@ function stitchArtistCredits(
             {#if now_playing}
                 <p class="line-height-none w-max text-sm animate-pulse duration-100 m-0 text-green-600">now playing!</p>
 			{:else}
-				<p class="line-height-none w-max text-sm animate-pulse duration-100 m-0 text-neutral-600">recent track</p>
+				<p class="line-height-none w-max text-sm duration-100 m-0 text-neutral-500">recent track</p>
             {/if}
         </div>
     </div>
