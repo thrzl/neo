@@ -36,7 +36,7 @@
 				.replace(/\s*-\s*[^-]+$/, "")
 				.replace(/\s*\(feat\. [^)]+\)/i, "");
 			const true_res = await fetch(
-				`https://musicbrainz.org/ws/2/recording?fmt=json&query=isrc:${track.additional_info.isrc} OR (recording:${track.track_name} AND artist:${track.artist_name} AND release:${cleaned_release_name})`,
+				`https://musicbrainz.org/ws/2/recording?fmt=json&query=isrc:${track.additional_info.isrc} OR (recording:"${track.track_name.replace(/\s*\(feat\. [^)]+\)/i, '')}" AND artist:"${track.artist_name}" AND release:"${cleaned_release_name}")`,
 			);
 			if (!true_res.ok) {
 				console.error(
@@ -62,7 +62,7 @@
 				recording.releases.length === 0 ||
 				recording.releases[0].title.toLowerCase() !== cleaned_release_name.toLowerCase()
 			) {
-				if (!recording?.isrcs.includes(track.additional_info.isrc)) {
+				if (!recording?.isrcs?.includes(track.additional_info.isrc)) {
 					console.error("no valid media found for the current track! :(");
 					return {
 						track: res.listens[0].track_metadata,
