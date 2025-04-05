@@ -1,6 +1,16 @@
 ---
 import BlogPost from "../../layouts/BlogPost.astro";
-const { frontmatter } = Astro.props;
+
+export function getStaticPaths() {
+    const posts = Object.values(
+	import.meta.glob("./blog/**/*.md", {
+		eager: true,
+	}),
+);
+    return posts.map((post) => {
+        return { params: { slug: post.url } };
+    });
+}
 ---
 
 <BlogPost>

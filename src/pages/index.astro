@@ -1,13 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
-const blogPosts: [
-	{ title: string; date: string; description: string; slug: string },
-] = Object.values(
+const blogPosts = Object.values(
 	import.meta.glob("./blog/**/*.md", {
 		eager: true,
 	}),
 );
-console.log(blogPosts);
 ---
 
 <Layout>
