@@ -5,7 +5,7 @@ const currentPath = Astro.url.pathname;
 <nav class="top-nav">
     <ul>
         <li><a class=`${currentPath === '/' ? 'selected' : ''}` href="/">home</a></li>
-        <li><a class=`${currentPath === '/blog' ? 'selected' : ''}` href="/blog">blog</a></li>
+        <li><a class=`${currentPath.startsWith('/blog') ? 'selected' : ''}` href="/blog">blog</a></li>
         <li><a class=`${currentPath === '/music' ? 'selected' : ''}` href="/music">music</a></li>
         <li><a href="#">gallery</a></li>
         <li><a href="#">links</a></li>
@@ -32,7 +32,7 @@ const currentPath = Astro.url.pathname;
 
     .top-nav a {
         text-decoration: none;
-        color: var(--accent-text-light, #fff);
+        color: var(--accent-text-light, #000);
         background: transparent;
         font-weight: bold;
         padding: 0.7rem 1.5rem;
@@ -41,7 +41,7 @@ const currentPath = Astro.url.pathname;
         cursor: cell;
     }
     .top-nav a:hover, .top-nav a.selected {
-        color: var(--accent-text-dark, #000);
+        color: var(--accent-text, #000);
         background: var(--accent-bg, #fff);
     }
 </style>
