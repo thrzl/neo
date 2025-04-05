@@ -1,20 +1,21 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from "../layouts/Layout.astro";
+const blogPosts: [
+	{ title: string; date: string; description: string; slug: string },
+] = Object.values(
+	import.meta.glob("./blog/**/*.md", {
+		eager: true,
+	}),
+);
+console.log(blogPosts);
 ---
 
 <Layout>
-	<section>
-		<h2>welcome, welcome</h2>
-		<p class="subtitle">home of the sun</p>
-		<p>peel in my second whip,<br/>
-	  stealin puttin secondhand <br/>
-  kills in my residence<br/>
-  healed all my brethren wit a seal, we cant let you in.. <br/>
-  medicine<br/>
-  i put that effort in to still burn that effigy 「おねがい」</p>
-	  </section>
+    <h1 class="text-2xl mb-2 font-800">recent writing</h1>
+    <ul>
+        {blogPosts.map((post: any) => <a href={post.url} class="my-3"><li class="b-[--accent-bg] b-2 b-dotted py-2 px-5 hover:b-dashed duration-250"><h3 class="text-xl italic text-[--accent-bg-dark]">{post.frontmatter.title}</h3><p class="text-sm text-neutral-600">{post.frontmatter.description}</p></li></a>)}
+        { blogPosts.length < 3 && (
+            <li class="op-50 hover:op-100 my-3 b-[--accent-bg] b-2 b-dotted py-2 px-5 hover:b-dashed duration-250"><h3 class="text-xl italic text-[--accent-bg-dark]">more posts coming soon!</h3><p class="text-sm text-neutral-600 italic">check back later</p></li>
+        )}
+    </ul>
 </Layout>
