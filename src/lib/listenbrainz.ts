@@ -52,7 +52,7 @@ export default async function getRecentTrack() {
         const trackMetadata: MusicBrainzRecordingSearch =
             await rawTrackMetadata.json();
 
-        console.debug(trackMetadata);
+        console.debug("trackMetadata: ", trackMetadata);
 
         // recording should be the release with a matching isrc or the first release
         const matchedRecording =
@@ -71,7 +71,6 @@ export default async function getRecentTrack() {
                 now_playing: recentTrackData.listens[0].listened_at === undefined,
             };
         }
-        console.debug("found match!");
 
         // first release where media.format[0] is Digital Media
         const matchedRelease = matchedRecording.releases.find(
