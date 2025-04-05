@@ -1,16 +1,22 @@
 <script lang="ts">
 	import type {
 		ListenBrainzRes,
-	} from "../lib/types";
-	import {getDominantColor} from "../lib/colors";
-    import getRecentTrack from "../lib/listenbrainz";
+	} from "../../lib/types";
+	import {getDominantColor} from "../../lib/colors";
+    import getRecentTrack from "../../lib/listenbrainz";
 
-	const recentTrack = getRecentTrack();
+	let recentTrack = getRecentTrack();
+	setInterval(async () =>{
+		let t = await getRecentTrack();
+		recentTrack = t;
+	}, 15000); // Refresh every 30 seconds
 	let coverArt: HTMLImageElement | null = null;
 
 	async function getAlbumArtColor() {
+		if (!coverArt) {
+			return; // make the linter happy
+		}
 		const palette = await getDominantColor(coverArt);
-		console.log("Palette:", palette);
 
 		sessionStorage.setItem("palette", JSON.stringify(palette));
 		document.documentElement.style.setProperty(
@@ -27,7 +33,11 @@
 		);
 		document.documentElement.style.setProperty(
 			"--accent-text-dark",
-			palette?.DarkVibrant?.bodyTextColor || "#000"
+			palette?.LightVibrant?.bodyTextColor || "#000"
+		);
+		document.documentElement.style.setProperty(
+			"--accent-text",
+			palette?.Vibrant?.bodyTextColor || "#ffffff"
 		);
 		return; 
 	}
@@ -120,7 +130,7 @@
 			<!-- <p class="duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help lg:w-fit line-height-none mt-0.5" style="margin: 0">{track.mbid_mapping?.artists.length > 0 ? stitchArtistCredits(track.mbid_mapping.artists).toLowerCase() : track.artist_name.toLocaleLowerCase()}</p> -->
 			{#if now_playing}
 				<p
-					class="line-height-none w-max text-sm animate-pulse duration-100 m-0 text-green-600"
+					class="line-height-none w-max text-sm animate-pulse duration-100 m-0 text-[--accent-bg]"
 				>
 					now playing!
 				</p>

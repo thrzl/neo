@@ -1,6 +1,5 @@
 <script lang="ts">
     export let range: string;
-    // console.log(range)
     type Stats = {
         count: number;
         from_ts: number;
@@ -58,7 +57,7 @@
                          class="w-full h-auto mb-2 group-hover:scale-100 group-hover:brightness-30 group-hover:blur-none transition duration-300" />
                     <!-- show title and artist in center on hover, and darken background -->
                     <div class="absolute bottom-0 op-0 group-hover:op-100 transition-delay-150 transition-200 w-full h-full z-1 flex justify-center items-center flex-col lowercase">
-                        <p class="text-sm text-neutral-300 text-center w-full">{release.artist_name}</p>
+                        <p class="text-sm text-neutral-300 text-center w-full italic">{release.artist_name}</p>
                             <p class="text-white text-lg lg:text-4xl !line-height-none font-800 text-center w-4/5">{release.release_name}</p>
                     </div>
                     <!-- <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2 text-sm">
