@@ -1,33 +1,20 @@
 ---
-import header from "../assets/1024.png";
+import header from "../assets/1024-transparent.png";
 import { Image } from "astro:assets";
 ---
 
-<header>
+<header style="background: var(--accent-bg-dark, #000)">
     <Image src={header} alt="Header Image" />
-    <h1 class="text-5xl font-800">thrizzle <span class="rotate-animation">*</span></h1>
+    <h1 class="text-5xl font-800" style="color: var(--accent-bg)">⋆⁺₊⋆<p class="mx-0 inline text-black">thrizzle</p>⋆⁺₊⋆</h1>
 </header>
 
 <style>
-    .rotate-animation {
-        animation: rotate 2s linear infinite;
-        animation-duration: 2s;
-    }
-    @keyframes rotate {
-        0% {
-            transform: rotate(0deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
     header {
         flex-direction: column;
         justify-content: end;
         color: #000;
         min-height: 41rem;
-        background-color: #000;
+        background-color: transparent;
         position: relative;
     }
 

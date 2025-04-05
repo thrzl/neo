@@ -14,19 +14,14 @@ const currentPath = Astro.url.pathname;
 
 <style>
     .top-nav {
-        background: #000;
-        /* font-family: "Chicago", sans-serif; */
+        background: var(--accent-bg-dark, #000);
         font-size: 1rem;
-        /* border-bottom: 1px solid #000; */
-        border-left: 1.5px solid #000;
-        border-right: 1.5px solid #000;
     }
 
     .top-nav ul {
         list-style: none;
         display: flex;
         justify-content: center;
-        /* align-items: center; */
         padding: 0.5rem;
         margin: 0;
     }
@@ -36,22 +31,17 @@ const currentPath = Astro.url.pathname;
     }
 
     .top-nav a {
-        /* padding-top: -0.5rem; */
         text-decoration: none;
-        color: #fff;
-        background: #000;
+        color: var(--accent-text-light, #fff);
+        background: transparent;
         font-weight: bold;
         padding: 0.7rem 1.5rem;
         padding-top: 0.7rem; /* don't know why this is necessary but whatever */
         height: 100%;
-        transition: background-color, color;
-        transition-duration: 250ms;
         cursor: cell;
     }
     .top-nav a:hover, .top-nav a.selected {
-        transition: background-color, color;
-        transition-duration: 250ms;
-        color: #000;
-        background: #fff;
+        color: var(--accent-text-dark, #000);
+        background: var(--accent-bg, #fff);
     }
 </style>

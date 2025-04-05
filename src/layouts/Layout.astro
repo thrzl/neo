@@ -7,16 +7,40 @@ import ClientRouter from "astro/components/ClientRouter.astro";
 ---
 
 <script>
+  document.addEventListener("astro:page-load", () => {
+    const scrollPosition = sessionStorage.getItem("scrollPosition");
+     if (scrollPosition) {
+       window.scrollTo(0, parseInt(scrollPosition, 10));
+       console.log(`Restoring scroll position to ${scrollPosition}`);
+     }
+
+  let rawPalette = sessionStorage.getItem("palette");
+    if (!rawPalette) {
+      console.debug("No palette found in sessionStorage.");
+    }
+    const palette = JSON.parse(rawPalette);
+    if (palette) {
+    document.documentElement.style.setProperty(
+				"--accent-bg-dark",
+				palette ? `rgb(${palette?.DarkVibrant?.rgb.join(", ")})` : "#000"
+			);
+			document.documentElement.style.setProperty(
+				"--accent-bg",
+				`rgb(${palette?.Vibrant?.rgb.join(", ")})` || "#fff"
+			);
+			document.documentElement.style.setProperty(
+				"--accent-text-light",
+				`rgb(${palette?.LightVibrant?.rgb.join(", ")})` || "#fff"
+			);
+			document.documentElement.style.setProperty(
+				"--accent-text-dark",
+				`rgb(${palette?.DarkVibrant?.rgb.join(", ")})` || "#fff"
+			);
+    }
+  });
   window.addEventListener("beforeunload", () => {
     sessionStorage.setItem("scrollPosition", window.scrollY.toString());
   });
-  // window.addEventListener("load", () => {
-  //   const scrollPosition = sessionStorage.getItem("scrollPosition");
-  //   if (scrollPosition) {
-  //     window.scrollTo(0, parseInt(scrollPosition, 10));
-  //     console.log(`Restoring scroll position to ${scrollPosition}`);
-  //   }
-  // });
 </script>
 
 <html lang="en">
@@ -27,11 +51,11 @@ import ClientRouter from "astro/components/ClientRouter.astro";
     <ClientRouter />
   </head>
   <body>
-    <div class="wrapper w-full lg:w-3/4 m-auto my-10">
+    <div class="wrapper w-full lg:w-3/4 mx-auto my-10 bg-white ">
       <Header />
 
       <Navbar />
-      <marquee class="bg-yellow absolute top-0 w-full py-2 md:hidden">
+      <marquee class="bg-yellow absolute top-0 w-full py-2 lg:hidden">
         <span
           style="font-family: 'Apple Garamond', serif; font-size: 1.2rem; color: #000;"
         >
@@ -115,10 +139,6 @@ import ClientRouter from "astro/components/ClientRouter.astro";
 </html>
 
 <style is:global>
-  .box {
-    border: 2px solid #000;
-  }
-
   @font-face {
     font-family: "Apple Garamond";
     src: url("/fonts/Apple Garamond Bold Italic.woff2") format("woff2");
@@ -157,20 +177,19 @@ import ClientRouter from "astro/components/ClientRouter.astro";
 
   p {
     font-family: "Apple Garamond", serif;
-    /* font-size: 18px;  */
-    /* line-height: 1.2; */
   }
 </style>
 
 <style>
+  :root {
+    /* --accent-bg: #ff; */
+    --accent-text: #fff;
+  }
   body {
-    background: #000;
+    background: var(--accent-bg-dark, #000);
     color: #000;
     font-family: "Apple Garamond", monospace;
     margin: 0;
-  }
-  .wrapper {
-    background: #fff;
   }
 
   /* Header */
