@@ -4,27 +4,22 @@ const { frontmatter } = Astro.props;
 ---
 
 <Layout>
-    <h1>{frontmatter.title}</h1>
-    <p class="text-sm text-neutral-500 mb-4">
+    <h1 class="italic text-2xl font-800 text-[--accent-bg-dark]">{frontmatter.title}</h1>
+    <p class="text-sm text-[--accent-muted-dark] italic lowercase">
         {new Date(frontmatter.date).toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
             day: "numeric",
         })}
     </p>
-    <p class="text-neutral-700 mb-6">
+    <p class="text-[neutral-700]">
         {frontmatter.description}
     </p>
-    <hr class="my-6 border-t border-neutral-200" />
+    <hr class="my-3 border-t border-[--accent-bg-light]" />
     <article class="prose lg:prose-xl">
         <slot/>
     </article>
 </Layout>
 
 <style>
-    h1 {
-        font-size: 2rem;
-        margin-bottom: 0.5rem;
-        font-weight: 800;
-    }
 </style>
