@@ -4,6 +4,7 @@
 	} from "../../lib/types";
 	import {getDominantColor} from "../../lib/colors";
     import getRecentTrack from "../../lib/listenbrainz";
+	import "../../lib/helpers"
 
 	let recentTrack = getRecentTrack();
 	setInterval(async () =>{
@@ -26,6 +27,22 @@
 		document.documentElement.style.setProperty(
 			"--accent-bg",
 			`rgb(${palette?.Vibrant?.rgb.join(", ")})` || "#fff"
+		);
+		document.documentElement.style.setProperty(
+			"--accent-bg-light",
+			`rgb(${palette?.LightVibrant?.rgb.join(", ")})` || "#fff"
+		);
+		document.documentElement.style.setProperty(
+			"--accent-muted-light",
+			`rgb(${palette?.LightMuted?.rgb.join(", ")})` || "#fff"
+		);
+		document.documentElement.style.setProperty(
+			"--accent-muted-dark",
+			`rgb(${palette?.DarkMuted?.rgb.join(", ")})` || "#fff"
+		);
+		document.documentElement.style.setProperty(
+			"--accent-muted",
+			`rgb(${palette?.Muted?.rgb.join(", ")})` || "#fff"
 		);
 		document.documentElement.style.setProperty(
 			"--accent-text-light",
@@ -63,13 +80,13 @@
 		/>
 		<div class="text-left my-5 h-auto lg:ml-5 max-w-3/4">
 			<p
-				class="block text-sm w-max duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none mt-0.5"
+				class="block text-sm w-max link line-height-none mt-0.5"
 				style="margin: 0"
 			>
 				one moment
 			</p>
 			<p
-				class="duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none"
+				class="link line-height-none"
 				data-speed="0.25"
 				style="font-size: 1.25rem; font-weight: bold; margin:0; max-width: 400px"
 			>
@@ -107,28 +124,27 @@
 		{/if}
 		<div class="text-left my-5 h-auto lg:ml-5 max-w-3/4">
 			<a
-				href="//listenbrainz.org/artist/{track.mbid_mapping?.artists[0]
-					.artist_mbid}"
-				class="block text-sm m-0 w-max duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none mt-0.5 text-wrap max-w-full"
+				href={track.mbid_mapping?.artists[0]?.artist_mbid
+					? `//listenbrainz.org/artist/${track.mbid_mapping?.artists[0].artist_mbid}` : ""}
+				class="block italic text-sm m-0 w-max link line-height-none mt-0.5 text-wrap max-w-full"
 				>{track.mbid_mapping?.artists.length > 0
 					? stitchArtistCredits(
 							track.mbid_mapping.artists,
-						).toLowerCase()
-					: track.artist_name.toLocaleLowerCase()}</a
+						).toRespectfulLowerCase()
+					: track.artist_name.toRespectfulLowerCase()}</a
 			>
 			<a
 				href={track.mbid_mapping?.recording_mbid
 					? `//musicbrainz.org/recording/${track.mbid_mapping.recording_mbid}`
-					: "#"}
-				class="duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none"
+					: ""}
+				class="link line-height-none text-[--accent-bg-dark]"
 				data-speed="0.25"
 				style="font-size: 1.25rem; font-weight: bold; margin:0; max-width: 400px"
 			>
 				{track.mbid_mapping?.recording_name
-					? track.mbid_mapping.recording_name.toLowerCase()
-					: track.track_name.toLowerCase()}
+					? track.mbid_mapping.recording_name.toRespectfulLowerCase()
+					: track.track_name.toRespectfulLowerCase()}
 			</a>
-			<!-- <p class="duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help lg:w-fit line-height-none mt-0.5" style="margin: 0">{track.mbid_mapping?.artists.length > 0 ? stitchArtistCredits(track.mbid_mapping.artists).toLowerCase() : track.artist_name.toLocaleLowerCase()}</p> -->
 			{#if now_playing}
 				<p
 					class="line-height-none w-max text-sm animate-pulse duration-100 m-0 text-[--accent-bg]"

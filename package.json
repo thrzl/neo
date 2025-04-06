@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@astrojs/svelte": "^7.0.8",
+    "@gouch/to-title-case": "^2.2.1",
     "@unocss/reset": "^66.1.0-beta.8",
     "astro": "^5.5.5",
     "marquee3000": "^1.1.1",
