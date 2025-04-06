@@ -65,7 +65,7 @@
 		return artists
 			.map(
 				(artist) =>
-					artist.artist_credit_name + (artist.join_phrase || ""),
+					artist.artist_credit_name.toRespectfulLowerCase() + (artist.join_phrase || ""),
 			)
 			.join("");
 	}
@@ -130,7 +130,7 @@
 				>{track.mbid_mapping?.artists.length > 0
 					? stitchArtistCredits(
 							track.mbid_mapping.artists,
-						).toRespectfulLowerCase()
+						)
 					: track.artist_name.toRespectfulLowerCase()}</a
 			>
 			<a
