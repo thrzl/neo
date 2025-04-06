@@ -46,11 +46,11 @@
 		);
 		document.documentElement.style.setProperty(
 			"--accent-text-light",
-			palette?.LightVibrant?.bodyTextColor || "#fff"
+			`rgb(${palette?.LightVibrant?.rgb.join(", ")})` || "#fff"
 		);
 		document.documentElement.style.setProperty(
 			"--accent-text-dark",
-			palette?.DarkVibrant?.bodyTextColor || "#000"
+			`rgb(${palette?.DarkVibrant?.rgb.join(", ")})` || "#000"
 		);
 		document.documentElement.style.setProperty(
 			"--accent-text",
