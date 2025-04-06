@@ -78,7 +78,8 @@
 		</div>
 	</div>
 {:then { track, now_playing }}
-	<div class="flex flex-col items-center border-black b-2 lg:items-start">
+	<div class="flex flex-col items-center border-[--accent-bg] b-2 lg:items-start ">
+		
 		{#if track.mbid_mapping}
 			<a
 				href={`https://listenbrainz.org/release/${track.mbid_mapping.release_mbid}`}
@@ -86,7 +87,7 @@
 				rel="noopener noreferrer"
 			>
 				<img
-					class="border-black border-b-2 w-full aspect-ratio-square"
+					class="border-[--accent-bg] border-b-2 w-full aspect-ratio-square"
 					src={`https://wsrv.nl/?url=coverartarchive.org/release/${track.mbid_mapping?.release_mbid}/front-500/`}
 					on:error={(e) =>
 						(e.target.src = "/skype/musical_notes.png" || getAlbumArtColor())}

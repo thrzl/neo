@@ -3,40 +3,7 @@ import header from "../assets/1024-transparent.png";
 import { Image } from "astro:assets";
 ---
 
-<header style="background: var(--accent-bg-dark, #000)">
-    <Image src={header} alt="Header Image" />
-    <h1 class="text-5xl font-800" style="color: var(--accent-bg)">⋆⁺₊⋆<p class="mx-0 inline text-black">thrizzle</p>⋆⁺₊⋆</h1>
+<header class="flex-col justify-end text-black min-h-[41rem] bg-transparent relative" style="background: var(--accent-bg-dark, #000)">
+    <Image class="absolute w-full min-h-13 h-full object-cover" src={header} alt="Header Image" />
+    <h1 class="text-5xl font-800 bottom-4 w-full absolute py-1 text-center" style="color: var(--accent-bg)">⋆⁺₊⋆<p class="mx-0 inline text-black">thrizzle</p>⋆⁺₊⋆</h1>
 </header>
-
-<style>
-    header {
-        flex-direction: column;
-        justify-content: end;
-        color: #000;
-        min-height: 41rem;
-        background-color: transparent;
-        position: relative;
-    }
-
-  header img {
-    position: absolute;
-    width: auto;
-    min-height: 20rem;
-    height: 100%;
-    object-fit: cover
-  }
-  
-  header h1 {
-    /* font-size: 2rem; */
-    text-transform: lowercase;
-    padding: 1rem 0;
-    text-align: center;
-    position: absolute;
-    bottom: 1rem;
-    width: 100%
-  }
-  
-  header span {
-    color: #ccc;
-  }
-</style>

@@ -216,8 +216,8 @@ import ClientRouter from "astro/components/ClientRouter.astro";
   .content {
     display: flex;
     padding: 1rem;
-    border-left: 1.5px solid #000;
-    border-right: 1.5px solid #000;
+    border-left: 1.5px solid var(--accent-bg-dark, #000);
+    border-right: 1.5px solid var(--accent-bg-dark, #000);
   }
 
   .sidebar-left,
@@ -232,15 +232,15 @@ import ClientRouter from "astro/components/ClientRouter.astro";
   }
 
   .sidebar-left {
-    border-right: 2px solid #000;
+    border-right: 2px solid var(--accent-bg-dark, #000);
   }
 
   .sidebar-right {
-    border-left: 2px solid #000;
+    border-left: 2px solid var(--accent-bg-dark, #000);
   }
 
   h2 {
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid var(--accent-bg-dark, #000);
     /* padding-bottom: 0.25rem; */
     /* margin-bottom: 0.5rem; */
     text-transform: lowercase;
@@ -258,7 +258,7 @@ import ClientRouter from "astro/components/ClientRouter.astro";
   }
 
   footer {
-    border-top: 2px solid #000;
+    border-top: 2px solid var(--accent-bg-dark, #000);
     padding: 1rem;
     text-align: center;
     background: #eee;
