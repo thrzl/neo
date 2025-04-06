@@ -95,7 +95,7 @@
 		</div>
 	</div>
 {:then { track, now_playing }}
-	<div class="flex flex-col items-center border-[--accent-bg] b-2 lg:items-start ">
+	<div class="flex flex-col items-center border-[--accent-bg-dark] b-2 lg:items-start ">
 		
 		{#if track.mbid_mapping}
 			<a
