@@ -6,7 +6,7 @@ const currentPath = Astro.url.pathname;
     <ul>
         <li><a class=`${currentPath === '/' ? 'selected' : ''}` href="/">home</a></li>
         <li><a class=`${currentPath.startsWith('/blog') ? 'selected' : ''}` href="/blog">blog</a></li>
-        <li><a class=`${currentPath === '/music' ? 'selected' : ''}` href="/music">music</a></li>
+        <li><a class=`${currentPath === '/music/' ? 'selected' : ''}` href="/music">music</a></li>
         <li><a href="#">gallery</a></li>
         <li><a href="#">links</a></li>
     </ul>
