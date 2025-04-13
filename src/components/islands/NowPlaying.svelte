@@ -20,6 +20,7 @@
 		const palette = await getDominantColor(coverArt);
 
 		sessionStorage.setItem("palette", JSON.stringify(palette));
+		sessionStorage.setItem("textColors", JSON.stringify({light: palette?.LightVibrant?.bodyTextColor, dark: palette?.DarkVibrant?.bodyTextColor}));
 		document.documentElement.style.setProperty(
 			"--accent-bg-dark",
 			`rgb(${palette?.DarkVibrant?.rgb.join(", ")})` || "#000000"
@@ -45,17 +46,18 @@
 			`rgb(${palette?.Muted?.rgb.join(", ")})` || "#fff"
 		);
 		document.documentElement.style.setProperty(
-			"--accent-text-light",
-			`rgb(${palette?.LightVibrant?.rgb.join(", ")})` || "#fff"
+			"--accent-text-dark",
+			palette?.DarkVibrant?.bodyTextColor || "#ffffff"
 		);
 		document.documentElement.style.setProperty(
-			"--accent-text-dark",
-			`rgb(${palette?.DarkVibrant?.rgb.join(", ")})` || "#000"
+			"--accent-text-light",
+			palette?.LightVibrant?.bodyTextColor || "#ffffff"
 		);
 		document.documentElement.style.setProperty(
 			"--accent-text",
-			palette?.Vibrant?.bodyTextColor || "#ffffff"
+			palette?.LightMuted?.bodyTextColor || "#ffffff"
 		);
+		// window.palette = palette;
 		return; 
 	}
 
@@ -95,7 +97,7 @@
 		</div>
 	</div>
 {:then { track, now_playing }}
-	<div class="flex flex-col items-center border-[--accent-bg-dark] b-2 lg:items-start ">
+	<div class="flex flex-col items-center border-[--accent-bg-light] b-2 lg:items-start bg-[--accent-muted-dark]">
 		
 		{#if track.mbid_mapping}
 			<a
@@ -104,7 +106,7 @@
 				rel="noopener noreferrer"
 			>
 				<img
-					class="border-[--accent-bg] border-b-2 w-full aspect-ratio-square"
+					class="border-[--accent-bg-light] border-b-2 w-full aspect-ratio-square"
 					src={`https://wsrv.nl/?url=coverartarchive.org/release/${track.mbid_mapping?.release_mbid}/front-500/`}
 					on:error={(e) =>
 						(e.target.src = "/skype/musical_notes.png" || getAlbumArtColor())}
@@ -126,7 +128,7 @@
 			<a
 				href={track.mbid_mapping?.artists[0]?.artist_mbid
 					? `//listenbrainz.org/artist/${track.mbid_mapping?.artists[0].artist_mbid}` : ""}
-				class="block italic text-sm m-0 w-max link line-height-none mt-0.5 text-wrap max-w-full"
+				class="block text-[--accent-bg-light] italic text-sm m-0 w-max link line-height-none mt-0.5 text-wrap max-w-full hover:text-[--accent-bg-light] duration-250 op-80 hover:op-100"
 				>{track.mbid_mapping?.artists.length > 0
 					? stitchArtistCredits(
 							track.mbid_mapping.artists,
@@ -137,7 +139,7 @@
 				href={track.mbid_mapping?.recording_mbid
 					? `//musicbrainz.org/recording/${track.mbid_mapping.recording_mbid}`
 					: ""}
-				class="link line-height-none text-[--accent-bg-dark]"
+				class="link line-height-none text-[--accent-bg-light] hover:text-[--accent-bg-light]"
 				data-speed="0.25"
 				style="font-size: 1.25rem; font-weight: bold; margin:0; max-width: 400px"
 			>
@@ -147,13 +149,13 @@
 			</a>
 			{#if now_playing}
 				<p
-					class="line-height-none w-max text-sm animate-pulse duration-100 m-0 text-[--accent-bg]"
+					class="line-height-none w-max text-sm animate-pulse duration-100 m-0 text-[--accent-bg-light]"
 				>
 					now playing!
 				</p>
 			{:else}
 				<p
-					class="line-height-none w-max text-sm duration-100 m-0 text-neutral-500"
+					class="line-height-none w-max text-sm duration-100 m-0 text-[--accent-bg-light]"
 				>
 					recent track
 				</p>

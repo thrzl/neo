@@ -4,6 +4,8 @@ import Navbar from "../components/Navbar.astro";
 import NowPlaying from "../components/islands/NowPlaying.svelte";
 import Status from "../components/islands/Status.svelte";
 import ClientRouter from "astro/components/ClientRouter.astro";
+const {layoutPadding} = Astro.props;
+console.log(layoutPadding || "4")
 ---
 
 <script>
@@ -20,22 +22,43 @@ import ClientRouter from "astro/components/ClientRouter.astro";
     }
     const palette = JSON.parse(rawPalette);
     if (palette) {
+      const textColors = JSON.parse(sessionStorage.getItem("textColors"));
     document.documentElement.style.setProperty(
 				"--accent-bg-dark",
-				palette ? `rgb(${palette?.DarkVibrant?.rgb.join(", ")})` : "#000"
+				`rgb(${palette?.DarkVibrant?.rgb.join(", ")})` || "#000"
 			);
 			document.documentElement.style.setProperty(
 				"--accent-bg",
 				`rgb(${palette?.Vibrant?.rgb.join(", ")})` || "#fff"
 			);
+      document.documentElement.style.setProperty(
+			"--accent-bg-light",
+			`rgb(${palette?.LightVibrant?.rgb.join(", ")})` || "#fff"
+		);
 			document.documentElement.style.setProperty(
-				"--accent-text-light",
-				`rgb(${palette?.LightVibrant?.rgb.join(", ")})` || "#fff"
-			);
-			document.documentElement.style.setProperty(
-				"--accent-text-dark",
-				`rgb(${palette?.DarkVibrant?.rgb.join(", ")})` || "#fff"
-			);
+			"--accent-text-dark",
+			textColors.dark || "#ffffff"
+		);
+		document.documentElement.style.setProperty(
+			"--accent-text-light",
+			textColors.light || "#ffffff"
+		);
+      document.documentElement.style.setProperty(
+			"--accent-muted-light",
+			`rgb(${palette?.LightMuted?.rgb.join(", ")})` || "#fff"
+		);
+		document.documentElement.style.setProperty(
+			"--accent-muted-dark",
+			`rgb(${palette?.DarkMuted?.rgb.join(", ")})` || "#fff"
+		);
+    document.documentElement.style.setProperty(
+			"--accent-muted",
+			`rgb(${palette?.Muted?.rgb.join(", ")})` || "#fff"
+		);
+		document.documentElement.style.setProperty(
+			"--accent-muted",
+			`rgb(${palette?.Muted?.rgb.join(", ")})` || "#fff"
+		);
     }
   });
   window.addEventListener("beforeunload", () => {
@@ -51,7 +74,7 @@ import ClientRouter from "astro/components/ClientRouter.astro";
     <ClientRouter />
   </head>
   <body>
-    <div class="wrapper w-full mx-auto my-0 bg-white ">
+    <div class="wrapper w-full mx-auto my-0" style="background-color: var(--accent-bg-dark, #fff)">
       <Header />
 
       <Navbar />
@@ -115,7 +138,7 @@ import ClientRouter from "astro/components/ClientRouter.astro";
           </section>
         </aside>
 
-        <main>
+        <main style=`padding: 0 ${parseInt(layoutPadding)*0.25 || 1}rem`>
           <slot />
         </main>
 
@@ -186,8 +209,8 @@ import ClientRouter from "astro/components/ClientRouter.astro";
     /* --accent-text: #fff; */
   }
   body {
-    background: var(--accent-bg-dark, #000);
-    /* color: #000; */
+    background: var(--accent-bg-light, #000);
+    color: var(--accent-text-dark, #000);
     font-family: "Apple Garamond", monospace;
     margin: 0;
   }
@@ -216,8 +239,8 @@ import ClientRouter from "astro/components/ClientRouter.astro";
   .content {
     display: flex;
     padding: 1rem;
-    border-left: 1.5px solid var(--accent-bg-dark, #000);
-    border-right: 1.5px solid var(--accent-bg-dark, #000);
+    border-left: 1.5px solid var(--accent-bg-light, #000);
+    border-right: 1.5px solid var(--accent-bg-light, #000);
   }
 
   .sidebar-left,
@@ -228,19 +251,19 @@ import ClientRouter from "astro/components/ClientRouter.astro";
 
   main {
     width: 50%;
-    padding: 0 1rem;
+    /* padding: 0 1rem; */
   }
 
   .sidebar-left {
-    border-right: 2px solid var(--accent-bg-dark, #000);
+    border-right: 2px solid var(--accent-bg-light, #000);
   }
 
   .sidebar-right {
-    border-left: 2px solid var(--accent-bg-dark, #000);
+    border-left: 2px solid var(--accent-bg-light, #000);
   }
 
   h2 {
-    border-bottom: 2px solid var(--accent-bg-dark, #000);
+    border-bottom: 2px solid var(--accent-bg-light, #000);
     /* padding-bottom: 0.25rem; */
     /* margin-bottom: 0.5rem; */
     text-transform: lowercase;
@@ -258,7 +281,7 @@ import ClientRouter from "astro/components/ClientRouter.astro";
   }
 
   footer {
-    border-top: 2px solid var(--accent-bg-dark, #000);
+    border-top: 2px solid var(--accent-bg-light, #000);
     padding: 1rem;
     text-align: center;
     background: #eee;
