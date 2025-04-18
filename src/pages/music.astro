@@ -1,7 +1,56 @@
 ---
-import Layout from "../layouts/Layout.astro"
-import MusicStats from "../components/islands/MusicStats.svelte"
+import Layout from "../layouts/Layout.astro";
+import MusicStats from "../components/islands/MusicStats.svelte";
+import Marquee from "../components/Marquee.astro";
+const ranges = [
+	"this_week",
+	"this_month",
+    "this_year",
+	"all_time",
+];
+
+const keys = ranges;
+
 ---
-<Layout>
-    <MusicStats range={"this_week"} client:only/>
+
+<Layout layoutPadding="0">
+    <Marquee margin="0">what i've been listening to</Marquee>
+    <div>
+        <ul class="flex justify-center py-1.5 m-0 list-none px-2" data-tabs>
+            <li><a data-tabby-default href="#week">week</a></li>
+            <li><a href="#month">month</a></li>
+            <li><a href="#year">year</a></li>
+        </ul>
+    </div>
+    <div class="p-4" id="week"><MusicStats range="this_week" client:only="svelte"/></div>
+    <div class="p-4" id="month"><MusicStats range="this_month" client:only="svelte"/></div>
+    <div class="p-4" id="year"><MusicStats range="this_year" client:only="svelte"/></div>
+    <script>
+        import Tabby from "tabbyjs";
+        window.Tabby = Tabby; // Make sure Tabby is available globally
+        const tabs = new Tabby("[data-tabs]")
+    </script>    
 </Layout>
+
+<style>
+    ul{
+        background: var(--accent-bg-light, #fff);
+    }
+    ul > li > a {
+        text-decoration: none;
+        color: var(--accent-text-light, #000);
+        background: transparent;
+        font-weight: bold;
+        padding: 0.4rem 1.5rem;
+        height: 100%;
+        cursor: cell;
+        border: transparent 2px solid; /* prevents shifting when selected */
+        border-top: none;
+    }
+    ul > li > a[aria-selected="true"], ul > li > a:hover {
+        color: var(--accent-text-dark, #fff);
+        background-color: var(--accent-bg-dark, #000);
+        border: var(--accent-bg-light, #fff) 2px solid;
+        border-top: none
+    }
+</style>

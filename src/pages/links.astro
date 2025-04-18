@@ -1,0 +1,25 @@
+---
+import LinkCard from "../components/LinkCard.astro";
+import Layout from "../layouts/Layout.astro";
+import Marquee from "../components/Marquee.astro";
+const links = [
+    {title: "github", description: "my code and other works", url: "https://github.com/thrzl"},
+    {title: "bluesky", description: "i do not use this", url: "https://bsky.app/thrzl"},
+    {title: "listenbrainz", description: "see what i've been listening to", url: "https://listenbrainz.org/user/thrizzle/"},
+]
+---
+
+<Layout>
+    <Marquee text="elsewhere on the net">elsewhere on the net</Marquee>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-2">
+        {links.map((link) => (
+            <LinkCard
+                url={link.url}
+                title={link.title}
+                description={link.description}
+                marginY="0"
+            />
+        ))}
+
+    </div>
+</Layout>

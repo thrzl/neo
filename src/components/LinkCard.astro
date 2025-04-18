@@ -1,0 +1,61 @@
+---
+const {
+    url,
+    title,
+    description,
+    disabled,
+    marginY = "3",
+}: {
+    url: string;
+    title: string;
+    description: string;
+    disabled: boolean;
+} = Astro.props;
+---
+
+{
+    !disabled ? (
+        <div
+            class={`b-[--accent-muted-light] b-2 b-dotted py-2 px-5 hover:b-dashed duration-250 my-${marginY}`}
+        >
+            <a href={url}>
+                <h3 class="text-xl italic text-[--accent-bg-light]">{title}</h3>
+                <p class="text-sm text-[--accent-text-dark]">{description}</p>
+            </a>
+        </div>
+    ) : (
+        <div
+            class={`op-50 hover:op-100 b-[--accent-muted-light] b-2 b-dotted py-2 px-5 hover:b-dashed duration-250 my-${marginY}`}
+        >
+            <>
+                <h3 class="text-xl italic text-[--accent-bg-light]">{title}</h3>
+                <p class="text-sm text-[--accent-text-dark] italic">
+                    {description}
+                </p>
+            </>
+        </div>
+    )
+}
+
+<style>
+    h3,
+    p {
+        text-wrap: wrap;
+        word-break: break-all;
+    }
+    @keyframes boil {
+        0% {
+            transform: skew(-1deg, 1deg) scale(1.01) rotate(-0.5deg);
+        }
+        /* 33% { transform: skew(1deg, -1deg) scale(0.99) rotate(0.5deg); }
+  66% { transform: skew(-0.5deg, 0.5deg) scale(1.01) rotate(-1deg); } */
+        100% {
+            transform: skew(0deg, 0deg) scale(1) rotate(0deg);
+        }
+    }
+
+    div:hover {
+        animation: boil 1s steps(3, end) infinite;
+        will-change: transform;
+    }
+</style>

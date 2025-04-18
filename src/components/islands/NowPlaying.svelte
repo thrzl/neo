@@ -104,6 +104,7 @@
 				href={`https://listenbrainz.org/release/${track.mbid_mapping.release_mbid}`}
 				target="_blank"
 				rel="noopener noreferrer"
+				class="w-full"
 			>
 				<img
 					class="border-[--accent-bg-light] border-b-2 w-full aspect-ratio-square"

@@ -1,0 +1,20 @@
+---
+const { text, margin } = Astro.props;
+const trueMargin = margin !== undefined ? margin : "2";
+---
+
+<div
+    class={`marquee3k w-full overflow-clip bg-[--accent-muted-dark] my-${trueMargin} b-2 b-solid b-[--accent-bg-light]`}
+    data-speed="1"
+    data-reverse="true"
+>
+    <h1 class="text-white text-4xl py-2 font-bold mx-4">
+        <slot/>
+    </h1>
+</div>
+<script>
+    import Marquee3k from "marquee3000";
+    document.addEventListener("astro:page-load", () => {
+        Marquee3k.init();
+    });
+</script>

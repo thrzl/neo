@@ -4,11 +4,11 @@ const currentPath = Astro.url.pathname;
 
 <nav class="top-nav">
     <ul>
-        <li><a class=`${currentPath === '/' ? 'selected' : ''}` href="/">home</a></li>
-        <li><a class=`${currentPath.startsWith('/blog') ? 'selected' : ''}` href="/blog">blog</a></li>
-        <li><a class=`${currentPath === '/music/' ? 'selected' : ''}` href="/music">music</a></li>
-        <li><a href="#">gallery</a></li>
-        <li><a href="#">links</a></li>
+        <!-- <li><a class=`${currentPath === '/' ? 'selected' : ''}` href="/">home</a></li> -->
+        <li><a class=`${currentPath.startsWith('/blog') || currentPath === '/' ? 'selected' : ''}` href="/">blog</a></li>
+        <li><a class=`${currentPath.startsWith('/music') ? 'selected' : ''}` href="/music">music</a></li>
+        <li><a class=`${currentPath.startsWith('/gallery') ? 'selected' : ''}` href="/gallery">gallery</a></li>
+        <li><a class=`${currentPath.startsWith('/links') ? 'selected' : ''}` href="/links">links</a></li>
     </ul>
 </nav>
 

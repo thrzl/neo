@@ -4,12 +4,16 @@ import Navbar from "../components/Navbar.astro";
 import NowPlaying from "../components/islands/NowPlaying.svelte";
 import Status from "../components/islands/Status.svelte";
 import ClientRouter from "astro/components/ClientRouter.astro";
-const {layoutPadding} = Astro.props;
-console.log(layoutPadding || "4")
+const {layoutPadding: desiredPadding}: {desiredPadding: string} = Astro.props;
+function isRealValue(value: number): boolean {
+  return value !== undefined && value !== null && !Number.isNaN(value);
+}
+const layoutPadding = isRealValue(Number.parseInt(desiredPadding)) ? Number.parseInt(desiredPadding) : 2; // Default to 2rem if not provided
 ---
 
 <script>
   document.addEventListener("astro:page-load", () => {
+    console.log("hi")
     const scrollPosition = sessionStorage.getItem("scrollPosition");
      if (scrollPosition) {
        window.scrollTo(0, parseInt(scrollPosition, 10));
@@ -61,7 +65,7 @@ console.log(layoutPadding || "4")
 		);
     }
   });
-  window.addEventListener("beforeunload", () => {
+  document.addEventListener("astro:before-preparation", () => {
     sessionStorage.setItem("scrollPosition", window.scrollY.toString());
   });
 </script>
@@ -138,7 +142,7 @@ console.log(layoutPadding || "4")
           </section>
         </aside>
 
-        <main style=`padding: 0 ${parseInt(layoutPadding)*0.25 || 1}rem`>
+        <main style=`padding: 0 ${parseInt(layoutPadding)*0.25}rem`>
           <slot />
         </main>
 

@@ -1,5 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import LinkCard from "../components/LinkCard.astro";
+import Marquee from "../components/Marquee.astro";
 const blogPosts = Object.values(
 	import.meta.glob("./blog/**/*.md", {
 		eager: true,
@@ -8,11 +10,11 @@ const blogPosts = Object.values(
 ---
 
 <Layout>
-    <h1 class="text-2xl mb-2 font-800">recent writing</h1>
+    <Marquee>recent writing</Marquee>
     <ul>
-        {blogPosts.map((post: any) => <a href={post.url} class="my-3"><li class="b-[--accent-muted-light] b-2 b-dotted py-2 px-5 hover:b-dashed duration-250"><h3 class="text-xl italic text-[--accent-bg-light]">{post.frontmatter.title}</h3><p class="text-sm text-[--accent-text-dark]">{post.frontmatter.description}</p></li></a>)}
+        {blogPosts.map((post: any) => <LinkCard url={post.url} title={post.frontmatter.title} description={post.frontmatter.description}/>)}
         { blogPosts.length < 3 && (
-            <li class="op-50 hover:op-100 my-3 b-[--accent-muted-light] b-2 b-dotted py-2 px-5 hover:b-dashed duration-250"><h3 class="text-xl italic text-[--accent-bg-light]">more posts coming soon!</h3><p class="text-sm text-[--accent-text-dark] italic">check back later</p></li>
+            <LinkCard title="more posts coming soon" description="check back later!" disabled/>
         )}
     </ul>
 </Layout>
