@@ -17,14 +17,14 @@ const keys = ranges;
     <Marquee margin="0">what i've been listening to</Marquee>
     <div>
         <ul class="flex justify-center py-1.5 m-0 list-none px-2" data-tabs>
-            <li><a data-tabby-default href="#week">week</a></li>
-            <li><a href="#month">month</a></li>
-            <li><a href="#year">year</a></li>
+            {ranges.map((range) => (
+                <li><a {...(range === "this_week" ? {"data-tabby-default": true} : {})} href={`#${range}`}>{range.replace("this_", "").replace("_", " ")}</a></li>
+            ))}
         </ul>
     </div>
-    <div class="p-4" id="week"><MusicStats range="this_week" client:only="svelte"/></div>
-    <div class="p-4" id="month"><MusicStats range="this_month" client:only="svelte"/></div>
-    <div class="p-4" id="year"><MusicStats range="this_year" client:only="svelte"/></div>
+    {ranges.map((range) => (
+        <div class="p-4" id={range}><MusicStats range={range} client:only="svelte"/></div>
+    ))}
     <script>
         import Tabby from "tabbyjs";
         window.Tabby = Tabby; // Make sure Tabby is available globally
