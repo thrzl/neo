@@ -10,14 +10,14 @@
 	setInterval(async () =>{
 		let t = await getRecentTrack();
 		recentTrack = t;
-	}, 15000); // Refresh every 30 seconds
+	}, 15000);
 	let coverArt: HTMLImageElement | null = null;
 
 	async function getAlbumArtColor() {
 		if (!coverArt) {
 			return; // make the linter happy
 		}
-		const palette = await getDominantColor(coverArt);
+		const palette = await getDominantColor(coverArt.src);
 
 		sessionStorage.setItem("palette", JSON.stringify(palette));
 		sessionStorage.setItem("textColors", JSON.stringify({light: palette?.LightVibrant?.bodyTextColor, dark: palette?.DarkVibrant?.bodyTextColor}));
@@ -110,11 +110,13 @@
 					class="border-[--accent-bg-light] border-b-2 w-full aspect-ratio-square"
 					src={`https://wsrv.nl/?url=coverartarchive.org/release/${track.mbid_mapping?.release_mbid}/front-500/`}
 					on:error={(e) =>
-						(e.target.src = "/skype/musical_notes.png" || getAlbumArtColor())}
+						{e.target.src = "/skype/musical_notes.png"; e.target.alt = "placeholder cover art"; getAlbumArtColor()}}
 					bind:this={coverArt}
 					on:load={getAlbumArtColor}
+					width="500"
+					height="500"
 					crossorigin="anonymous"
-					alt="cover art"
+					alt="{track.release_name} cover art"
 				/>
 			</a>
 		{:else}
