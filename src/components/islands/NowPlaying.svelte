@@ -108,7 +108,7 @@
 			>
 				<img
 					class="border-[--accent-bg-light] border-b-2 w-full aspect-ratio-square"
-					src={`https://wsrv.nl/?url=coverartarchive.org/release/${track.mbid_mapping?.release_mbid}/front-500/&mod=1.01`}
+					src={`https://wsrv.nl/?url=coverartarchive.org/release/${track.mbid_mapping?.release_mbid}/front-500/`}
 					on:error={(e) =>
 						{e.target.src = "/skype/musical_notes.png"; e.target.alt = "placeholder cover art"; getAlbumArtColor()}}
 					bind:this={coverArt}
