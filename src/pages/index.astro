@@ -6,7 +6,8 @@ import NowPlayingText from "../components/islands/NowPlayingText.svelte"
 <Html neko>
     <div class="text-white bg-black h-screen w-screen flex justify-center items-center align-middle flex-col">
         <NowPlayingText client:only="svelte"/>
-        <h1 class="text-6xl font-bold w-min">thrizzle.</h1>
+        <h1 class="text-6xl font-bold w-max h-min flex items-end">thrizzle<img class="h-4 w-4 mb-2 inline animate-[spin_7.5s_infinite_linear]" src="sun.svg"/></h1>
+        <p class="text-2xl">you are now entering the home of the sun</p>
         <a href="/blog" class="link italic text-2xl text-blue-7 animate-[boil]">enter</a>
     </div>
 </Html>
