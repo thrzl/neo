@@ -4,66 +4,70 @@ import Navbar from "../components/Navbar.astro";
 import NowPlaying from "../components/islands/NowPlaying.svelte";
 import Status from "../components/islands/Status.svelte";
 import ClientRouter from "astro/components/ClientRouter.astro";
-const {layoutPadding: desiredPadding}: {desiredPadding: string} = Astro.props;
+const { padding }: { padding: string } = Astro.props;
 function isRealValue(value: number): boolean {
   return value !== undefined && value !== null && !Number.isNaN(value);
 }
-const layoutPadding = isRealValue(Number.parseInt(desiredPadding)) ? Number.parseInt(desiredPadding) : 2; // Default to 2rem if not provided
+const truePadding = isRealValue(Number.parseInt(padding))
+  ? Number.parseInt(padding)
+  : 2; // Default to 2rem if not provided
 ---
 
 <script>
-  document.addEventListener("astro:page-load", () => {
-    console.log("hi")
-    const scrollPosition = sessionStorage.getItem("scrollPosition");
-     if (scrollPosition) {
-       window.scrollTo(0, parseInt(scrollPosition, 10));
-       console.log(`Restoring scroll position to ${scrollPosition}`);
-     }
+  import { defaultPalette } from "../lib/colors";
 
-  let rawPalette = sessionStorage.getItem("palette");
+  function buildRgb(rgb: [number, number, number] | undefined): string | null {
+    return rgb ? `rgb(${rgb.join(", ")})` : null;
+  }
+  document.addEventListener("astro:page-load", () => {
+    const scrollPosition = sessionStorage.getItem("scrollPosition");
+    if (scrollPosition) {
+      window.scrollTo(0, parseInt(scrollPosition, 10));
+      console.log(`Restoring scroll position to ${scrollPosition}`);
+    }
+
+    let rawPalette = sessionStorage.getItem("palette");
     if (!rawPalette) {
       console.debug("No palette found in sessionStorage.");
     }
     const palette = JSON.parse(rawPalette);
-    if (palette) {
-      const textColors = JSON.parse(sessionStorage.getItem("textColors"));
+    const textColors = JSON.parse(sessionStorage.getItem("textColors"));
     document.documentElement.style.setProperty(
-				"--accent-bg-dark",
-				`rgb(${palette?.DarkVibrant?.rgb.join(", ")})` || "#000"
-			);
-			document.documentElement.style.setProperty(
-				"--accent-bg",
-				`rgb(${palette?.Vibrant?.rgb.join(", ")})` || "#fff"
-			);
-      document.documentElement.style.setProperty(
-			"--accent-bg-light",
-			`rgb(${palette?.LightVibrant?.rgb.join(", ")})` || "#fff"
-		);
-			document.documentElement.style.setProperty(
-			"--accent-text-dark",
-			textColors.dark || "#ffffff"
-		);
-		document.documentElement.style.setProperty(
-			"--accent-text-light",
-			textColors.light || "#ffffff"
-		);
-      document.documentElement.style.setProperty(
-			"--accent-muted-light",
-			`rgb(${palette?.LightMuted?.rgb.join(", ")})` || "#fff"
-		);
-		document.documentElement.style.setProperty(
-			"--accent-muted-dark",
-			`rgb(${palette?.DarkMuted?.rgb.join(", ")})` || "#fff"
-		);
+      "--accent-bg-dark",
+      buildRgb(palette?.DarkVibrant?.rgb) ||
+        buildRgb(defaultPalette.DarkVibrant.rgb),
+    );
     document.documentElement.style.setProperty(
-			"--accent-muted",
-			`rgb(${palette?.Muted?.rgb.join(", ")})` || "#fff"
-		);
-		document.documentElement.style.setProperty(
-			"--accent-muted",
-			`rgb(${palette?.Muted?.rgb.join(", ")})` || "#fff"
-		);
-    }
+      "--accent-bg",
+      buildRgb(palette?.Vibrant?.rgb) || buildRgb(defaultPalette.Vibrant.rgb),
+    );
+    document.documentElement.style.setProperty(
+      "--accent-bg-light",
+      buildRgb(palette?.LightVibrant?.rgb) ||
+        buildRgb(defaultPalette.LightVibrant.rgb),
+    );
+    document.documentElement.style.setProperty(
+      "--accent-text-dark",
+      textColors?.dark || "#fff",
+    );
+    document.documentElement.style.setProperty(
+      "--accent-text-light",
+      textColors?.light || "#000",
+    );
+    document.documentElement.style.setProperty(
+      "--accent-muted-light",
+      buildRgb(palette?.LightMuted?.rgb) ||
+        buildRgb(defaultPalette.LightMuted.rgb),
+    );
+    document.documentElement.style.setProperty(
+      "--accent-muted-dark",
+      buildRgb(palette?.DarkMuted?.rgb) ||
+        buildRgb(defaultPalette.DarkMuted.rgb),
+    );
+    document.documentElement.style.setProperty(
+      "--accent-muted",
+      buildRgb(palette?.Muted?.rgb) || buildRgb(defaultPalette.Muted.rgb),
+    );
   });
   document.addEventListener("astro:before-preparation", () => {
     sessionStorage.setItem("scrollPosition", window.scrollY.toString());
@@ -78,7 +82,10 @@ const layoutPadding = isRealValue(Number.parseInt(desiredPadding)) ? Number.pars
     <ClientRouter />
   </head>
   <body>
-    <div class="wrapper w-full mx-auto my-0" style="background-color: var(--accent-bg-dark, #fff)">
+    <div
+      class="wrapper w-full mx-auto my-0"
+      style="background-color: var(--accent-bg-dark, #fff)"
+    >
       <Header />
 
       <Navbar />
@@ -119,30 +126,35 @@ const layoutPadding = isRealValue(Number.parseInt(desiredPadding)) ? Number.pars
               >
             </div>
             <NowPlaying client:only="svelte">
-              <div class="flex flex-col items-center border-black b-2 lg:items-start">
-                <img class="border-black border-b-2 w-full aspect-ratio-square p-5"
+              <div
+                class="flex flex-col items-center border-black b-2 lg:items-start"
+              >
+                <img
+                  class="border-black border-b-2 w-full aspect-ratio-square p-5"
                   src="/skype/sign_of_the_horns.png"
                   alt="cover art"
-              
                 />
-                <div
-                  class="text-left my-5 h-auto lg:ml-5 max-w-3/4"
-                >
-                <p class="block text-sm w-max duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none mt-0.5" style="margin: 0">one moment</p>
+                <div class="text-left my-5 h-auto lg:ml-5 max-w-3/4">
+                  <p
+                    class="block text-sm w-max duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none mt-0.5"
+                    style="margin: 0"
+                  >
+                    one moment
+                  </p>
                   <p
                     class="duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none"
                     data-speed="0.25"
                     style="font-size: 1.25rem; font-weight: bold; margin:0; max-width: 400px"
                   >
                     loading...
-                </p>
+                  </p>
                 </div>
               </div>
             </NowPlaying>
           </section>
         </aside>
 
-        <main style=`padding: 0 ${parseInt(layoutPadding)*0.25}rem`>
+        <main style=`padding: 0 ${parseInt(truePadding)*0.25}rem`>
           <slot />
         </main>
 
@@ -159,7 +171,9 @@ const layoutPadding = isRealValue(Number.parseInt(desiredPadding)) ? Number.pars
       </div>
 
       <footer>
-        <p class="text-[--accent-bg]">version 4.3.2 | <a href="#">RSS feed</a> …</p>
+        <p class="text-[--accent-bg]">
+          version 4.3.2 | <a href="#">RSS feed</a> …
+        </p>
       </footer>
     </div>
   </body>
@@ -255,7 +269,7 @@ const layoutPadding = isRealValue(Number.parseInt(desiredPadding)) ? Number.pars
 
   main {
     width: 50%;
-    /* padding: 0 1rem; */
+    padding: 0 1rem;
   }
 
   .sidebar-left {
