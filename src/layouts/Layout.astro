@@ -152,14 +152,7 @@ const truePadding = isRealValue(Number.parseInt(padding))
               </div>
             </NowPlaying>
           </section>
-        </aside>
-
-        <main style=`padding: 0 ${parseInt(truePadding)*0.25}rem`>
-          <slot />
-        </main>
-
-        <aside class="sidebar-right">
-          <section class="mb-4">
+          <section class="my-4">
             <h2 class="font-800">changelog</h2>
             <p>yibber yabber</p>
           </section>
@@ -168,6 +161,10 @@ const truePadding = isRealValue(Number.parseInt(padding))
             <p>blah blah</p>
           </section>
         </aside>
+
+        <main style=`padding: 0 ${parseInt(truePadding)*0.25}rem`>
+          <slot />
+        </main>
       </div>
 
       <footer>
@@ -221,7 +218,7 @@ const truePadding = isRealValue(Number.parseInt(padding))
   }
 
   main {
-    width: 50%;
+    width: 75%;
     padding: 0 1rem;
   }
 
