@@ -3,7 +3,7 @@ import Header from "../components/Header.astro";
 import Navbar from "../components/Navbar.astro";
 import NowPlaying from "../components/islands/NowPlaying.svelte";
 import Status from "../components/islands/Status.svelte";
-import ClientRouter from "astro/components/ClientRouter.astro";
+import Html from "./Html.astro";
 const { padding }: { padding: string } = Astro.props;
 function isRealValue(value: number): boolean {
   return value !== undefined && value !== null && !Number.isNaN(value);
@@ -77,14 +77,7 @@ const truePadding = isRealValue(Number.parseInt(padding))
   Marquee3k.init();
 </script>
 
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>thrizzle</title>
-    <link rel="icon" type="image/png" href="/skype/mantelpiece_clock.png" />
-    <ClientRouter />
-  </head>
-  <body>
+<Html>
     <div
       class="wrapper w-full mx-auto my-0"
       style="background-color: var(--accent-bg-dark, #fff)"
@@ -179,61 +172,16 @@ const truePadding = isRealValue(Number.parseInt(padding))
         </p>
       </footer>
     </div>
-  </body>
-</html>
+</Html>
 
 <style is:global>
-  @font-face {
-    font-family: "Apple Garamond";
-    src: url("/fonts/Apple Garamond Bold Italic.woff2") format("woff2");
-    font-weight: 700;
-    font-style: italic;
-    font-stretch: normal;
-    unicode-range: U+0020-02DC;
-  }
 
-  @font-face {
-    font-family: "Apple Garamond";
-    src: url("/fonts/Apple Garamond Bold.woff2") format("woff2");
-    font-weight: 700;
-    font-style: normal;
-    font-stretch: normal;
-    unicode-range: U+0020-02DC;
-  }
-
-  @font-face {
-    font-family: "Apple Garamond";
-    src: url("/fonts/Apple Garamond Italic.woff2") format("woff2");
-    font-weight: 400;
-    font-style: italic;
-    font-stretch: normal;
-    unicode-range: U+0020-02DC;
-  }
-
-  @font-face {
-    font-family: "Apple Garamond";
-    src: url("/fonts/Apple Garamond.woff2") format("woff2");
-    font-weight: 400;
-    font-style: normal;
-    font-stretch: normal;
-    unicode-range: U+0020-02DC;
-  }
-
-  p {
-    font-family: "Apple Garamond", serif;
-  }
 </style>
 
 <style>
   :root {
     /* --accent-bg: #ff; */
     /* --accent-text: #fff; */
-  }
-  body {
-    background: var(--accent-bg-light, #000);
-    color: var(--accent-text-dark, #000);
-    font-family: "Apple Garamond", monospace;
-    margin: 0;
   }
 
   /* Header */

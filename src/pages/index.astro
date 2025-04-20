@@ -1,20 +1,30 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import LinkCard from "../components/LinkCard.astro";
-import Marquee from "../components/Marquee.astro";
-const blogPosts = Object.values(
-	import.meta.glob("./blog/**/*.md", {
-		eager: true,
-	}),
-);
+import Html from "../layouts/Html.astro"
+import NowPlayingText from "../components/islands/NowPlayingText.svelte"
 ---
 
-<Layout>
-    <Marquee>recent writing</Marquee>
-    <ul>
-        {blogPosts.map((post: any) => <LinkCard url={post.url} title={post.frontmatter.title} description={post.frontmatter.description}/>)}
-        { blogPosts.length < 3 && (
-            <LinkCard title="more posts coming soon" description="check back later!" disabled/>
-        )}
-    </ul>
-</Layout>
+<Html neko>
+    <div class="text-white bg-black h-screen w-screen flex justify-center items-center align-middle flex-col">
+        <NowPlayingText client:only="svelte"/>
+        <h1 class="text-6xl font-bold w-min">thrizzle.</h1>
+        <a href="/blog" class="link italic text-2xl text-blue-7 animate-[boil]">enter</a>
+    </div>
+</Html>
+
+<style>
+    @keyframes boil {
+        0% {
+            transform: skew(-4deg, 4deg) scale(1.2) rotate(-0.5deg);
+        }
+        /* 33% { transform: skew(1deg, -1deg) scale(0.99) rotate(0.5deg); }
+  66% { transform: skew(-0.5deg, 0.5deg) scale(1.01) rotate(-1deg); } */
+        100% {
+            transform: skew(0deg, 0deg) scale(1) rotate(-1.2deg);
+        }
+    }
+
+    a {
+        animation: boil 1s steps(3, end) infinite;
+        will-change: transform;
+    }
+</style>

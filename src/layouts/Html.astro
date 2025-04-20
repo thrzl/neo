@@ -1,0 +1,67 @@
+---
+import ClientRouter from "astro/components/ClientRouter.astro";
+const {neko} = Astro.props
+---
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>thrizzle / {Astro.url.pathname}</title>
+        <link rel="icon" type="image/png" href="/skype/mantelpiece_clock.png" />
+        <ClientRouter />
+    </head>
+    <body>
+        { neko && (
+            <script src="../assets/oneko.js"></script>
+            ) }
+        <slot />
+    </body>
+</html>
+
+<style>
+    @font-face {
+        font-family: "Apple Garamond";
+        src: url("/fonts/Apple Garamond Bold Italic.woff2") format("woff2");
+        font-weight: 700;
+        font-style: italic;
+        font-stretch: normal;
+        unicode-range: U+0020-02DC;
+    }
+
+    @font-face {
+        font-family: "Apple Garamond";
+        src: url("/fonts/Apple Garamond Bold.woff2") format("woff2");
+        font-weight: 700;
+        font-style: normal;
+        font-stretch: normal;
+        unicode-range: U+0020-02DC;
+    }
+
+    @font-face {
+        font-family: "Apple Garamond";
+        src: url("/fonts/Apple Garamond Italic.woff2") format("woff2");
+        font-weight: 400;
+        font-style: italic;
+        font-stretch: normal;
+        unicode-range: U+0020-02DC;
+    }
+
+    @font-face {
+        font-family: "Apple Garamond";
+        src: url("/fonts/Apple Garamond.woff2") format("woff2");
+        font-weight: 400;
+        font-style: normal;
+        font-stretch: normal;
+        unicode-range: U+0020-02DC;
+    }
+
+    p {
+        font-family: "Apple Garamond", serif;
+    }
+    body {
+        background: var(--accent-bg-light, #000);
+        color: var(--accent-text-dark, #000);
+        font-family: "Apple Garamond", monospace;
+        margin: 0;
+    }
+</style>

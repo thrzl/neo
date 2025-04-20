@@ -1,0 +1,20 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import LinkCard from "../../components/LinkCard.astro";
+import Marquee from "../../components/Marquee.astro";
+const blogPosts = Object.values(
+	import.meta.glob("./blog/**/*.md", {
+		eager: true,
+	}),
+);
+---
+
+<Layout>
+    <Marquee>recent writing</Marquee>
+    <ul>
+        {blogPosts.map((post: any) => <LinkCard url={post.url} title={post.frontmatter.title} description={post.frontmatter.description}/>)}
+        { blogPosts.length < 3 && (
+            <LinkCard title="more posts coming soon" description="check back later!" disabled/>
+        )}
+    </ul>
+</Layout>
