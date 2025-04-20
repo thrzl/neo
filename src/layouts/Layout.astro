@@ -72,6 +72,9 @@ const truePadding = isRealValue(Number.parseInt(padding))
   document.addEventListener("astro:before-preparation", () => {
     sessionStorage.setItem("scrollPosition", window.scrollY.toString());
   });
+
+  import Marquee3k from "marquee3000";
+  Marquee3k.init();
 </script>
 
 <html lang="en">
