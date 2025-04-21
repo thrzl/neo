@@ -25,7 +25,9 @@ const ranges = [
     <script>
         import Tabby from "tabbyjs";
         window.Tabby = Tabby; // Make sure Tabby is available globally
-        const tabs = new Tabby("[data-tabs]")
+        document.addEventListener("astro:page-load", () => {
+            const tabs = new Tabby("[data-tabs]")
+        })
     </script>    
 </Layout>
 
