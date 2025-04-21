@@ -1,6 +1,7 @@
 ---
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
+import Marquee from "../components/Marquee.astro";
 import Navbar from "../components/Navbar.astro";
 import NowPlaying from "../components/islands/NowPlaying.svelte";
 import Status from "../components/islands/Status.svelte";
@@ -83,6 +84,7 @@ const commit = {
   });
 
   import Marquee3k from "marquee3000";
+  window.Marquee3k = Marquee3k;
   document.addEventListener("astro:page-load", () => {
     Marquee3k.init();
   });
@@ -96,14 +98,17 @@ const commit = {
     <Header />
 
     <Navbar />
-    <marquee class="bg-yellow absolute top-0 w-full py-2 lg:hidden">
-      <span
+    <div class="bg-yellow absolute top-0 w-full py-2 lg:hidden">
+      <Marquee
+        class="text-2xl font-bold"
         style="font-family: 'Apple Garamond', serif; font-size: 1.2rem; color: #000;"
+        excludeDefaultStyle
+        reverse={false}
       >
         this site is designed for desktop. for the best experience, please visit
         on a computer or tablet. no promises for how this looks on mobile ✌🏽
-      </span>
-    </marquee>
+      </Marquee>
+    </div>
 
     <div class="content">
       <aside class="sidebar-left" transition:persist>
@@ -129,7 +134,10 @@ const commit = {
             class="flex items-center justify-between"
             style="display: flex; justify-content: space-between; align-items: center;"
           >
-            <h2 class="font-800 mb-0 border-b-0 mb-0 text-3xl lg:text-xl" style="border: none">
+            <h2
+              class="font-800 mb-0 border-b-0 mb-0 text-3xl lg:text-xl"
+              style="border: none"
+            >
               tunes
             </h2>
           </div>
@@ -178,7 +186,8 @@ const commit = {
                 src="https://tamanotchi.world/i2/22362"
                 class="hover:animate-[wobble_infinite_2s_steps(1,end)] animate-[wobble_infinite_6s_steps(1,end)]"
                 alt="It's tamaNOTchi! Click to feed!"
-              /></a>
+              /></a
+            >
           </div>
         </section>
       </aside>
