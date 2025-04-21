@@ -34,7 +34,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: nekoweb
+          name: astro-build
           path: ${{ env.BUILD_PATH }}/dist
 
   deploy:
@@ -45,7 +45,7 @@ jobs:
       - name: download artifact
         uses: actions/download-artifact@v4
         with:
-          name: nekoweb
+          name: astro-build
       - name: deploy2nekoweb
         uses: indiefellas/deploy2nekoweb@v4
         with:
