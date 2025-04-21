@@ -9,15 +9,5 @@ export default defineConfig({
   integrations: [svelte(), UnoCSS({
     injectReset: true,
   })],
-  image: {
-    domains: ['coverartarchive.org', 'archive.org'],
-    remotePatterns: [
-      {
-        "hostname": "**.archive.org"
-      },
-      {
-        protocol: 'http'
-      }
-    ]
-  }
+  site: "https://thrizzle.nekoweb.org",
 });
