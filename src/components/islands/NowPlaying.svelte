@@ -142,7 +142,7 @@
 				href={track.mbid_mapping?.recording_mbid
 					? `//musicbrainz.org/recording/${track.mbid_mapping.recording_mbid}`
 					: ""}
-				class="link line-height-none text-[--accent-bg-light] hover:text-[--accent-bg-light] text-2xl font-bold line-height-none"
+				class="link line-height-none text-[--accent-bg-light] hover:text-[--accent-bg-light] text-xl font-bold line-height-none"
 			>
 				{track.mbid_mapping?.recording_name
 					? track.mbid_mapping.recording_name.toRespectfulLowerCase()
