@@ -6,17 +6,9 @@ on:
 
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-env:
-  BUILD_PATH: "."
-
 jobs:
-  build:
-    name: Build
+  test:
+    name: build and deploy to nekoweb
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -27,29 +19,17 @@ jobs:
           bun-version: latest
       - name: Install dependencies
         run: "bun install"
-        working-directory: ${{ env.BUILD_PATH }}
       - name: Build with Astro
         run: bun astro build
-        working-directory: ${{ env.BUILD_PATH }}
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: astro-build
-          path: ${{ env.BUILD_PATH }}/dist
-
-  deploy:
-    runs-on: ubuntu-latest
-    name: Deploy to nekoweb
-    needs: build
-    steps:
-      - name: download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: astro-build
       - name: deploy2nekoweb
         uses: indiefellas/deploy2nekoweb@v4
         with:
           nekoweb-api-key: ${{ secrets.NEKOWEB_API_KEY }}
           nekoweb-folder: /dist
-          directory: .
+          directory: ./dist
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: astro-build
+          path: ./dist
               
