@@ -1,11 +1,10 @@
 ---
-const { margin, class: _class, speed = "1", reverse = true } = Astro.props;
+const { margin, class: _class, speed = "1", reverse = true, excludeDefaultStyle = false } = Astro.props;
 const trueMargin = margin !== undefined ? margin : "2";
-console.log(trueMargin)
 ---
 
 <div
-    class="marquee3k w-full overflow-clip bg-[--accent-muted-dark] b-2 b-solid b-[--accent-bg-light]"
+    class={`marquee3k ${!excludeDefaultStyle && "w-full overflow-clip bg-[--accent-muted-dark] b-2 b-solid b-[--accent-bg-light]"}`}
     data-speed={speed}
     style={`margin-top: ${parseInt(trueMargin)*0.25}rem; margin-bottom: ${parseInt(trueMargin)*0.25}rem`}
     {...(reverse && {"data-reverse": true})}
