@@ -12,6 +12,9 @@ function isRealValue(value: number): boolean {
 const truePadding = isRealValue(Number.parseInt(padding))
   ? Number.parseInt(padding)
   : 2; // Default to 2rem if not provided
+
+const commitRes = await (await fetch("https://api.github.com/repos/thrzl/neo/commits?per_page=1")).json()
+const commit = {message: commitRes[0].commit.message, hash: commitRes[0].sha.slice(0,7)}
 ---
 
 <script>
@@ -153,16 +156,16 @@ const truePadding = isRealValue(Number.parseInt(padding))
             </NowPlaying>
           </section>
           <section class="my-4">
-            <h2 class="font-800">changelog</h2>
-            <p>yibber yabber</p>
+            <h2 class="font-800">latest update</h2>
+            <a href=`https://github.com/thrzl/neo/commit/${commit.hash}` class="link italic op-75 hover:op-100 mr-2 duration-250">{commit.hash}</a><p class="inline pl-2 ml-2 b-l-1 b-solid">{commit.message}</p>
           </section>
           <section>
-            <h2 class="font-800">sum else idk what to put here</h2>
-            <p>blah blah</p>
+            <h2 class="font-800">tamanotchi</h2>
+            <div class="m-auto flex items-center align-middle justify-center w-1/2 aspect-ratio-square"><a href="https://tamanotchi.world/22362c" class="underline-none"><img src="https://tamanotchi.world/i2/22362" class="hover:animate-[wobble_infinite_2s_steps(1,end)] animate-[wobble_infinite_6s_steps(1,end)]" alt="It's tamaNOTchi! Click to feed!"></a></div>
           </section>
         </aside>
 
-        <main style=`padding: 0 ${parseInt(truePadding)*0.25}rem`>
+        <main style=`padding: 0 ${truePadding*0.25}rem`>
           <slot />
         </main>
       </div>
