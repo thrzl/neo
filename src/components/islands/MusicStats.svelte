@@ -45,7 +45,7 @@
     <div class="music-stats">
         <ul class="flex flex-wrap-reverse flex-row gap-0 w-full justify-center">
             {#each [...stats.releases].reverse() as release, i}
-                <a href="https://listenbrainz.org/release/{release.release_mbid}" class="order-{i} relative overflow-hidden inline-block min-w-48 grow basis-48 group aspect-ratio-square p-2 hover:p-0 duration-300 cursor-help">
+                <a href="https://listenbrainz.org/release/{release.release_mbid}" class="order-{i} relative overflow-hidden inline-block min-w-64 grow basis-64 group aspect-ratio-square p-2 hover:p-0 duration-300 cursor-help">
                     <!-- <strong>{release.release_name}</strong> by {release.artist_name} 
                     (Listens: {release.listen_count}) -->
                     <img src="https://wsrv.nl/?url=coverartarchive.org/release/{release.release_mbid}/front-500" 
