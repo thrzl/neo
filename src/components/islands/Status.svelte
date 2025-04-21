@@ -41,9 +41,9 @@
 </script>
 
 {#await status}
-<span class="font-800">loading &nbsp;</span>
+<span class="font-800 pr-1 mr-1 b-r-1 b-r-solid">loading &nbsp;</span>
 <p class="inline">
-    / please wait...
+    please wait...
     <img
             class="h-4 inline align-middle"
             height="16px"
@@ -52,9 +52,9 @@
         />
 </p>
 {:then status}
-    <span class="font-800">{status.timeAgo}&nbsp;</span>
+    <span class="font-800 pr-1 mr-1 b-r-1 b-r-solid">{status.timeAgo}&nbsp;</span>
     <p class="inline">
-        / {htmlDecode(status.content)}
+        {htmlDecode(status.content)}
         {#if emoji_map.hasOwnProperty(status.face)}<img
                 class="h-4 inline align-middle"
                 height="16px"
