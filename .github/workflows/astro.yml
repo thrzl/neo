@@ -69,6 +69,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     name: Deploy to nekoweb
+    needs: build
     steps:
       - name: deploy2nekoweb
         uses: indiefellas/deploy2nekoweb@v4
