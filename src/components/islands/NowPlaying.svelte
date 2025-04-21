@@ -5,11 +5,29 @@
 	import {getDominantColor} from "../../lib/colors";
     import getRecentTrack from "../../lib/listenbrainz";
 	import "../../lib/helpers"
+    import Marquee from "../Marquee.svelte";
 
+	let trackTitle: HTMLAnchorElement | null = null;
+	let trackTitleOverflowing = false;
+	let marqueeElement: HTMLElement
+
+	$: if (marqueeElement) {
+		window.Marquee3k.init()
+	}
+	
+	$: if (trackTitle) {
+		if (trackTitle && trackTitle.scrollWidth > trackTitle.clientWidth) {
+        		trackTitleOverflowing = true;
+      		}
+	}
+	
 	let recentTrack = getRecentTrack();
 	setInterval(async () =>{
 		let t = await getRecentTrack();
 		recentTrack = t;
+		if (trackTitle && trackTitle.scrollWidth > trackTitle.clientWidth) {
+        		trackTitleOverflowing = true;
+		}
 	}, 15000);
 	let coverArt: HTMLImageElement | null = null;
 
@@ -131,23 +149,47 @@
 			<a
 				href={track.mbid_mapping?.artists[0]?.artist_mbid
 					? `//listenbrainz.org/artist/${track.mbid_mapping?.artists[0].artist_mbid}` : ""}
-				class="block text-[--accent-bg-light] italic text-2xl lg:text-lg m-0 w-max link line-height-none mt-0.5 text-wrap max-w-full hover:text-[--accent-bg-light] duration-250 op-80 hover:op-100"
+				class="block text-[--accent-bg-light] italic text-xl lg:text-sm m-0 w-max link line-height-none mt-0.5 text-wrap max-w-full hover:text-[--accent-bg-light] duration-250 op-80 hover:op-100"
 				>{track.mbid_mapping?.artists.length > 0
 					? stitchArtistCredits(
 							track.mbid_mapping.artists,
 						)
 					: track.artist_name.toRespectfulLowerCase()}</a
 			>
+			{#if !trackTitleOverflowing}
 			<a
 				href={track.mbid_mapping?.recording_mbid
 					? `//musicbrainz.org/recording/${track.mbid_mapping.recording_mbid}`
 					: ""}
-				class="link line-height-none text-[--accent-bg-light] hover:text-[--accent-bg-light] text-xl font-bold line-height-none"
+				class="link line-height-none text-[--accent-bg-light] hover:text-[--accent-bg-light] text-2xl font-bold line-height-none text-nowrap overflow-scroll block"
+				bind:this={trackTitle}
 			>
 				{track.mbid_mapping?.recording_name
 					? track.mbid_mapping.recording_name.toRespectfulLowerCase()
 					: track.track_name.toRespectfulLowerCase()}
 			</a>
+			{:else}
+			<div class="relative">
+				<Marquee class="py-0 mx-0 my-0 px-4 b-0" wrapperStyle="b-0" margin={0} bind:this={marqueeElement} reverse={false} speed="0.5"
+				><a href={track.mbid_mapping?.recording_mbid
+					? `//musicbrainz.org/recording/${track.mbid_mapping.recording_mbid}`
+					: ""}
+				class="link line-height-none text-[--accent-bg-light] hover:text-[--accent-bg-light] text-2xl mr-8 font-bold line-height-none mx-0 w-max whitespace-nowrap">
+					{track.mbid_mapping?.recording_name
+							? track.mbid_mapping.recording_name.toRespectfulLowerCase()
+							: track.track_name.toRespectfulLowerCase()}
+				</a>
+				</Marquee>
+				<div class="absolute top-0 right-0 w-1/4 h-full" style="background: linear-gradient(to left, var(--accent-muted-dark), transparent)"></div>
+			</div>
+			{/if}
+			<!-- <script>
+				setTimeout(async () => {
+					await new Promise(r => setTimeout(r, 5000));
+					window.Marquee3k.init()
+					console.log("hi")
+				})
+			</script> -->
 			{#if now_playing}
 				<p
 					class="line-height-none w-max animate-pulse duration-100 text-lg lg:text-sm m-0 text-[--accent-bg-light]"
