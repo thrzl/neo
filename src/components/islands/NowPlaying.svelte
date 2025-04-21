@@ -127,11 +127,11 @@
 				style="width:5rem;padding:1rem;height: 100%"
 			/>
 		{/if}
-		<div class="text-left my-5 h-auto lg:ml-5 max-w-3/4">
+		<div class="text-left my-5 h-auto lg:ml-5 max-w-3/4 text-2xl lg:text-lg">
 			<a
 				href={track.mbid_mapping?.artists[0]?.artist_mbid
 					? `//listenbrainz.org/artist/${track.mbid_mapping?.artists[0].artist_mbid}` : ""}
-				class="block text-[--accent-bg-light] italic text-sm m-0 w-max link line-height-none mt-0.5 text-wrap max-w-full hover:text-[--accent-bg-light] duration-250 op-80 hover:op-100"
+				class="block text-[--accent-bg-light] italic text-2xl lg:text-lg m-0 w-max link line-height-none mt-0.5 text-wrap max-w-full hover:text-[--accent-bg-light] duration-250 op-80 hover:op-100"
 				>{track.mbid_mapping?.artists.length > 0
 					? stitchArtistCredits(
 							track.mbid_mapping.artists,
@@ -142,9 +142,7 @@
 				href={track.mbid_mapping?.recording_mbid
 					? `//musicbrainz.org/recording/${track.mbid_mapping.recording_mbid}`
 					: ""}
-				class="link line-height-none text-[--accent-bg-light] hover:text-[--accent-bg-light]"
-				data-speed="0.25"
-				style="font-size: 1.25rem; font-weight: bold; margin:0; max-width: 400px"
+				class="link line-height-none text-[--accent-bg-light] hover:text-[--accent-bg-light] text-2xl font-bold line-height-none"
 			>
 				{track.mbid_mapping?.recording_name
 					? track.mbid_mapping.recording_name.toRespectfulLowerCase()
@@ -152,13 +150,13 @@
 			</a>
 			{#if now_playing}
 				<p
-					class="line-height-none w-max text-sm animate-pulse duration-100 m-0 text-[--accent-bg-light]"
+					class="line-height-none w-max animate-pulse duration-100 text-lg lg:text-sm m-0 text-[--accent-bg-light]"
 				>
 					now playing!
 				</p>
 			{:else}
 				<p
-					class="line-height-none w-max text-sm duration-100 m-0 text-[--accent-bg-light]"
+					class="line-height-none w-max duration-100 text-lg lg:text-sm m-0 text-[--accent-bg-light]"
 				>
 					recent track
 				</p>

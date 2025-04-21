@@ -5,10 +5,10 @@ const currentPath = Astro.url.pathname;
 <nav class="top-nav">
     <ul>
         <!-- <li><a class=`${currentPath === '/' ? 'selected' : ''}` href="/">home</a></li> -->
-        <li><a class=`${currentPath.startsWith('/blog') || currentPath === '/blog' ? 'selected' : ''}` href="/blog">blog</a></li>
-        <li><a class=`${currentPath.startsWith('/music') ? 'selected' : ''}` href="/music">music</a></li>
-        <li><a class=`${currentPath.startsWith('/gallery') ? 'selected' : ''}` href="/gallery">gallery</a></li>
-        <li><a class=`${currentPath.startsWith('/links') ? 'selected' : ''}` href="/links">links</a></li>
+        <li><a class=`lg:text-lg text-2xl ${currentPath.startsWith('/blog') || currentPath === '/blog' ? 'selected' : ''}` href="/blog">blog</a></li>
+        <li><a class=`lg:text-lg text-2xl ${currentPath.startsWith('/music') ? 'selected' : ''}` href="/music">music</a></li>
+        <li><a class=`lg:text-lg text-2xl ${currentPath.startsWith('/gallery') ? 'selected' : ''}` href="/gallery">gallery</a></li>
+        <li><a class=`lg:text-lg text-2xl ${currentPath.startsWith('/links') ? 'selected' : ''}` href="/links">links</a></li>
     </ul>
 </nav>
 

@@ -13,8 +13,13 @@ const truePadding = isRealValue(Number.parseInt(padding))
   ? Number.parseInt(padding)
   : 2; // Default to 2rem if not provided
 
-const commitRes = await (await fetch("https://api.github.com/repos/thrzl/neo/commits?per_page=1")).json()
-const commit = {message: commitRes[0].commit.message, hash: commitRes[0].sha.slice(0,7)}
+const commitRes = await (
+  await fetch("https://api.github.com/repos/thrzl/neo/commits?per_page=1")
+).json();
+const commit = {
+  message: commitRes[0].commit.message,
+  hash: commitRes[0].sha.slice(0, 7),
+};
 ---
 
 <script>
@@ -80,105 +85,116 @@ const commit = {message: commitRes[0].commit.message, hash: commitRes[0].sha.sli
   import Marquee3k from "marquee3000";
   document.addEventListener("astro:page-load", () => {
     Marquee3k.init();
-  })
-
+  });
 </script>
 
 <Html>
-    <div
-      class="wrapper w-full mx-auto my-0"
-      style="background-color: var(--accent-bg-dark, #fff)"
-    >
-      <Header />
+  <div
+    class="wrapper w-full mx-auto my-0"
+    style="background-color: var(--accent-bg-dark, #fff)"
+  >
+    <Header />
 
-      <Navbar />
-      <marquee class="bg-yellow absolute top-0 w-full py-2 lg:hidden">
-        <span
-          style="font-family: 'Apple Garamond', serif; font-size: 1.2rem; color: #000;"
-        >
-          this site is designed for desktop. for the best experience, please
-          visit on a computer or tablet. no promises for how this looks on
-          mobile ✌🏽
-        </span>
-      </marquee>
+    <Navbar />
+    <marquee class="bg-yellow absolute top-0 w-full py-2 lg:hidden">
+      <span
+        style="font-family: 'Apple Garamond', serif; font-size: 1.2rem; color: #000;"
+      >
+        this site is designed for desktop. for the best experience, please visit
+        on a computer or tablet. no promises for how this looks on mobile ✌🏽
+      </span>
+    </marquee>
 
-      <div class="content">
-        <aside class="sidebar-left" transition:persist>
-          <section class="mb-4">
-            <h2 class="font-800">status</h2>
-            <Status client:only="svelte">
-              <span slot="fallback" style="font-weight: bolder">loading</span> /
-              please be patient <img
-                height="16rem"
-                src="/skype/thinking_face.png"
-                alt="thinking face"
-              />
-            </Status>
-          </section>
-          <section>
-            <div
-              class="flex items-center justify-between"
-              style="display: flex; justify-content: space-between; align-items: center;"
+    <div class="content">
+      <aside class="sidebar-left" transition:persist>
+        <section class="mb-4">
+          <h2 class="font-800 text-3xl lg:text-xl">status</h2>
+          <Status client:only="svelte">
+            <span class="font-800 pr-1 mr-1 b-r-1 b-r-solid lg:text-md"
+              >loading &nbsp;</span
             >
-              <h2 class="font-800 mb-0 border-b-0 mb-0" style="border: none">
-                tunes
-              </h2>
-              <a
-                style="font-family: Chicago; color: black; margin-top: 1rem; font-size: 0.65rem"
-                href="/music">more music</a
-              >
-            </div>
-            <NowPlaying client:only="svelte">
-              <div
-                class="flex flex-col items-center border-black b-2 lg:items-start"
-              >
-                <img
-                  class="border-black border-b-2 w-full aspect-ratio-square p-5"
-                  src="/skype/sign_of_the_horns.png"
-                  alt="cover art"
-                />
-                <div class="text-left my-5 h-auto lg:ml-5 max-w-3/4">
-                  <p
-                    class="block text-sm w-max duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none mt-0.5"
-                    style="margin: 0"
-                  >
-                    one moment
-                  </p>
-                  <p
-                    class="duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none"
-                    data-speed="0.25"
-                    style="font-size: 1.25rem; font-weight: bold; margin:0; max-width: 400px"
-                  >
-                    loading...
-                  </p>
-                </div>
+            <p class="inline">
+              please wait...
+              <img
+                class="h-4 inline align-middle"
+                height="16px"
+                src="/skype/mantelpiece_clock.png"
+                alt="clock emoji"
+              />
+            </p>
+          </Status>
+        </section>
+        <section>
+          <div
+            class="flex items-center justify-between"
+            style="display: flex; justify-content: space-between; align-items: center;"
+          >
+            <h2 class="font-800 mb-0 border-b-0 mb-0 text-3xl lg:text-xl" style="border: none">
+              tunes
+            </h2>
+          </div>
+          <NowPlaying client:only="svelte">
+            <div
+              class="flex flex-col items-center border-black b-2 lg:items-start"
+            >
+              <img
+                class="border-black border-b-2 w-full aspect-ratio-square p-5"
+                src="/skype/sign_of_the_horns.png"
+                alt="cover art"
+              />
+              <div class="text-left my-5 h-auto lg:ml-5 max-w-3/4">
+                <p
+                  class="block text-sm w-max duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none mt-0.5"
+                  style="margin: 0"
+                >
+                  one moment
+                </p>
+                <p
+                  class="duration-100 hover:b-b-1 b-b-black b-b-dotted cursor-help line-height-none"
+                  data-speed="0.25"
+                  style="font-size: 1.25rem; font-weight: bold; margin:0; max-width: 400px"
+                >
+                  loading...
+                </p>
               </div>
-            </NowPlaying>
-          </section>
-          <section class="my-4">
-            <h2 class="font-800">latest update</h2>
-            <a href=`https://github.com/thrzl/neo/commit/${commit.hash}` class="link italic op-75 hover:op-100 mr-2 duration-250">{commit.hash}</a><p class="inline pl-2 ml-2 b-l-1 b-solid">{commit.message}</p>
-          </section>
-          <section>
-            <h2 class="font-800">tamanotchi</h2>
-            <div class="m-auto flex items-center align-middle justify-center w-1/2 aspect-ratio-square"><a href="https://tamanotchi.world/22362c" class="underline-none"><img src="https://tamanotchi.world/i2/22362" class="hover:animate-[wobble_infinite_2s_steps(1,end)] animate-[wobble_infinite_6s_steps(1,end)]" alt="It's tamaNOTchi! Click to feed!"></a></div>
-          </section>
-        </aside>
+            </div>
+          </NowPlaying>
+        </section>
+        <section class="my-4">
+          <h2 class="font-800 text-2xl lg:text-xl">latest update</h2>
+          <a
+            href=`https://github.com/thrzl/neo/commit/${commit.hash}`
+            class="link italic op-75 hover:op-100 mr-2 duration-250"
+            >{commit.hash}</a
+          ><p class="inline pl-2 ml-2 b-l-1 b-solid">{commit.message}</p>
+        </section>
+        <section>
+          <h2 class="font-800 text-2xl lg:text-xl">tamanotchi</h2>
+          <div
+            class="m-auto flex items-center align-middle justify-center w-1/2 aspect-ratio-square"
+          >
+            <a href="https://tamanotchi.world/22362c" class="underline-none"
+              ><img
+                src="https://tamanotchi.world/i2/22362"
+                class="hover:animate-[wobble_infinite_2s_steps(1,end)] animate-[wobble_infinite_6s_steps(1,end)]"
+                alt="It's tamaNOTchi! Click to feed!"
+              /></a>
+          </div>
+        </section>
+      </aside>
 
-        <main style=`padding: 0 ${truePadding*0.25}rem`>
-          <slot />
-        </main>
-      </div>
-
-      <footer>
-        <Footer/>
-      </footer>
+      <main style=`padding: 0 ${truePadding*0.25}rem`>
+        <slot />
+      </main>
     </div>
+
+    <footer>
+      <Footer />
+    </footer>
+  </div>
 </Html>
 
-<style is:global>
-
-</style>
+<style is:global></style>
 
 <style>
   :root {
@@ -197,7 +213,7 @@ const commit = {message: commitRes[0].commit.message, hash: commitRes[0].sha.sli
   }
 
   header h1 {
-    font-size: 2rem;
+    /* font-size: 2rem; */
     text-transform: lowercase;
     padding: 1rem;
     text-align: center;
@@ -238,7 +254,7 @@ const commit = {message: commitRes[0].commit.message, hash: commitRes[0].sha.sli
     /* padding-bottom: 0.25rem; */
     /* margin-bottom: 0.5rem; */
     text-transform: lowercase;
-    font-size: 1.2rem;
+    /* font-size: 1.2rem; */
   }
 
   .subtitle {

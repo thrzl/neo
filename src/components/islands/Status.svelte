@@ -52,8 +52,8 @@
         />
 </p>
 {:then status}
-    <span class="font-800 pr-1 mr-1 b-r-1 b-r-solid">{status.timeAgo}&nbsp;</span>
-    <p class="inline">
+    <span class="font-800 pr-1 mr-1 b-r-1 b-r-solid text-2xl lg:text-lg">{status.timeAgo}&nbsp;</span>
+    <p class="inline text-2xl lg:text-lg">
         {htmlDecode(status.content)}
         {#if emoji_map.hasOwnProperty(status.face)}<img
                 class="h-4 inline align-middle"
