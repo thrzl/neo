@@ -130,7 +130,7 @@
 					on:error={(e) =>
 						{e.target.src = "/skype/musical_notes.png"; e.target.alt = "placeholder cover art"; getAlbumArtColor()}}
 					bind:this={coverArt}
-					on:load={getAlbumArtColor}
+					on:load={() => {getAlbumArtColor() && window.Marquee3k.init()}}
 					width="500"
 					height="500"
 					crossorigin="anonymous"
