@@ -1,0 +1,201 @@
+<script lang="ts">
+	import type {
+		ListenBrainzRes,
+	} from "../../lib/types";
+	import {getDominantColor} from "../../lib/colors";
+    import getRecentTrack from "../../lib/listenbrainz";
+	import "../../lib/helpers"
+    import Marquee from "../Marquee.svelte";
+
+	let trackTitle: HTMLAnchorElement | null = null;
+	let trackTitleOverflowing = false;
+	let marqueeElement: HTMLElement
+
+	$: if (marqueeElement) {
+		window.Marquee3k.refreshAll()
+	}
+	
+	$: if (trackTitle) {
+		if (trackTitle && trackTitle.scrollWidth > trackTitle.clientWidth) {
+        		trackTitleOverflowing = true;
+      		}
+	}
+	
+	let recentTrack = getRecentTrack();
+	let coverArt: HTMLImageElement | null = null;
+
+	async function getAlbumArtColor() {
+		if (!coverArt) {
+			return; // make the linter happy
+		}
+		const palette = await getDominantColor(coverArt.src);
+
+		sessionStorage.setItem("palette", JSON.stringify(palette));
+		sessionStorage.setItem("textColors", JSON.stringify({light: palette?.LightVibrant?.bodyTextColor, dark: palette?.DarkVibrant?.bodyTextColor}));
+		document.documentElement.style.setProperty(
+			"--accent-bg-dark",
+			`rgb(${palette?.DarkVibrant?.rgb.join(", ")})` || "#000000"
+		);
+		document.documentElement.style.setProperty(
+			"--accent-bg",
+			`rgb(${palette?.Vibrant?.rgb.join(", ")})` || "#fff"
+		);
+		document.documentElement.style.setProperty(
+			"--accent-bg-light",
+			`rgb(${palette?.LightVibrant?.rgb.join(", ")})` || "#fff"
+		);
+		document.documentElement.style.setProperty(
+			"--accent-muted-light",
+			`rgb(${palette?.LightMuted?.rgb.join(", ")})` || "#fff"
+		);
+		document.documentElement.style.setProperty(
+			"--accent-muted-dark",
+			`rgb(${palette?.DarkMuted?.rgb.join(", ")})` || "#fff"
+		);
+		document.documentElement.style.setProperty(
+			"--accent-muted",
+			`rgb(${palette?.Muted?.rgb.join(", ")})` || "#fff"
+		);
+		document.documentElement.style.setProperty(
+			"--accent-text-dark",
+			palette?.DarkVibrant?.bodyTextColor || "#ffffff"
+		);
+		document.documentElement.style.setProperty(
+			"--accent-text-light",
+			palette?.LightVibrant?.bodyTextColor || "#ffffff"
+		);
+		document.documentElement.style.setProperty(
+			"--accent-text",
+			palette?.LightMuted?.bodyTextColor || "#ffffff"
+		);
+		// window.palette = palette;
+		return; 
+	}
+
+	function stitchArtistCredits(
+		artists: ListenBrainzRes["listens"][0]["track_metadata"]["mbid_mapping"]["artists"],
+	) {
+		return artists
+			.map(
+				(artist) =>
+					artist.artist_credit_name.toRespectfulLowerCase() + (artist.join_phrase || ""),
+			)
+			.join("");
+	}
+</script>
+
+{#await recentTrack}
+	<div class="flex flex-col items-center border-black b-2 lg:items-start">
+		<img
+			class="border-black border-b-2 w-full aspect-ratio-square p-5"
+			src="/skype/sign_of_the_horns.png"
+			alt="cover art"
+		/>
+		<div class="text-left my-5 h-auto lg:ml-5 max-w-3/4">
+			<p
+				class="block text-sm w-max link line-height-none mt-0.5"
+				style="margin: 0"
+			>
+				one moment
+			</p>
+			<p
+				class="link line-height-none"
+				data-speed="0.25"
+				style="font-size: 1.25rem; font-weight: bold; margin:0; max-width: 400px"
+			>
+				loading...
+			</p>
+		</div>
+	</div>
+{:then { track, now_playing }}
+	<div class="flex flex-row border-[--accent-bg-light] b-2 items-start bg-[--accent-muted-dark]">
+		
+		{#if track.mbid_mapping}
+			<a
+				href={`https://listenbrainz.org/release/${track.mbid_mapping.release_mbid}`}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="h-full"
+			>
+				<img
+					class="border-[--accent-bg-light] border-r-2 h-48 lg:h-full aspect-ratio-square"
+					src={`https://wsrv.nl/?url=coverartarchive.org/release/${track.mbid_mapping?.release_mbid}/front-500/`}
+					on:error={(e) =>
+						{e.target.src = "/skype/musical_notes.png"; e.target.alt = "placeholder cover art"; getAlbumArtColor()}}
+					bind:this={coverArt}
+					on:load={() => {getAlbumArtColor() && window.Marquee3k.init()}}
+					width="750"
+					height="750"
+					crossorigin="anonymous"
+					alt="{track.release_name} cover art"
+				/>
+			</a>
+		{:else}
+			<img
+				class="border-black border-b-2 min-h-full aspect-ratio-square p-5"
+				src="/skype/musical_notes.png"
+				alt="cover art placeholder"
+				style="width:5rem;padding:1rem;height: 100%"
+			/>
+		{/if}
+		<div class="text-left my-auto h-full ml-5 min-w-1/2 text-2xl lg:text-lg">
+			<a
+				href={track.mbid_mapping?.artists[0]?.artist_mbid
+					? `//listenbrainz.org/artist/${track.mbid_mapping?.artists[0].artist_mbid}` : ""}
+				class="block text-[--accent-bg-light] italic text-xl lg:text-sm m-0 w-max link line-height-none mt-0.5 text-wrap max-w-full hover:text-[--accent-bg-light] duration-250 op-80 hover:op-100"
+				>{track.mbid_mapping?.artists.length > 0
+					? stitchArtistCredits(
+							track.mbid_mapping.artists,
+						)
+					: track.artist_name.toRespectfulLowerCase()}</a
+			>
+			{#if !trackTitleOverflowing}
+			<a
+				href={track.mbid_mapping?.recording_mbid
+					? `//musicbrainz.org/recording/${track.mbid_mapping.recording_mbid}`
+					: ""}
+				class="link line-height-none text-[--accent-bg-light] hover:text-[--accent-bg-light] text-2xl font-bold line-height-none text-nowrap block overflow-hidden w-min max-w-full"
+				bind:this={trackTitle}
+			>
+				{track.mbid_mapping?.recording_name
+					? track.mbid_mapping.recording_name.toRespectfulLowerCase()
+					: track.track_name.toRespectfulLowerCase()}
+			</a>
+			{:else}
+			<div class="relative">
+				<Marquee class="py-0 mx-0 my-0 px-4 b-0" wrapperStyle="b-0" margin={0} bind:this={marqueeElement} reverse={false} speed="0.5"
+				><a href={track.mbid_mapping?.recording_mbid
+					? `//musicbrainz.org/recording/${track.mbid_mapping.recording_mbid}`
+					: ""}
+				class="link line-height-none text-[--accent-bg-light] hover:text-[--accent-bg-light] text-2xl mr-8 font-bold line-height-none mx-0 w-max whitespace-nowrap">
+					{track.mbid_mapping?.recording_name
+							? track.mbid_mapping.recording_name.toRespectfulLowerCase()
+							: track.track_name.toRespectfulLowerCase()}
+				</a>
+				</Marquee>
+				<div class="absolute top-0 right-0 w-1/4 h-full" style="background: linear-gradient(to left, var(--accent-muted-dark), transparent)"></div>
+			</div>
+			{/if}
+			<!-- <script>
+				setTimeout(async () => {
+					await new Promise(r => setTimeout(r, 5000));
+					window.Marquee3k.init()
+					console.log("hi")
+				})
+			</script> -->
+			{#if now_playing}
+				<p
+					class="line-height-none w-max animate-pulse duration-100 text-lg lg:text-sm m-0 text-[--accent-bg-light]"
+				>
+					now playing!
+				</p>
+			{:else}
+				<p
+					class="line-height-none w-max duration-100 text-lg lg:text-sm m-0 text-[--accent-bg-light]"
+				>
+					recent track
+				</p>
+			{/if}
+		</div>
+	</div>
+{/await}

@@ -1,0 +1,10 @@
+---
+const { title, href, noPadding = false } = Astro.props
+---
+
+<a href={href || title} class="block w-full h-auto b-1 b-neutral b-dotted">
+    <h1 class="text-xl font-bold bg-green-7 p-2 py-1">{title}</h1>
+    <div class={!noPadding ? "p-2 m-auto": ""}>
+        <slot/>
+    </div>
+</a>

@@ -52,7 +52,8 @@ export default async function getRecentTrack() {
         const trackMetadata: MusicBrainzRecordingSearch =
             await rawTrackMetadata.json();
 
-        console.debug("trackMetadata: ", trackMetadata);
+        // console.debug("trackMetadata: ", trackMetadata);
+        console.log("test")
 
         // recording should be the release with a matching isrc or the first release
         const matchedRecording =
@@ -60,12 +61,18 @@ export default async function getRecentTrack() {
                 recording.isrcs?.includes(track.additional_info.isrc),
             ) || trackMetadata.recordings[0];
 
+        console.debug("matchedRecording: ", matchedRecording)
+        const preferredRelease = matchedRecording?.releases.find((release) => !release.disambiguation) || matchedRecording.releases[0]
+
 
         if (
             matchedRecording?.releases[0]?.title.toLowerCase() !== cleaned_release_name.toLowerCase() && // check for same title
             !matchedRecording?.isrcs?.includes(track.additional_info.isrc) // check if the isrc matches
         ) {
+
             console.error("no valid media found for the current track! :(");
+            console.error("case check: ",  matchedRecording?.releases[0]?.title.toLowerCase() !== cleaned_release_name.toLowerCase())
+            console.error("isrc check: ", !matchedRecording?.isrcs?.includes(track.additional_info.isrc))
             return {
                 track: recentTrackData.listens[0].track_metadata,
                 now_playing: recentTrackData.listens[0].listened_at === undefined,

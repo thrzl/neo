@@ -80,6 +80,7 @@ export type MusicBrainzRecordingSearch = {
 			count: number;
 			title: string;
 			status: string;
+			disambiguation: string | undefined;
 			"artist-credit": Array<{
 				name: string;
 				artist: {

@@ -1,0 +1,70 @@
+---
+import Html from "../layouts/Html.astro";
+import {quotes} from "../lib/constants"
+import Marquee from "../components/Marquee.astro"
+import PageCard from "../components/PageCard.astro";
+import NowPlaying from "../components/islands/NowPlayingTwo.svelte"
+const post = Object.values(
+	import.meta.glob("./blog/**/*.md", {eager: true}), 
+)[0];
+---
+
+<script>
+    import Marquee3k from "marquee3000";
+  window.Marquee3k = Marquee3k;
+  document.addEventListener("astro:page-load", () => {
+    Marquee3k.init();
+  });
+</script>
+
+<Html backgroundColor="bg-green-9">
+    <div class="bg-green-9 w-full min-h-screen lg:w-1/2 p-16 lg:p-0 flex flex-col items-center !pt-32 align-middle mx-auto text-white">
+        <main class="prose text-center">
+            <div class="bg-green-8 flex flex-col justify-end w-full min-h-3/4 py-4 mb-4">
+                <h1 class="text-5xl font-bold">
+                    thrizzle's <span class="italic">planet</span>
+                </h1>
+                <p class="b-t-dotted b-t-1 b-t-green w-max mx-auto">a home for all my hopes, dreams, thoughts and schemes</p>
+            </div>
+            <div class="text-left my-4">
+                <h2 class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max mb-2">about this place</h2>
+                <p class="text-lg mb-2">
+                    welcome / ようこそ！
+                </p>
+                <p class="text-lg mb-2">
+                    this site will act as my output to the rest of the world. i need to express my thoughts
+                    somehow and this seems like an effective way to do so. i first was inspired to get into
+                    neocities/the new web1.0 by 4star and melankorin (u should check their websites out!)
+                </p>
+                <div>
+                    <h2 class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max mb-2">about myself</h2>
+                    <h3 class="font-bold text-xl">likes</h3>
+                    <ul class="ml-4">
+                        <li class="list-disc"><span class="italic font-bold">language</span> <br/>
+                            i've recently gotten into it. i'm by no means an expert, but i'm currently learning japanese
+                                and looking more into the field of linguistics itself
+                        </li>
+                    </ul>
+                </div>
+                <h2 class="text-xl font-bold b-b-dotted b-b-1 b-b-green w-max my-4">other info</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <PageCard title="blog" noPadding>
+                        <div class="bg-green-1 text-black p-2">
+                            <h3 class="text-2xl text-wrap font-bold">{post.frontmatter.title}</h3>
+                            <p class="text-wrap">{post.frontmatter.description}</p>
+                        </div>
+                    </PageCard>
+                    <PageCard title="gallery">
+                        no content to show yet... come back soon!
+                    </PageCard>
+                    <PageCard title="music" noPadding>
+                        <NowPlaying client:only="svelte"/>
+                    </PageCard>
+                    <PageCard title="links">
+                        check out my bluesky!
+                    </PageCard>
+                </div>
+            </div>
+        </main>
+    </div>
+</Html>
