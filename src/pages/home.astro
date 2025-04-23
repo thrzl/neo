@@ -58,10 +58,10 @@ const aniListData = await fetchAniListData()
         </ul>
         <h3 class="font-bold text-xl mt-2">recent anime</h3>
         <p>right now, i'm watching {aniListData.MediaListCollection.lists.find(list => list.status === "CURRENT")?.entries.map((entry, i, entries) => (
-            <Fragment><a href={entry.media.siteUrl} style={`border-bottom-color: ${entry.media.coverImage.color}`} class="inline b-b-2 b-b-dotted hover:b-b-1 italic lowercase">{entry.media.title.english.replace(/(?=.+)\sSeason\s\d/g, "")}</a>{i < entries.length - 2 ? ', ' : i === entries.length - 2 ? ' and ' : ''}</Fragment>
+            <Fragment><a href={entry.media.siteUrl} style={`border-bottom-color: ${entry.media.coverImage.color || '#fff'}`} class="inline b-b-2 b-b-dotted hover:b-b-1 italic lowercase">{entry.media.title.english.replace(/(?=.+)\sSeason\s\d/g, "")}</a>{i < entries.length - 2 ? ', ' : i === entries.length - 2 ? ' and ' : ''}</Fragment>
         ))}</p>
-        <p class="mt-2">i'm planning to watch {aniListData.MediaListCollection.lists.find(list => list.status === "PLANNING")?.entries.map((entry, i, entries) => (
-            <Fragment><a href={entry.media.siteUrl} style={`border-bottom-color: ${entry.media.coverImage.color}`} class="inline b-b-2 b-b-dotted hover:b-b-1 italic lowercase">{entry.media.title.english.replace(/(?=.+)\sSeason\s\d/g, "")}</a>{i < entries.length - 2 ? ', ' : i === entries.length - 2 ? ' and ' : ''}</Fragment>
+        <p class="mt-2">i'm planning to watch {aniListData.MediaListCollection.lists.find(list => list.status === "PLANNING")?.entries.slice(0,3).map((entry, i, entries) => (
+            <Fragment><a href={entry.media.siteUrl} style={`border-bottom-color: ${entry.media.coverImage.color || '#fff'}`} class="inline b-b-2 b-b-dotted hover:b-b-1 italic lowercase">{entry.media.title.english.replace(/(?=.+)\sSeason\s\d/g, "")}</a>{i < entries.length - 2 ? ', ' : i === entries.length - 2 ? ' and ' : ''}</Fragment>
         ))} soon.</p>
         <p class="mt-2">my favorite anime ever are 
         {(() => {
@@ -77,10 +77,10 @@ const aniListData = await fetchAniListData()
               <>
                 <a
                   href={entry.siteUrl}
-                  style={`border-bottom-color: ${entry.coverImage.color}`}
+                  style={`border-bottom-color: ${entry.coverImage.color || '#fff'}`}
                   class="inline b-b-2 b-b-dotted hover:b-b-1 italic lowercase"
                 >
-                  {entry.title.english.replace(/(?=.+)Season\s\d/g, "")}
+                  {entry.title.english.replace(/(?=.+)\sSeason\s\d/g, "")}
                 </a>
                 {index < filtered.length - 2 ? ', ' : index === filtered.length - 2 ? ' and ' : ''}
               </>

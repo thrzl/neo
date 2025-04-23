@@ -1,15 +1,15 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import Layout from "../../layouts/NewLayout.astro";
 import LinkCard from "../../components/LinkCard.astro";
 import Marquee from "../../components/Marquee.astro";
 const blogPosts = Object.values(
-	import.meta.glob("./blog/**/*.md", {
+	import.meta.glob("./**/*.md", {
 		eager: true,
 	}),
 );
 ---
 
-<Layout>
+<Layout title="blog">
     <Marquee>recent writing</Marquee>
     <ul>
         {blogPosts.map((post: any) => <LinkCard url={post.url} title={post.frontmatter.title} description={post.frontmatter.description}/>)}

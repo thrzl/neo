@@ -1,6 +1,6 @@
 ---
 import LinkCard from "../components/LinkCard.astro";
-import Layout from "../layouts/Layout.astro";
+import Layout from "../layouts/NewLayout.astro";
 import Marquee from "../components/Marquee.astro";
 const my_links = [
     {title: "github", description: "my code and other works", url: "https://github.com/thrzl"},
@@ -27,7 +27,7 @@ const apps_services = [
 ]
 ---
 
-<Layout>
+<Layout title="links">
     <Marquee>things you should see</Marquee>
     <div class="p-2">
         <h1 class="text-5xl lg:text-3xl font-bold pb-0.5 mb-4 w-max b-b-1 b-solid b-[--accent-bg-light]">elsewhere on the net</h1>

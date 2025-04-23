@@ -1,5 +1,5 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from "../layouts/NewLayout.astro";
 import MusicStats from "../components/islands/MusicStats.svelte";
 import Marquee from "../components/Marquee.astro";
 const ranges = [
@@ -10,7 +10,7 @@ const ranges = [
 ];
 ---
 
-<Layout padding="0">
+<Layout title="music">
     <Marquee margin="0">what i've been listening to</Marquee>
     <div>
         <ul class="flex justify-center py-1.5 m-0 list-none px-2" data-tabs>

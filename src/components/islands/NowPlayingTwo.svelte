@@ -80,13 +80,13 @@
 	function stitchArtistCredits(
 		artists: ListenBrainzRes["listens"][0]["track_metadata"]["mbid_mapping"]["artists"],
 	) {
-		return artists
+		return artists ? artists
 			.map(
 				(artist) =>
 					artist.artist_credit_name.toRespectfulLowerCase() +
 					(artist.join_phrase || ""),
 			)
-			.join("");
+			.join("") : null;
 	}
 </script>
 
@@ -114,20 +114,19 @@
 		</div>
 	</div>
 {:then { track, now_playing }}
-	{console.log(track)}
 	<a
-		href="https://listenbrainz.org/release/{track.mbid_mapping
-			.release_mbid}"
+		href={track.mbid_mapping && `https://listenbrainz.org/release/${track.mbid_mapping
+			.release_mbid}`}
 		class="relative overflow-hidden block w-full grow group aspect-ratio-square p-2 hover:p-0 duration-300 cursor-help"
 	>
 		<!-- <strong>{release.release_name}</strong> by {release.artist_name} 
 	(Listens: {release.listen_count}) -->
 		<img
 			src="https://wsrv.nl/?url=coverartarchive.org/release/{track
-				.mbid_mapping.release_mbid}/front-500"
+				.mbid_mapping?.release_mbid}/front-500"
 			alt="{track.release_name} cover art"
 			on:error={(e) =>
-				(e.target.src = "/music.avif" && getAlbumArtColor())}
+				((e.target.src = "/music.avif") && getAlbumArtColor())}
 			bind:this={coverArt}
 			on:load={() => {getAlbumArtColor()}}
 			class="w-full h-auto mb-2 group-hover:scale-100 group-hover:blur-none transition duration-300"
