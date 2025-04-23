@@ -63,7 +63,7 @@ export default async function getRecentTrack() {
             ) || trackMetadata.recordings[0];
 
         console.debug("matchedRecording: ", matchedRecording)
-        const preferredRelease = matchedRecording?.releases.find((release) => !release.disambiguation) || matchedRecording.releases[0]
+        const preferredRelease = matchedRecording?.releases.find((release) => !release.disambiguation) || matchedRecording?.releases[0]
 
 
         if (
