@@ -138,7 +138,7 @@
 				style="width:5rem;padding:1rem;height: 100%"
 			/>
 		{/if}
-		<div class="text-left my-auto h-full ml-5 min-w-1/2 text-2xl lg:text-lg">
+		<div class="text-left my-auto h-full ml-5 text-2xl lg:text-lg">
 			<a
 				href={track.mbid_mapping?.artists[0]?.artist_mbid
 					? `//listenbrainz.org/artist/${track.mbid_mapping?.artists[0].artist_mbid}` : ""}
@@ -154,7 +154,7 @@
 				href={track.mbid_mapping?.recording_mbid
 					? `//musicbrainz.org/recording/${track.mbid_mapping.recording_mbid}`
 					: ""}
-				class="link line-height-none text-[--accent-bg-light] hover:text-[--accent-bg-light] text-2xl font-bold line-height-none text-nowrap block overflow-hidden w-min max-w-full"
+				class="link line-height-none text-[--accent-bg-light] hover:text-[--accent-bg-light] text-2xl font-bold line-height-none lg:text-nowrap block overflow-hidden w-min max-w-full"
 				bind:this={trackTitle}
 			>
 				{track.mbid_mapping?.recording_name
