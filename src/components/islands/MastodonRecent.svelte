@@ -1,9 +1,14 @@
 <script lang="ts">
+    import TimeAgo from "javascript-time-ago"
+    import en from "javascript-time-ago/locale/en"
     type MastodonPost = {
-        createdAt: string;
+        created_at: string;
         content: string;
         url: string;
     };
+
+    TimeAgo.addDefaultLocale(en)
+    const timeAgo = new TimeAgo("en-US")
 
     function htmlDecode(input: string) {
         const doc = new DOMParser().parseFromString(input, "text/html");
@@ -44,23 +49,17 @@
 <p class="inline">
     please wait...
     <img
-            class="h-4 inline align-middle"
-            height="16px"
-            src="/skype/mantelpiece_clock.png"
-            alt="clock emoji"
-        />
+    class="h-4 inline align-middle"
+    height="16px"
+    src="/skype/mantelpiece_clock.png"
+    alt="clock emoji"
+    />
 </p>
 {:then status}
-    <span class="font-800 pr-1 mr-1 b-r-1 b-r-solid text-2xl lg:text-lg">{status.createdAt}&nbsp;</span>
-    <p class="inline text-2xl lg:text-lg">
-        {htmlDecode(status.content)}
-        <!-- {#if emoji_map.hasOwnProperty(status.face)}<img
-                class="h-4 inline align-middle"
-                height="16px"
-                src={`/skype/${emoji_map[status.face]}.png`}
-                alt={status.face.replace("_", " ")}
-            />{/if} -->
-    </p>
+<span class="font-800 italic text-sm">{timeAgo.format(new Date(status.created_at))}&nbsp;</span>
+<p class="text-base line-height-tight">
+    {htmlDecode(status.content)}
+</p>
 {:catch error}
     <div class="text-red-500">Error: {error.message}</div>
 {/await}

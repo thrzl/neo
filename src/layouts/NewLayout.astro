@@ -1,19 +1,16 @@
 ---
-const { backgroundColor = "bg-green-9", title = "planet" } = Astro.props;
+const { backgroundColor = "bg-green-9", title = "planet", description = "a home for all my hopes, dreams, thoughts and schemes" } = Astro.props;
 import Html from "./Html.astro";
-import Navbar from "../components/NewNavbar.astro";
+import TopNavbar from "../components/TopNavbar.astro";
+import Sidebar from "../components/Sidebar.astro";
+
 ---
 
 <Html backgroundColor={backgroundColor}>
     <div class="grid lg:grid-cols-[25%_50%_25%] justify-center text-white">
-        <div
-            class="hidden justify-self-end w-full lg:inline-block max-w-64 align-top mt-76 px-8 text-right b-r-green-8 b-solid b-r-1"
-        >
-            <h2 class="font-bold text-lg">navigation</h2>
-            <Navbar/>
-        </div>
+        <Sidebar/>
         <main
-            class="prose relative self-start text-center inline-block bg-green-9 w-full min-h-screen px-8 pt-16 lg:mt-16 text-white inline-block"
+            class="relative self-start text-center inline-block bg-green-9 w-full min-h-screen px-8 pt-16 lg:mt-16 text-white inline-block"
         >
             <div
                 class="bg-green-8 flex flex-col justify-end w-full min-h-3/4 py-4 my-4"
@@ -22,9 +19,9 @@ import Navbar from "../components/NewNavbar.astro";
                     thrizzle's <span class="italic">{title}</span>
                 </h1>
                 <p class="b-t-dotted b-t-1 b-t-green w-max mx-auto mb-2">
-                    a home for all my hopes, dreams, thoughts and schemes
+                    {description}
                 </p>
-                <!-- <Navbar /> -->
+                <TopNavbar />
             </div>
             <div class="text-left my-4 line-height-snug">
                 <slot />

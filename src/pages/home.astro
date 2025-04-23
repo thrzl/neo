@@ -25,7 +25,7 @@ const aniListData = await fetchAniListData()
         about this place
     </h2>
     <p class="text-lg mb-2">welcome / ようこそ！</p>
-    <p class="text-lg mb-2">
+    <p class="text-base mb-2">
         this site will act as my output to the rest of the world. i need to
         express my thoughts somehow and this seems like an effective way to do
         so. i first was inspired to get into neocities/the new web1.0 by 4star
@@ -36,64 +36,67 @@ const aniListData = await fetchAniListData()
             about myself
         </h2>
         <h3 class="font-bold text-xl">likes</h3>
-        <ul class="ml-4">
-            <li class="list-disc mb-2">
-                <span class="italic font-bold">language</span>
+        <ul>
+            <li>
+                <span class="list-header">language</span>
                 <br />
                 i've recently gotten into it. i'm by no means an expert, but i'm
                 currently learning japanese and looking more into the field of linguistics
                 itself
             </li>
-            <li class="list-disc mb-2">
-                <span class="italic font-bold">computers</span>
+            <li>
+                <span class="list-header">computers</span>
                 <br />
                 i've long been interested in computers, especially hardware. i built
                 my own computer, and love tinkering with older computers
             </li>
-            <li class="list-disc mb-2">
-                <span class="italic font-bold">underground alt hip-hop</span>
+            <li>
+                <span class="list-header">underground alt hip-hop</span>
                 <br />
                 specific, i know
             </li>
         </ul>
-        <h3 class="font-bold text-xl mt-2">recent anime</h3>
-        <p>right now, i'm watching {aniListData.MediaListCollection.lists.find(list => list.status === "CURRENT")?.entries.map((entry, i, entries) => (
-            <Fragment><a href={entry.media.siteUrl} style={`border-bottom-color: ${entry.media.coverImage.color || '#fff'}`} class="inline b-b-2 b-b-dotted hover:b-b-1 italic lowercase">{entry.media.title.english.replace(/(?=.+)\sSeason\s\d/g, "")}</a>{i < entries.length - 2 ? ', ' : i === entries.length - 2 ? ' and ' : ''}</Fragment>
-        ))}</p>
-        <p class="mt-2">i'm planning to watch {aniListData.MediaListCollection.lists.find(list => list.status === "PLANNING")?.entries.slice(0,3).map((entry, i, entries) => (
-            <Fragment><a href={entry.media.siteUrl} style={`border-bottom-color: ${entry.media.coverImage.color || '#fff'}`} class="inline b-b-2 b-b-dotted hover:b-b-1 italic lowercase">{entry.media.title.english.replace(/(?=.+)\sSeason\s\d/g, "")}</a>{i < entries.length - 2 ? ', ' : i === entries.length - 2 ? ' and ' : ''}</Fragment>
-        ))} soon.</p>
-        <p class="mt-2">my favorite anime ever are 
-        {(() => {
-            const seen = new Set();
-            const entries = aniListData.User.favourites.anime.nodes || [];
-            const filtered = entries.filter(entry => {
-              const cleanedTitle = entry.title.english.replace(/(?=.+)\sSeason\s\d/g, "");
-              if (seen.has(cleanedTitle)) return false;
-              seen.add(cleanedTitle);
-              return true;
-            });
-            return filtered.map((entry, index) => (
-              <>
-                <a
-                  href={entry.siteUrl}
-                  style={`border-bottom-color: ${entry.coverImage.color || '#fff'}`}
-                  class="inline b-b-2 b-b-dotted hover:b-b-1 italic lowercase"
-                >
-                  {entry.title.english.replace(/(?=.+)\sSeason\s\d/g, "")}
-                </a>
-                {index < filtered.length - 2 ? ', ' : index === filtered.length - 2 ? ' and ' : ''}
-              </>
-            ));
-          })()
-        }
-    </p>
+        <h3 class="font-bold text-xl mt-2">anime</h3>
+        <p class="mb-1">im not really super into anime (or much other tv/film), but i have been getting more into it to help me learn japanese:</p>
+        <ul>
+            <li>right now, i'm watching {aniListData.MediaListCollection.lists.find(list => list.status === "CURRENT")?.entries.map((entry, i, entries) => (
+                <Fragment><a href={entry.media.siteUrl} style={`border-bottom-color: ${entry.media.coverImage.color || '#fff'}`}>{entry.media.title.english.replace(/(?=.+)\sSeason\s\d/g, "")}</a>{i < entries.length - 2 ? ', ' : i === entries.length - 2 ? ' and ' : ''}</Fragment>
+            ))}</li>
+            <li>i'm planning to watch {aniListData.MediaListCollection.lists.find(list => list.status === "PLANNING")?.entries.slice(0,3).map((entry, i, entries) => (
+                <Fragment><a href={entry.media.siteUrl} style={`border-bottom-color: ${entry.media.coverImage.color || '#fff'}`}>{entry.media.title.english.replace(/(?=.+)\sSeason\s\d/g, "")}</a>{i < entries.length - 2 ? ', ' : i === entries.length - 2 ? ' and ' : ''}</Fragment>
+            ))} soon.</li>
+            <li>my favorite anime ever are
+            {(() => {
+                const seen = new Set();
+                const entries = aniListData.User.favourites.anime.nodes || [];
+                const filtered = entries.filter(entry => {
+                  const cleanedTitle = entry.title.english.replace(/(?=.+)\sSeason\s\d/g, "");
+                  if (seen.has(cleanedTitle)) return false;
+                  seen.add(cleanedTitle);
+                  return true;
+                });
+                return filtered.map((entry, index) => (
+                  <>
+                    <a
+                      href={entry.siteUrl}
+                      style={`border-bottom-color: ${entry.coverImage.color || '#fff'}`}
+                    >
+                      {entry.title.english.replace(/(?=.+)\sSeason\s\d/g, "")}
+                    </a>
+                    {index < filtered.length - 2 ? ', ' : index === filtered.length - 2 ? ' and ' : ''}
+                  </>
+                ));
+              })()
+            }
+                </li>
+        </ul>
     </div>
-    <h2 class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max my-4">
+    <br class="divider color-white"/>
+    <h2 class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max my-4 mx-auto">
         other pages
     </h2>
-    <div class="grid lg:grid-cols-2 gap-4">
-        <PageCard title="blog" noPadding>
+    <div class="flex justify-center flex-row flex-wrap gap-4">
+        <PageCard title="blog" noPadding class="flex-basis-48">
             {
                 post?.frontmatter ? (
                     <div class="bg-green-1 text-black p-2">
@@ -112,12 +115,27 @@ const aniListData = await fetchAniListData()
                 )
             }
         </PageCard>
-        <PageCard title="gallery">
-            no content to show yet... come back soon!
+        <PageCard title="music" noPadding class="flex-basis-48">
+            <NowPlaying client:visible="svelte" />
         </PageCard>
-        <PageCard title="music" noPadding>
-            <NowPlaying client:only="svelte" />
-        </PageCard>
-        <PageCard title="links"> check out my bluesky! </PageCard>
+        <PageCard title="links" class="flex-basis-48"> check out my bluesky! </PageCard>
     </div>
 </NewLayout>
+
+<style>
+    ul {
+        @apply ml-4;
+    }
+
+    ul li {
+        @apply mb-2 list-disc
+    }
+
+    span.list-header {
+        @apply italic font-bold
+    }
+
+    a {
+        @apply inline b-b-2 b-b-dotted hover:b-b-1 italic lowercase
+    }
+</style>

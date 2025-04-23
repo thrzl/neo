@@ -1,0 +1,25 @@
+---
+import { navBarLinks } from "../lib/data";
+const links = navBarLinks
+const currentPath = Astro.url.pathname;
+---
+
+
+    <nav class="text-right">
+        {
+            links.map((link: {name: string, slug: string}) => (
+                <a
+                    href={link.slug}
+                    class={`${currentPath.startsWith(link.slug) ? "selected": ""} block b-b-2 b-green-7 b-dotted hover:text-shadow-[0_0_0.125rem_white] hover:b-green-5`}
+                >
+                    {link.name}
+                </a>
+            ))
+        }
+    </nav>
+
+<style>
+    .selected {
+        @apply font-bold b-b-2 first:b-b-2 b-green b-solid text-shadow-[0_0_0.125rem_white];
+    }
+</style>

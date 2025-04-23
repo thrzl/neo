@@ -54,7 +54,6 @@ export default async function getRecentTrack() {
             await rawTrackMetadata.json();
 
         // console.debug("trackMetadata: ", trackMetadata);
-        console.log("test")
 
         // recording should be the release with a matching isrc or the first release
         const matchedRecording =

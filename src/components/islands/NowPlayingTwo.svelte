@@ -91,28 +91,34 @@
 </script>
 
 {#await recentTrack}
-	<div class="flex flex-col items-center border-black b-2 lg:items-start">
-		<img
-			class="border-black border-b-2 w-full aspect-ratio-square p-5"
-			src="/skype/sign_of_the_horns.png"
-			alt="cover art"
-		/>
-		<div class="text-left my-5 h-auto lg:ml-5 max-w-3/4">
-			<p
-				class="block text-sm w-max link line-height-none mt-0.5"
-				style="margin: 0"
-			>
-				one moment
-			</p>
-			<p
-				class="link line-height-none"
-				data-speed="0.25"
-				style="font-size: 1.25rem; font-weight: bold; margin:0; max-width: 400px"
-			>
-				loading...
-			</p>
-		</div>
-	</div>
+<div
+	class="relative overflow-hidden w-full grow group aspect-ratio-square p-2 hover:p-0 duration-300 cursor-help"
+>
+<img
+	src="/music.avif"
+	alt="placeholder cover art"
+	bind:this={coverArt}
+	on:load={() => {getAlbumArtColor()}}
+	class="w-full h-auto mb-2 group-hover:scale-100 group-hover:blur-none transition duration-300"
+	loading="lazy"
+/>
+<!-- show title and artist in center on hover, and darken background -->
+<div
+	class="absolute bg-[--accent-muted-dark] bottom-0 op-0 group-hover:op-80 transition-delay-150 transition-200 w-full h-full z-1"
+></div>
+<div
+	class="absolute bottom-0 op-0 group-hover:op-100 transition-delay-150 transition-200 w-full h-full z-2 flex justify-center items-center flex-col"
+>
+	<p class="text-sm text-neutral-300 text-center w-full italic">
+		please wait
+	</p>
+	<p
+		class="text-white text-4xl !line-height-none font-800 text-center w-4/5"
+	>
+		loading data...
+	</p>
+</div>
+</div>
 {:then { track, now_playing }}
 	<a
 		href={track.mbid_mapping && `https://listenbrainz.org/release/${track.mbid_mapping
@@ -163,9 +169,5 @@
 				</p>
 			{/if}
 		</div>
-		<!-- <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2 text-sm">
-		<p>{release.release_name}</p>
-		<p>{release.artist_name}</p>
-	</div> -->
 	</a>
 {/await}
