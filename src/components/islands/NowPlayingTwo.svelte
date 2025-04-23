@@ -129,7 +129,7 @@
 			on:error={(e) =>
 				(e.target.src = "/music.avif" && getAlbumArtColor())}
 			bind:this={coverArt}
-			on:load={getAlbumArtColor}
+			on:load={() => {getAlbumArtColor()}}
 			class="w-full h-auto mb-2 group-hover:scale-100 group-hover:blur-none transition duration-300"
 			loading="lazy"
 		/>
@@ -141,12 +141,12 @@
 			class="absolute bottom-0 op-0 group-hover:op-100 transition-delay-150 transition-200 w-full h-full z-2 flex justify-center items-center flex-col"
 		>
 			<p class="text-sm text-neutral-300 text-center w-full italic">
-				{track.artist_name.toRespectfulLowerCase().replaceAll("’", "'")}
+				{(stitchArtistCredits(track.mbid_mapping?.artists) || track.artist_name).toRespectfulLowerCase().replaceAll("’", "'")}
 			</p>
 			<p
 				class="text-white text-4xl !line-height-none font-800 text-center w-4/5"
 			>
-				{track.track_name
+				{(track.mbid_mapping?.recording_name || track.track_name)
 					.toRespectfulLowerCase()
 					.replaceAll("’", "'")}
 			</p>
