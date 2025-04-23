@@ -8,21 +8,22 @@ const links = [
 const currentPath = Astro.url.pathname;
 ---
 
-<nav class="justify-end items-end text-right">
-    {
-        links.map((link) => (
-            <a
-                href={link.slug}
-                class={`${currentPath.startsWith(link.slug) ? "selected": ""} last:b-b-0 b-b-1 b-dotted w-max italic b-b-green pl-2 pr-1 block`}
-            >
-                {link.name}
-            </a>
-        ))
-    }
-</nav>
+
+    <nav class="justify-items-end text-right">
+        {
+            links.map((link) => (
+                <a
+                    href={link.slug}
+                    class={`${currentPath.startsWith(link.slug) ? "selected": ""} block b-b-2 b-green-7 b-dotted`}
+                >
+                    {link.name}
+                </a>
+            ))
+        }
+    </nav>
 
 <style>
     .selected {
-        @apply font-bold b-2 first:b-l-2 b-green b-solid;
+        @apply font-bold b-b-2 first:b-b-2 b-green b-solid;
     }
 </style>
