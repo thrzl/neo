@@ -1,74 +1,123 @@
 ---
-import Html from "../layouts/Html.astro";
-import {quotes} from "../lib/constants"
-import Marquee from "../components/Marquee.astro"
 import PageCard from "../components/PageCard.astro";
-import NowPlaying from "../components/islands/NowPlayingTwo.svelte"
+import NowPlaying from "../components/islands/NowPlayingTwo.svelte";
+import NewLayout from "../layouts/NewLayout.astro";
+
+import { fetchAniListData } from "../lib/build-time-data";
 const post = Object.values(
-	import.meta.glob("./blog/**/*.md", {eager: true}), 
+    import.meta.glob("./blog/**/*.md", { eager: true }),
 )[0];
+
+
+const aniListData = await fetchAniListData()
 ---
 
 <script>
     import Marquee3k from "marquee3000";
-    import NewLayout from "../layouts/NewLayout.astro";
-  window.Marquee3k = Marquee3k;
-  document.addEventListener("astro:page-load", () => {
-    Marquee3k.init();
-  });
+    window.Marquee3k = Marquee3k;
+    document.addEventListener("astro:page-load", () => {
+        Marquee3k.init();
+    });
 </script>
 
-<Html backgroundColor="bg-green-9">
-    <div class="bg-green-9 w-full min-h-screen lg:w-1/2 px-16 flex flex-col items-center pt-16 lg:mt-16 align-middle mx-auto text-white">
-        <main class="prose text-center">
-            <div class="bg-green-8 flex flex-col justify-end w-full min-h-3/4 py-4 my-4">
-                <h1 class="text-5xl font-bold">
-                    thrizzle's <span class="italic">planet</span>
-                </h1>
-                <p class="b-t-dotted b-t-1 b-t-green w-max mx-auto">a home for all my hopes, dreams, thoughts and schemes</p>
-            </div>
-            <div class="text-left my-4">
-                <h2 class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max mb-2">about this place</h2>
-                <p class="text-lg mb-2">
-                    welcome / ようこそ！
-                </p>
-                <p class="text-lg mb-2">
-                    this site will act as my output to the rest of the world. i need to express my thoughts
-                    somehow and this seems like an effective way to do so. i first was inspired to get into
-                    neocities/the new web1.0 by 4star and melankorin (u should check their websites out!)
-                </p>
-                <div>
-                    <h2 class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max mb-2">about myself</h2>
-                    <h3 class="font-bold text-xl">likes</h3>
-                    <ul class="ml-4">
-                        <li class="list-disc"><span class="italic font-bold">language</span> <br/>
-                            i've recently gotten into it. i'm by no means an expert, but i'm currently learning japanese
-                                and looking more into the field of linguistics itself
-                        </li>
-                    </ul>
-                </div>
-                <h2 class="text-xl font-bold b-b-dotted b-b-1 b-b-green w-max my-4">other info</h2>
-                <div class="grid grid-cols-2 gap-4">
-                    <PageCard title="blog" noPadding>
-                        {post?.frontmatter ? (<div class="bg-green-1 text-black p-2">
-                            <h3 class="text-2xl text-wrap font-bold">{post.frontmatter.title}</h3>
-                            <p class="text-wrap">{post.frontmatter.description}</p>
-                        </div>) : (<div class="bg-green-1 text-black p-2">
-                            <h3 class="text-2xl text-wrap font-bold">nothing here yet</h3>
-                            <p class="text-wrap">come back soon</p>
-                        </div>)}
-                    </PageCard>
-                    <PageCard title="gallery">
-                        no content to show yet... come back soon!
-                    </PageCard>
-                    <PageCard title="music" noPadding>
-                        <NowPlaying client:only="svelte"/>
-                    </PageCard>
-                    <PageCard title="links">
-                        check out my bluesky!
-                    </PageCard>
-                </div>
-            </div>
-        </main>
+<NewLayout>
+    <h2 class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max mb-2">
+        about this place
+    </h2>
+    <p class="text-lg mb-2">welcome / ようこそ！</p>
+    <p class="text-lg mb-2">
+        this site will act as my output to the rest of the world. i need to
+        express my thoughts somehow and this seems like an effective way to do
+        so. i first was inspired to get into neocities/the new web1.0 by 4star
+        and melankorin (u should check their websites out!)
+    </p>
+    <div>
+        <h2 class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max mb-2">
+            about myself
+        </h2>
+        <h3 class="font-bold text-xl">likes</h3>
+        <ul class="ml-4">
+            <li class="list-disc mb-2">
+                <span class="italic font-bold">language</span>
+                <br />
+                i've recently gotten into it. i'm by no means an expert, but i'm
+                currently learning japanese and looking more into the field of linguistics
+                itself
+            </li>
+            <li class="list-disc mb-2">
+                <span class="italic font-bold">computers</span>
+                <br />
+                i've long been interested in computers, especially hardware. i built
+                my own computer, and love tinkering with older computers
+            </li>
+            <li class="list-disc mb-2">
+                <span class="italic font-bold">underground alt hip-hop</span>
+                <br />
+                specific, i know
+            </li>
+        </ul>
+        <h3 class="font-bold text-xl mt-2">recent media</h3>
+        <p>right now, i'm watching {aniListData.MediaListCollection.lists.find(list => list.status === "CURRENT")?.entries.map((entry, i, entries) => (
+            <Fragment><a href={entry.media.siteUrl} style={`border-bottom-color: ${entry.media.coverImage.color}`} class="inline b-b-2 b-b-dotted hover:b-b-1 italic lowercase">{entry.media.title.english.replace(/(?=.+)\sSeason\s\d/g, "")}</a>{i < entries.length - 2 ? ', ' : i === entries.length - 2 ? ' and ' : ''}</Fragment>
+        ))}</p>
+        <p class="mt-2">i'm planning to watch {aniListData.MediaListCollection.lists.find(list => list.status === "PLANNING")?.entries.map((entry, i, entries) => (
+            <Fragment><a href={entry.media.siteUrl} style={`border-bottom-color: ${entry.media.coverImage.color}`} class="inline b-b-2 b-b-dotted hover:b-b-1 italic lowercase">{entry.media.title.english.replace(/(?=.+)\sSeason\s\d/g, "")}</a>{i < entries.length - 2 ? ', ' : i === entries.length - 2 ? ' and ' : ''}</Fragment>
+        ))} soon.</p>
+        <p class="mt-2">my favorite anime ever are 
+        {(() => {
+            const seen = new Set();
+            const entries = aniListData.User.favourites.anime.nodes || [];
+            const filtered = entries.filter(entry => {
+              const cleanedTitle = entry.title.english.replace(/(?=.+)\sSeason\s\d/g, "");
+              if (seen.has(cleanedTitle)) return false;
+              seen.add(cleanedTitle);
+              return true;
+            });
+            return filtered.map((entry, index) => (
+              <>
+                <a
+                  href={entry.siteUrl}
+                  style={`border-bottom-color: ${entry.coverImage.color}`}
+                  class="inline b-b-2 b-b-dotted hover:b-b-1 italic lowercase"
+                >
+                  {entry.title.english.replace(/(?=.+)Season\s\d/g, "")}
+                </a>
+                {index < filtered.length - 2 ? ', ' : index === filtered.length - 2 ? ' and ' : ''}
+              </>
+            ));
+          })()
+        }
+    </p>
     </div>
-</Html>
+    <h2 class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max my-4">
+        other pages
+    </h2>
+    <div class="grid grid-cols-2 gap-4">
+        <PageCard title="blog" noPadding>
+            {
+                post?.frontmatter ? (
+                    <div class="bg-green-1 text-black p-2">
+                        <h3 class="text-2xl text-wrap font-bold">
+                            {post.frontmatter.title}
+                        </h3>
+                        <p class="text-wrap">{post.frontmatter.description}</p>
+                    </div>
+                ) : (
+                    <div class="bg-green-1 text-black p-2">
+                        <h3 class="text-2xl text-wrap font-bold">
+                            nothing here yet
+                        </h3>
+                        <p class="text-wrap">come back soon</p>
+                    </div>
+                )
+            }
+        </PageCard>
+        <PageCard title="gallery">
+            no content to show yet... come back soon!
+        </PageCard>
+        <PageCard title="music" noPadding>
+            <NowPlaying client:only="svelte" />
+        </PageCard>
+        <PageCard title="links"> check out my bluesky! </PageCard>
+    </div>
+</NewLayout>

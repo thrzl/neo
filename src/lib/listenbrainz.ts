@@ -35,8 +35,9 @@ export default async function getRecentTrack() {
             .replace(/\s*\(feat\. [^)]+\)/i, ""); // remove '(feat. ...)'
 
         // musicbrainz api search for recording with the same isrc OR with the same track, release, and artist name
+        const query = track.additional_info.isrc ? `isrc:${track.additional_info.isrc} OR (recording:"${track.track_name.replace(/\s*\(feat\. [^)]+\)/i, '')}" AND artist:"${track.artist_name}" AND release:"${cleaned_release_name}")` : `recording:"${track.track_name.replace(/\s*\(feat\. [^)]+\)/i, '')}" AND artist:"${track.artist_name}" AND release:"${cleaned_release_name}"`
         const rawTrackMetadata = await fetch(
-            `https://musicbrainz.org/ws/2/recording?fmt=json&query=isrc:${track.additional_info.isrc} OR (recording:"${track.track_name.replace(/\s*\(feat\. [^)]+\)/i, '')}" AND artist:"${track.artist_name}" AND release:"${cleaned_release_name}")`,
+            `https://musicbrainz.org/ws/2/recording?fmt=json&query=${query}`,
         );
 
         if (!rawTrackMetadata.ok) {

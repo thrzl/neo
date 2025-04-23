@@ -1,6 +1,6 @@
 ---
 import ClientRouter from "astro/components/ClientRouter.astro";
-const {neko} = Astro.props
+const {neko, backgroundColor} = Astro.props
 ---
 
 <html lang="en">
@@ -10,7 +10,7 @@ const {neko} = Astro.props
         <link rel="icon" type="image/png" href="/skype/mantelpiece_clock.png" />
         <ClientRouter />
     </head>
-    <body>
+    <body class=`bg-${backgroundColor?.replace("bg-","") || "[--accent-bg-light, #000]"}`>
         { neko && (
             <script src="../assets/oneko.js"></script>
             ) }
@@ -66,7 +66,6 @@ const {neko} = Astro.props
         font-family: "Apple Garamond", serif;
     }
     body {
-        background: var(--accent-bg-light, #000);
         color: var(--accent-text-dark, #000);
         font-family: "Apple Garamond", monospace;
         margin: 0;

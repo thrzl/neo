@@ -50,34 +50,18 @@ export type MusicBrainzRecordingSearch = {
 	offset: number;
 	recordings: Array<{
 		id: string;
-		score: number;
 		title: string;
 		length: number;
-		video: boolean;
 		"artist-credit": Array<{
 			joinphrase?: string;
 			name: string;
 			artist: {
 				id: string;
 				name: string;
-				"sort-name": string;
-				aliases: Array<{
-					"sort-name": string;
-					"type-id": string;
-					name: string;
-					locale?: string;
-					type: string;
-					primary: boolean;
-					"begin-date"?: string;
-					"end-date": string;
-				}>;
 			};
 		}>;
-		"first-release-date": string;
 		releases: Array<{
 			id: string;
-			"status-id": string;
-			count: number;
 			title: string;
 			status: string;
 			disambiguation: string | undefined;
@@ -98,18 +82,8 @@ export type MusicBrainzRecordingSearch = {
 			};
 			date?: string;
 			country?: string;
-			"release-events"?: Array<{
-				date: string;
-				area: {
-					id: string;
-					name: string;
-					"sort-name": string;
-					"iso-3166-1-codes": Array<string>;
-				};
-			}>;
 			"track-count": number;
 			media: Array<{
-				position: number;
 				format: string;
 				track: Array<{
 					id: string;
@@ -124,3 +98,55 @@ export type MusicBrainzRecordingSearch = {
 		isrcs: Array<string>;
 	}>;
 };
+
+export type AniListMedia = {
+	data: {
+		User: {
+			favourites: {
+				anime: {
+					nodes: Array<{
+						title: {
+							english: string
+							native: string
+						}
+						coverImage: {
+							color: string
+						}
+						siteUrl: string
+						bannerImage: string
+					}>
+				}
+			}
+		}
+		MediaList: {
+			user: {
+				name: string
+			}
+			media: {
+				title: {
+					english: string
+					native: string
+				}
+				siteUrl: string
+				bannerImage: string
+			}
+		}
+		MediaListCollection: {
+			lists: Array<{
+				status: string
+				entries: Array<{
+					media: {
+						coverImage: {
+							color: string
+						}
+						title: {
+							english: string
+							native: string
+						}
+						siteUrl: string
+					}
+				}>
+			}>
+		}
+	}
+}

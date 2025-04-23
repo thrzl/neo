@@ -1,0 +1,28 @@
+---
+const links = [
+    { name: "home", slug: "/home" },
+    { name: "blog", slug: "/blog" },
+    { name: "music", slug: "/music" },
+    { name: "links", slug: "/links" },
+];
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="inline">
+    {
+        links.map((link) => (
+            <a
+                href={link.slug}
+                class={`${currentPath.startsWith(link.slug) ? "selected": ""} first:b-l-0 last:b-r-0 italic b-r-green b-r-dotted b-r-2 pl-2 pr-1`}
+            >
+                {link.name}
+            </a>
+        ))
+    }
+</nav>
+
+<style>
+    .selected {
+        @apply font-bold b-2 first:b-l-2 b-green b-solid;
+    }
+</style>
