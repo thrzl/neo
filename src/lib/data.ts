@@ -1,7 +1,7 @@
 export const navBarLinks = [
     { name: "home", slug: "/home" },
     { name: "garden", slug: "/garden" },
-    { name: "music", slug: "/music" },
+    { name: "tunes", slug: "/tunes" },
     { name: "cool places", slug: "/links" },
 ];
 
