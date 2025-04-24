@@ -16,8 +16,17 @@ export default defineConfig({
       {cssExtend: {
         "img": {
           "margin-left": "auto",
-          "margin-right": "auto"
+          "margin-right": "auto",
         },
+        "a": {
+          "text-decoration": "none",
+          "font-style": "italic",
+          "border-bottom": "2px dotted lightgreen"
+          // b-b-dotted b-b-1 b-b-green
+        },
+        "a:hover": {
+          "border-bottom": "1px dotted lightgreen"
+        }
 
       }}
     )]
