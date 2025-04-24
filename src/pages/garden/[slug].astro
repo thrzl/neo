@@ -11,14 +11,13 @@ export async function getStaticPaths() {
         return { params: { slug: post.id } };
     });
 }
-const { slug } = Astro.props
+const { slug } = Astro.params
 
-console.log(slug)
-const post = await getEntry('blog', 'welcome')
+const post = await getEntry('blog', slug)
 const { Content } = await render(post)
 ---
 <Layout title="blog" description="my thoughts and ruminations">
-        <div class="w-full text-center "><a href="/blog" class="mx-auto italic b-b-2 b-green-7 b-dotted hover:text-shadow-[0_0_0.125rem_white] hover:b-green-5">see other posts...</a></div>
+        <div class="w-full text-center "><a href="/garden" class="mx-auto italic b-b-2 b-green-7 b-dotted hover:text-shadow-[0_0_0.125rem_white] hover:b-green-5">see other posts...</a></div>
         <hr class="divider"/>
         <section class="mb-4">
             <h1 class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max">
@@ -26,5 +25,5 @@ const { Content } = await render(post)
             </h1>
             <p class="italic text-base font-normal lowercase op-70">written on {post.data.date.toDateString()}</p>
         </section>
-        <Content/>
+        <div class="prose text-lg"><Content/></div>
 </Layout>
