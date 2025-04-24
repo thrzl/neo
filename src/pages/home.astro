@@ -11,14 +11,6 @@ const post = Object.values(
 const aniListData = await fetchAniListData()
 ---
 
-<script>
-    import Marquee3k from "marquee3000";
-    window.Marquee3k = Marquee3k;
-    document.addEventListener("astro:page-load", () => {
-        Marquee3k.init();
-    });
-</script>
-
 <NewLayout>
     <h2 class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max mb-2">
         about this place

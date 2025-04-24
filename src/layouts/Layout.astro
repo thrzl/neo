@@ -7,6 +7,14 @@ import Footer from "../components/Footer.astro";
 
 ---
 
+<script>
+    import Marquee3k from "marquee3000";
+    window.Marquee3k = Marquee3k;
+    document.addEventListener("astro:page-load", () => {
+        Marquee3k.init();
+    });
+</script>
+
 <Html backgroundColor={backgroundColor}>
     <div class="grid lg:grid-cols-[25%_50%_25%] justify-center text-white">
         <Sidebar/>
