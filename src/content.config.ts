@@ -5,6 +5,7 @@ const blog = defineCollection({ loader: glob({pattern: "**/*.md", base: "./src/p
     title: z.string(),
     description: z.string(),
     date: z.coerce.date(),
+    tags: z.array(z.string()).optional()
 }) });
 
 export const collections = { blog };

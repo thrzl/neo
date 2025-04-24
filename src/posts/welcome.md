@@ -3,6 +3,7 @@ date: 2025-04-23
 title: "welcome, welcome"
 description: "hey!"
 layout: "../layouts/Layout.astro"
+tags: ["site"]
 ---
 
 **thanks for visiting my site!**
