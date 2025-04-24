@@ -1,12 +1,11 @@
 ---
+import { getCollection } from "astro:content";
 import PageCard from "../components/PageCard.astro";
 import NowPlaying from "../components/islands/NowPlaying.svelte";
 import NewLayout from "../layouts/Layout.astro";
 
 import { fetchAniListData } from "../lib/build-time-data";
-const post = Object.values(
-    import.meta.glob("./blog/**/*.md", { eager: true }),
-)[0];
+const post = (await getCollection('blog')).sort((a, b) => b.data.date - a.data.date).filter(post => !post.data.draft)[0];
 
 const aniListData = await fetchAniListData()
 ---
@@ -88,12 +87,12 @@ const aniListData = await fetchAniListData()
     <div class="flex justify-center flex-row flex-wrap gap-4">
         <PageCard title="blog" noPadding class="flex-basis-48">
             {
-                post?.frontmatter ? (
+                post?.data ? (
                     <div class="p-2 px-4 text-center">
                         <h3 class="text-2xl text-wrap font-bold">
-                            {post.frontmatter.title}
+                            {post.data.title}
                         </h3>
-                        <p class="text-wrap">{post.frontmatter.description}</p>
+                        <p class="text-wrap">{post.data.description}</p>
                     </div>
                 ) : (
                     <div class="p-2 px-4 text-center">
