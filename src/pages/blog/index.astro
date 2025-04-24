@@ -3,18 +3,45 @@ import Layout from "../../layouts/Layout.astro";
 import LinkCard from "../../components/LinkCard.astro";
 import Marquee from "../../components/Marquee.astro";
 const blogPosts = Object.values(
-	import.meta.glob("./**/*.md", {
-		eager: true,
-	}),
-);
+    import.meta.glob("./**/*.md", {
+        eager: true,
+    }),
+).sort((a, b) => a.date.localeCompare(b.date));
+
+function formatDate(date: string): string {
+    return new Date(date).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        })
+}
 ---
 
 <Layout title="blog" description="my thoughts and ruminations">
-    <Marquee>recent writing</Marquee>
-    <ul>
-        {blogPosts.map((post: any) => <LinkCard url={post.url} title={post.frontmatter.title} description={post.frontmatter.description}/>)}
-        { blogPosts.length < 3 && (
-            <LinkCard title="more posts coming soon" description="check back later!" disabled/>
-        )}
+    <ul class="">
+        {
+            blogPosts.map((post: any) => (
+                <Fragment>
+                    <section class="mb-4" id={post.frontmatter.slug}>
+                        <h1 class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max">
+                            {post.frontmatter.title} <br/>
+                        </h1>
+                        <p class="italic text-base font-normal lowercase op-70">written on {formatDate(post.frontmatter.date)}</p>
+                        <div class="prose text-lg mt-4 px-4 max-w-full b-4 b-dashed b-green-8">
+                            <post.Content />
+                        </div>
+                    </section>
+                </Fragment>
+            ))
+        }
+        {
+            blogPosts.length < 3 && (
+                <LinkCard
+                    title="more posts coming soon"
+                    description="check back later!"
+                    disabled
+                />
+            )
+        }
     </ul>
 </Layout>
