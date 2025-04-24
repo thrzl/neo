@@ -12,10 +12,22 @@ import Footer from "../components/Footer.astro";
     window.Marquee3k = Marquee3k;
     document.addEventListener("astro:page-load", () => {
         Marquee3k.init();
+
+        // scroll position
+        const scrollPosition = sessionStorage.getItem("scrollPosition");
+        if (scrollPosition) {
+            window.scrollTo(0, parseInt(scrollPosition, 10));
+        }
     });
+    document.addEventListener("astro:before-preparation", () => {
+        sessionStorage.setItem("scrollPosition", window.scrollY.toString());
+    });
+
+
 </script>
 
 <Html backgroundColor={backgroundColor}>
+
     <div class="grid lg:grid-cols-[25%_50%_25%] justify-center text-white">
         <Sidebar/>
         <main
