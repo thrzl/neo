@@ -3,29 +3,48 @@ import Layout from "../../layouts/Layout.astro";
 import LinkCard from "../../components/LinkCard.astro";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
-const blogPosts: CollectionEntry<'blog'>[] = await getCollection('blog')
+const blogPosts: CollectionEntry<"blog">[] = await getCollection("blog");
 
-console.log(blogPosts[0].rendered.html)
 function formatDate(date: string): string {
     return new Date(date).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-        })
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
 }
 ---
 
 <Layout title="garden" description="my thoughts and ruminations">
-    <ul class="">
+    <a href="/rss.xml" class="b-b-dotted b-b-2 b-b-green hover:b-b-1">
+        <svg
+            class="text-orange inline"
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            viewBox="0 0 24 24"
+            ><path
+                fill="currentColor"
+                d="M22 2V1H2v1H1v20h1v1h20v-1h1V2zm-6 16v-3h-1v-2h-1v-1h-1v-1h-1v-1h-1V9H9V8H7V7H4V4h3v1h2v1h2v1h2v1h1v1h1v1h1v1h1v2h1v2h1v2h1v3h-3v-2zm-5 0v-2h-1v-1H9v-1H8v-1H6v-1H4V9h2v1h2v1h2v1h1v1h1v1h1v2h1v2h1v2h-3v-2zm-7 1v-3h1v-1h3v1h1v3H8v1H5v-1z"
+            ></path></svg
+        > 
+        <!-- from yesicon.app -->
+        subscribe via rss
+    </a>
+    <ul class="mt-2">
         {
             blogPosts.map((post: any) => (
                 <Fragment>
                     <section class="mb-4" id={post.id}>
                         <h1 class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max">
-                            {post.data.title} <br/>
+                            {post.data.title} <br />
                         </h1>
-                        <p class="italic text-base font-normal lowercase op-70">written on {post.data.date.toDateString()}</p>
-                        <div class="prose text-lg mt-4 px-4 max-w-full b-4 b-dashed b-green-8" set:html={post.rendered.html}> 
+                        <p class="italic text-base font-normal lowercase op-70">
+                            written on {post.data.date.toDateString()}
+                        </p>
+                        <div
+                            class="prose text-lg mt-4 px-4 max-w-full b-4 b-dashed b-green-8"
+                            set:html={post.rendered.html}
+                        >
                             {/* oooooo xss.... */}
                         </div>
                     </section>
