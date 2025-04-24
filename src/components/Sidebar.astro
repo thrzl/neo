@@ -46,15 +46,14 @@ if (import.meta.env.PROD) {
     href=`https://github.com/thrzl/neo/commit/${commit.hash}`
     class="link italic op-75 hover:op-100 mr-2 duration-250">{commit.hash}</a
   ><p class="inline pl-2 b-l-1 b-dotted b-green-7">{commit.message}</p>
-  <h2 class="font-bold text-lg mt-4">cool people</h2>
-  <div class="flex flex-col gap-y-1 mt-1">
+  <h2 class="font-bold text-lg mt-4">buttons</h2>
+  <div class="flex flex-col gap-y-1 mt-1" id="buttons">
     <a href="https://melankorin.net/">
       <img
         width="88px"
         height="31px"
         src="https://melankorin.net/assets/img/buttons/button-1.gif"
         alt="melankorin.net button"
-        class="float-right"
       />
     </a>
     <a href="https://fourstar.nekoweb.org"
@@ -63,8 +62,14 @@ if (import.meta.env.PROD) {
         height="31px"
         src="https://fourstar.nekoweb.org/88x31.gif"
         alt="FourStar button"
-        class="float-right"
       /></a
     >
+    <a href="https://nekoweb.org/"><img src="https://nekoweb.org/assets/buttons/button5.gif"></a><!-- button by max.nekoweb.org -->
   </div>
 </div>
+
+<style>
+div#buttons > a > img {
+  float: right
+}
+</style>
