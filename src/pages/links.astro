@@ -1,12 +1,6 @@
 ---
 import LinkCard from "../components/LinkCard.astro";
 import Layout from "../layouts/Layout.astro";
-import Marquee from "../components/Marquee.astro";
-const my_links = [
-    {title: "github", description: "my code and other works", url: "https://github.com/thrzl"},
-    {title: "bluesky", description: "i do not use this", url: "https://bsky.app/thrzl"},
-    {title: "listenbrainz", description: "see what i've been listening to", url: "https://listenbrainz.org/user/thrizzle/"},
-]
 
 const design_stuff = [
     {title: "cari institute", description: "the consumer aesthetics research institute website, a catalog of various design eras", url: "https://cari.institute/"},
@@ -27,20 +21,8 @@ const apps_services = [
 ]
 ---
 
-<Layout title="links">
-    <Marquee>things you should see</Marquee>
+<Layout title="links" description="an assortion of some of my favorite places on the net">
     <div class="p-2">
-        <h1 class="text-5xl lg:text-3xl font-bold pb-0.5 mb-4 w-max b-b-1 b-solid b-[--accent-bg-light]">elsewhere on the net</h1>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 mb-10 grid-rows-[masonry]">
-            {my_links.map((link) => (
-                <LinkCard
-                    url={link.url}
-                    title={link.title}
-                    description={link.description}
-                    marginY="0"
-                />
-            ))}
-        </div>
         <h1 class="text-5xl lg:text-3xl font-bold pb-0.5 mb-4 w-max b-b-1 b-solid b-[--accent-bg-light]">design & font</h1>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 mb-10 grid-rows-[masonry]">
             {design_stuff.map((link) => (

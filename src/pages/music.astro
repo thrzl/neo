@@ -10,8 +10,7 @@ const ranges = [
 ];
 ---
 
-<Layout title="music">
-    <Marquee margin="0">what i've been listening to</Marquee>
+<Layout title="music" description="my recent top albums">
     <div>
         <ul class="flex justify-center py-1.5 m-0 list-none px-2" data-tabs>
             {ranges.map((range) => (
@@ -33,11 +32,11 @@ const ranges = [
 
 <style>
     ul{
-        background: var(--accent-bg-light, #fff);
+        background: rgb(22 101 52 / var(--un-bg-opacity));
     }
     ul > li > a {
         text-decoration: none;
-        color: var(--accent-text-light, #000);
+        color: #fff;
         background: transparent;
         font-weight: bold;
         padding: 0.4rem 1.5rem;
@@ -47,13 +46,16 @@ const ranges = [
         border-top: none;
     }
     ul > li > a[aria-selected="true"], ul > li > a:hover {
-        color: var(--accent-text-dark, #fff);
-        background-color: var(--accent-bg-dark, #000);
-        border: var(--accent-bg-light, #fff) 2px solid;
-        border-top: none
+        color: var(--accent-text-dark);
+        background-color: rgb(20 83 45 / var(--un-bg-opacity));
+        border: var(--accent-bg-light) 2px solid;
+        border-top: none;
+        text-shadow: #fff 0px 0px 0.125rem
     }
 
     :root {
-        --accent-muted-dark: #000 /* compat for old variable */
+        --accent-muted-dark: #000; /* compat for old variable */
+        --accent-bg-light: rgb(22 101 52 / var(--un-bg-opacity));
+        --accent-bg-dark: rgb(20 83 45 / var(--un-bg-opacity))
     }
 </style>

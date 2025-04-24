@@ -1,8 +1,8 @@
 ---
 import Navbar from "../components/SideNavbar.astro";
 import { personalLinks } from "../lib/data";
-import MastodonRecent from "../components/islands/MastodonRecent.svelte"
-let commit: {message: string, hash: string};
+import MastodonRecent from "../components/islands/MastodonRecent.svelte";
+let commit: { message: string; hash: string };
 if (import.meta.env.PROD) {
   const commitRes = await (
     await fetch("https://api.github.com/repos/thrzl/neo/commits?per_page=1")
@@ -12,37 +12,59 @@ if (import.meta.env.PROD) {
     hash: commitRes[0].sha.slice(0, 7),
   };
 } else {
-  commit = {message: "now working!", hash: "1234567"}
+  commit = { message: "now working!", hash: "1234567" };
 }
 ---
 
 <div
-            class="hidden justify-self-end w-full lg:inline-block max-w-64 align-top mt-76 px-8 text-right b-r-green-8 b-solid b-r-1"
-        >
-            <h2 class="font-bold text-lg">navigation</h2>
-            <Navbar />
-            <h2 class="font-bold text-lg mt-4">links</h2>
-            <ul class="justify-items-end text-right">
-                {
-                    personalLinks.map((link: {title: string, url: string, relMe?: boolean}) => (
-                        <li>
-                            <a
-                                href={link.url}
-                                class="block b-b-2 b-green-7 b-dotted hover:text-shadow-[0_0_0.125rem_white] hover:b-green-5"
-                                rel={link.relMe?.toString()}
-                            >
-                                {link.title}
-                            </a>
-                        </li>
-                    ))
-                }
-            </ul>
-            <h2 class="font-bold text-lg mt-4">status</h2>
-            <MastodonRecent client:visible="svelte" transition:persist/>
-            <h2 class="font-bold text-lg mt-4">changelog</h2>
+  class="hidden justify-self-end w-full lg:inline-block max-w-64 align-top mt-76 px-8 text-right b-r-green-8 b-solid b-r-1"
+>
+  <h2 class="font-bold text-lg">navigation</h2>
+  <Navbar />
+  <h2 class="font-bold text-lg mt-4">links</h2>
+  <ul class="justify-items-end text-right">
+    {
+      personalLinks.map(
+        (link: { title: string; url: string; relMe?: boolean }) => (
+          <li>
             <a
-              href=`https://github.com/thrzl/neo/commit/${commit.hash}`
-              class="link italic op-75 hover:op-100 mr-2 duration-250"
-              >{commit.hash}</a
-            ><p class="inline pl-2 b-l-1 b-dotted b-green-7">{commit.message}</p>
-        </div>
+              href={link.url}
+              class="block b-b-2 b-green-7 b-dotted hover:text-shadow-[0_0_0.125rem_white] hover:b-green-5"
+              rel={link.relMe ? "me" : ""}
+            >
+              {link.title}
+            </a>
+          </li>
+        ),
+      )
+    }
+  </ul>
+  <h2 class="font-bold text-lg mt-4">status</h2>
+  <MastodonRecent client:visible="svelte" transition:persist />
+  <h2 class="font-bold text-lg mt-4">changelog</h2>
+  <a
+    href=`https://github.com/thrzl/neo/commit/${commit.hash}`
+    class="link italic op-75 hover:op-100 mr-2 duration-250">{commit.hash}</a
+  ><p class="inline pl-2 b-l-1 b-dotted b-green-7">{commit.message}</p>
+  <h2 class="font-bold text-lg mt-4">cool people</h2>
+  <div class="flex flex-col gap-y-1 mt-1">
+    <a href="https://melankorin.net/">
+      <img
+        width="88px"
+        height="31px"
+        src="https://melankorin.net/assets/img/buttons/button-1.gif"
+        alt="melankorin.net button"
+        class="float-right"
+      />
+    </a>
+    <a href="https://fourstar.nekoweb.org"
+      ><img
+        width="88px"
+        height="31px"
+        src="https://fourstar.nekoweb.org/88x31.gif"
+        alt="FourStar button"
+        class="float-right"
+      /></a
+    >
+  </div>
+</div>

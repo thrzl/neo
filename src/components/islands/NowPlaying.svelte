@@ -151,7 +151,7 @@
 			<p
 				class="text-white text-4xl !line-height-none font-800 text-center w-4/5"
 			>
-				{(track.mbid_mapping?.recording_name || track.track_name)
+				{(track.mbid_mapping?.recording_name || track.track_name.replace(/\s*\(feat\. [^)]+\)/i, ""))
 					.toRespectfulLowerCase()
 					.replaceAll("’", "'")}
 			</p>
