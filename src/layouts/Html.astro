@@ -6,7 +6,7 @@ const {neko, backgroundColor} = Astro.props
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <title>/thrizzle{Astro.url.pathname}</title>
+        <title>/thrizzle{Astro.url.pathname.endsWith("/") ? Astro.url.pathname.slice(0,-1) : Astro.url.pathname}</title>
         <link rel="icon" type="image/png" href="/skype/mantelpiece_clock.png" />
         <ClientRouter />
     </head>
