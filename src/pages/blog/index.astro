@@ -1,13 +1,11 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import LinkCard from "../../components/LinkCard.astro";
-import Marquee from "../../components/Marquee.astro";
-const blogPosts = Object.values(
-    import.meta.glob("./**/*.md", {
-        eager: true,
-    }),
-).sort((a, b) => a.date.localeCompare(b.date));
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+const blogPosts: CollectionEntry<'blog'>[] = await getCollection('blog')
 
+console.log(blogPosts[0].rendered.html)
 function formatDate(date: string): string {
     return new Date(date).toLocaleDateString("en-US", {
             year: "numeric",
@@ -22,13 +20,13 @@ function formatDate(date: string): string {
         {
             blogPosts.map((post: any) => (
                 <Fragment>
-                    <section class="mb-4" id={post.frontmatter.slug}>
+                    <section class="mb-4" id={post.id}>
                         <h1 class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max">
-                            {post.frontmatter.title} <br/>
+                            {post.data.title} <br/>
                         </h1>
-                        <p class="italic text-base font-normal lowercase op-70">written on {formatDate(post.frontmatter.date)}</p>
-                        <div class="prose text-lg mt-4 px-4 max-w-full b-4 b-dashed b-green-8">
-                            <post.Content />
+                        <p class="italic text-base font-normal lowercase op-70">written on {post.data.date.toDateString()}</p>
+                        <div class="prose text-lg mt-4 px-4 max-w-full b-4 b-dashed b-green-8" set:html={post.rendered.html}> 
+                            {/* oooooo xss.... */}
                         </div>
                     </section>
                 </Fragment>
