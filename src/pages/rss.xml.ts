@@ -13,6 +13,6 @@ export async function GET(context) {
         title: "thrizzle's garden",
         description: "my hopes, dreams, thoughts and my schemes",
         site: context.site,
-        items: blogPosts.map((post) => ({title: post.data.title, description: post.data.description, pubDate: post.data.date, link: `blog/${post.id}`, content: post.body}))
+        items: blogPosts.map((post) => ({title: post.data.title, description: post.data.description, pubDate: post.data.date, link: `garden/${post.id}`, content: post.body}))
     })
 }
