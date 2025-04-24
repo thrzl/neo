@@ -2,7 +2,6 @@
 date: 2025-04-24
 title: "soulless design"
 description: "why can't we go back?"
-draft: true
 ---
 
 this one's going to be pretty short, but still:
