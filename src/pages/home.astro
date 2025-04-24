@@ -81,33 +81,6 @@ const aniListData = await fetchAniListData()
                 </li>
         </ul>
     </div>
-    <h2 class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max my-4 mx-auto">
-        other pages
-    </h2>
-    <div class="flex justify-center flex-row flex-wrap gap-4">
-        <PageCard title="blog" noPadding class="flex-basis-48">
-            {
-                post?.data ? (
-                    <div class="p-2 px-4 text-center">
-                        <h3 class="text-2xl text-wrap font-bold">
-                            {post.data.title}
-                        </h3>
-                        <p class="text-wrap">{post.data.description}</p>
-                    </div>
-                ) : (
-                    <div class="p-2 px-4 text-center">
-                        <h3 class="text-2xl text-wrap font-bold">
-                            nothing here yet
-                        </h3>
-                        <p class="text-wrap">come back soon</p>
-                    </div>
-                )
-            }
-        </PageCard>
-        <PageCard title="music" noPadding class="flex-basis-48">
-            <NowPlaying client:visible="svelte" />
-        </PageCard>
-    </div>
 </NewLayout>
 
 <style>
