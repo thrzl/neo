@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.3.1",
     "@astrojs/svelte": "^7.0.11",
     "@gouch/to-title-case": "^2.2.1",
     "@unocss/reset": "^66.1.0-beta.12",
