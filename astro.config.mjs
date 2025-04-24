@@ -12,7 +12,15 @@ export default defineConfig({
   integrations: [svelte(), UnoCSS({
     injectReset: true,
     transformers: [transformerDirectives()],
-    presets: [presetWind3(), presetTypography()]
+    presets: [presetWind3(), presetTypography(
+      {cssExtend: {
+        "img": {
+          "margin-left": "auto",
+          "margin-right": "auto"
+        },
+
+      }}
+    )]
   }), sitemap()],
   site: "https://thrizzle.nekoweb.org",
 });
