@@ -45,7 +45,7 @@ function formatDate(date: string): string {
     <section class="mt-2 h-feed">
         <span class="hidden p-name">thrizzle's garden</span>
         {
-            blogPosts.sort((a, b) => {return b.data.date - a.data.date}).map((post: any) => (
+            blogPosts.sort((a, b) => {return b.data.date - a.data.date}).map((post) => (
                 <Fragment>
                     <article class="h-entry mb-4" id={post.id}>
                         <a href={`${Astro.site?.href.replace(/\/$/, "")}/garden/${post.id}`} class="group w-max block">
@@ -54,12 +54,13 @@ function formatDate(date: string): string {
                             </h1>
                             <svg class="h-4 hidden transition-[color,transform] duration-1000 scale-100 group-active:transition-none group-hover:inline group-active:scale-125 ml-1 group-active:text-green " fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M4 6h7v2H4v8h7v2H2V6h2zm16 0h-7v2h7v8h-7v2h9V6h-2zm-3 5H7v2h10v-2z" fill="currentColor"/> </svg>
                         </a>
-                        <time datetime={post.data.date} class="dt-published italic text-base font-normal lowercase op-70">
+                        <a rel="author" class="p-author h-card hidden" href={Astro.site}>thrizzle</a>
+                        <time datetime={post.data.date.toISOString()} class="dt-published italic text-base font-normal lowercase op-70">
                             written on {post.data.date.toDateString()}
                         </time>
                         <div
                             class="prose text-lg mt-4 px-4 max-w-full b-4 b-dashed b-green-8 e-content"
-                            set:html={post.rendered.html}
+                            set:html={post.rendered.html} // we WANT this to error if it can't render
                         >
                             {/* oooooo xss.... */}
                         </div>
