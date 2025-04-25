@@ -22,6 +22,8 @@ i honestly can only name one modern UI that fits these two criteria, and the tit
 
 even back to the 3DS; notice how the game graphic is floating just in front of the screen, while the background sits far behind the screen. you're literally looking into the console's universe. even the existence of miis lend to the 3DS UI being its own little world.
 
-![3ds home menu](/src/assets/blog_images/3dshome.png)
+
+![3ds home menu](/blog_images/3dshome.png)
+
 
 photo is from [rodrigo copetti's blog post](https://www.copetti.org/writings/consoles/nintendo-3ds/) about the details of the 3DS' hardware and software.
