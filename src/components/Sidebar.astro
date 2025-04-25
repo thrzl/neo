@@ -3,15 +3,46 @@ import Navbar from "../components/SideNavbar.astro";
 import { personalLinks } from "../lib/data";
 import MastodonRecent from "../components/islands/MastodonRecent.svelte";
 let commit: { message: string; hash: string };
+let websiteCarbon: {
+    cleanerThan: number;
+    rating: string;
+    statistics: {
+      co2: {
+        renewable: {
+          grams: number;
+        };
+      };
+    };
+  };
+
 if (import.meta.env.PROD) {
   const commitRes = await (
     await fetch("https://api.github.com/repos/thrzl/neo/commits?per_page=1")
   ).json();
+  
   commit = {
     message: commitRes[0].commit.message,
     hash: commitRes[0].sha.slice(0, 7),
   };
+
+  // website carbon
+  websiteCarbon = await (
+    await fetch(
+      "https://api.websitecarbon.com/site?url=https://thrizzle.nekoweb.org",
+    )
+  ).json();
 } else {
+  websiteCarbon = {
+    cleanerThan: 0.50,
+    rating: "Z-",
+    statistics: {
+      co2: {
+        renewable: {
+          grams: 0.020796548100672666,
+        },
+      },
+    },
+  }
   commit = { message: "now working!", hash: "1234567" };
 }
 ---
@@ -64,13 +95,21 @@ if (import.meta.env.PROD) {
         alt="FourStar button"
       /></a
     >
-    <a href="https://sailorichigo.nekoweb.org/"><img src="https://sailorichigo.nekoweb.org/images/sailorichigo.gif" alt="sailorichigo"></a>
-    <a href="https://nekoweb.org/"><img src="https://nekoweb.org/assets/buttons/button5.gif"></a><!-- button by max.nekoweb.org -->
+    <a href="https://sailorichigo.nekoweb.org/"
+      ><img
+        src="https://sailorichigo.nekoweb.org/images/sailorichigo.gif"
+        alt="sailorichigo"
+      /></a
+    >
+    <a href="https://nekoweb.org/"
+      ><img src="https://nekoweb.org/assets/buttons/button5.gif" /></a
+    ><!-- button by max.nekoweb.org -->
   </div>
+  <p class="mt-6 italic text-green-6 hover:text-white">this website uses about {websiteCarbon.statistics.co2.renewable.grams.toPrecision(3)} grams of CO2 per load. that's in the top {websiteCarbon.cleanerThan*100}% of all websites!</p>
 </div>
 
 <style>
-div#buttons > a > img {
-  float: right
-}
+  div#buttons > a > img {
+    float: right;
+  }
 </style>
