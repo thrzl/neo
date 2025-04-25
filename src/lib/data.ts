@@ -9,7 +9,8 @@ export const personalLinks = [
     { title: "mastodon", url: "https://wetdry.world/@thrizzle", relMe: true },
     { title: "github", url: "https://github.com/thrzl" },
     { title: "website source", url: "https://github.com/thrzl/neo" },
-    { title: "listenbrainz", url: "https://listenbrainz.org/user/thrizzle/" }
+    { title: "listenbrainz", url: "https://listenbrainz.org/user/thrizzle/" },
+    { title: "spacehey", url: "https://spacehey.com/thrizzle"}
 ]
 
 export const linksPage = {
