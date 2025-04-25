@@ -17,12 +17,22 @@ const { slug } = Astro.params
 const post = await getEntry('blog', slug)
 const { Content } = await render(post)
 ---
+<script>
+    document.addEventListener("astro:page-load", () => {
+        document.querySelectorAll("[copyValue]").forEach((element) => {element.addEventListener('click', ()=> {
+            navigator.clipboard.writeText(element.getAttribute("copyValue"))
+        })})
+    })
+</script>
 <Layout title="garden" description="my thoughts and ruminations">
         <div class="w-full text-center "><a href="/garden" class="mx-auto italic b-b-2 b-green-7 b-dotted hover:text-shadow-[0_0_0.125rem_white] hover:b-green-5">see other posts...</a></div>
         <hr class="divider"/>
         <section class="mb-4">
-            <h1 class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max">
-                {post.data.title} <br/>
+            <h1 class="group w-max block" copyValue={Astro.url}>
+                <span class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max inline-block cursor-pointer p-name">
+                    {post.data.title}
+                </span>
+                <svg class="h-4 hidden transition-[color,transform] duration-1000 scale-100 group-active:transition-none group-hover:inline group-active:scale-125 ml-1 group-active:text-green " fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"> <path d="M4 6h7v2H4v8h7v2H2V6h2zm16 0h-7v2h7v8h-7v2h9V6h-2zm-3 5H7v2h10v-2z" fill="currentColor"/> </svg>
             </h1>
             <p class="italic text-base font-normal lowercase op-70">written on {post.data.date.toDateString()}</p>
         </section>
