@@ -16,7 +16,7 @@ const { slug } = Astro.params
 const post = await getEntry('blog', slug)
 const { Content } = await render(post)
 ---
-<Layout title="blog" description="my thoughts and ruminations">
+<Layout title="garden" description="my thoughts and ruminations">
         <div class="w-full text-center "><a href="/garden" class="mx-auto italic b-b-2 b-green-7 b-dotted hover:text-shadow-[0_0_0.125rem_white] hover:b-green-5">see other posts...</a></div>
         <hr class="divider"/>
         <section class="mb-4">
