@@ -7,7 +7,7 @@ const currentPath = Astro.url.pathname;
             navBarLinks.map((link) => (
                 <a
                     href={link.slug}
-                    class={`${currentPath.startsWith(link.slug) ? "selected": ""} pl-4 pr-3 b-l-2 first:b-l-0 b-green-7 b-dotted hover:text-shadow-[0_0_0.125rem_white] hover:b-green-5`}
+                    class={`${currentPath.startsWith(link.slug) ? "selected": ""} pl-4 pr-3 b-l-2 first:b-l-0 b-green-7 b-dotted hover:text-glow hover:b-green-5`}
                 >
                     {link.name}
                 </a>
@@ -17,6 +17,6 @@ const currentPath = Astro.url.pathname;
 
 <style>
     .selected {
-        @apply font-bold text-shadow-[0_0_0.125rem_white];
+        @apply font-bold text-glow;
     }
 </style>
