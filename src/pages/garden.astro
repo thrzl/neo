@@ -48,7 +48,7 @@ function formatDate(date: string): string {
             blogPosts.sort((a, b) => {return b.data.date - a.data.date}).map((post) => (
                 <Fragment>
                     <article class="h-entry mb-4" id={post.id}>
-                        <a href={`${Astro.site?.href.replace(/\/$/, "")}/garden/${post.id}`} class="group w-max block">
+                        <a href={`${import.meta.env.PROD ? Astro.site?.href.replace(/\/$/, "") : ""}/garden/${post.id}`} class="group w-max block">
                             <h1 class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max inline-block cursor-pointer p-name">
                                 {post.data.title}
                             </h1>
