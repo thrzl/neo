@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import { render } from "astro:content";
 import { getEntry, getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
+import WebmentionComments from "../../components/islands/WebmentionComments.svelte"
 
 export async function getStaticPaths() {
     const posts: CollectionEntry<'blog'>[] = await getCollection('blog')
@@ -26,4 +27,5 @@ const { Content } = await render(post)
             <p class="italic text-base font-normal lowercase op-70">written on {post.data.date.toDateString()}</p>
         </section>
         <div class="prose text-lg"><Content/></div>
+        <WebmentionComments client:visible="svelte"/>
 </Layout>

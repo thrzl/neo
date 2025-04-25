@@ -9,6 +9,8 @@ const {neko, backgroundColor} = Astro.props
         <title>/thrizzle{Astro.url.pathname.endsWith("/") ? Astro.url.pathname.slice(0,-1) : Astro.url.pathname}</title>
         <link rel="icon" type="image/png" href="/skype/mantelpiece_clock.png" />
         <link rel="webmention" href="https://webmention.io/thrizzle.nekoweb.org/webmention" />
+        <link rel="authorization_endpoint" href="https://indieauth.com/auth">
+        <link rel="token_endpoint" href="https://tokens.indieauth.com/token">
         <ClientRouter />
     </head>
     <body class=`bg-${backgroundColor?.replace("bg-","") || "[--accent-bg-light, #000]"}`>
