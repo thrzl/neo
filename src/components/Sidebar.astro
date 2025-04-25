@@ -56,12 +56,12 @@ if (import.meta.env.PROD) {
   <ul class="justify-items-end text-right">
     {
       personalLinks.map(
-        (link: { title: string; url: string; relMe?: boolean }) => (
+        (link: { title: string; url: string; notRelMe?: boolean }) => (
           <li>
             <a
               href={link.url}
               class="block b-b-2 b-green-7 b-dotted hover:text-shadow-[0_0_0.125rem_white] hover:b-green-5"
-              rel={link.relMe ? "me" : ""}
+              rel={!link.notRelMe ? "me" : ""}
             >
               {link.title}
             </a>

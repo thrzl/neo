@@ -1,6 +1,8 @@
 ---
 import Html from "../layouts/Html.astro"
 import NowPlayingText from "../components/islands/NowPlayingText.svelte"
+
+import { personalLinks } from "../lib/data"
 ---
 
 <Html neko>
@@ -10,7 +12,16 @@ import NowPlayingText from "../components/islands/NowPlayingText.svelte"
         <p class="text-2xl">you are now entering the home of the sun</p>
         <a href="/home" class="link italic text-2xl text-green-7 animate-[boil]">enter</a>
     </div>
-    <a class="hidden" rel="me" href="https://wetdry.world/@thrizzle">Mastodon</a>
+    <div class="hidden" id="rel-me-links">
+        {personalLinks.map((link) => (
+            <a
+              href={link.url}
+              {...(!link.notRelMe ? {rel: "me"} : {})}
+            >
+              {link.title}
+            </a>
+        ))}
+    </div>
 </Html>
 
 <style>
