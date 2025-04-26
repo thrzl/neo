@@ -79,7 +79,7 @@ function formatDate(date: string): string {
                                 written on {post.data.date.toDateString()}
                             </time>
                             <div
-                                class="prose text-lg mt-4 px-4 max-w-full b-4 b-dashed b-green-8 e-content inline-block"
+                                class="prose text-2xl lg:text-lg mt-4 px-4 max-w-full b-4 b-dashed b-green-8 e-content inline-block"
                                 set:html={truncate(post.rendered.html, 250)}
                             >
                                 {/* oooooo xss.... */}

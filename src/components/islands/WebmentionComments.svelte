@@ -35,7 +35,7 @@
         class="text-green font-bold text-sm italic u-author h-card"
         >{comment.author.name}</a
       >
-      <p class="prose text-2xl p-content p-name">{comment.content.text}</p>
+      <p class="prose lg:text-2xl text-4xl p-content p-name">{comment.content.text}</p>
       <div class="flex justify-between items-end w-full">
         <time
           class="text-sm dt-published lowercase italic"
