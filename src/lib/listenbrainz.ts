@@ -44,10 +44,7 @@ export default async function getRecentTrack() {
             console.error(
                 "failed to fetch metadata lookup for now playing recording",
             );
-            return {
-                track: recentTrackData.listens[0].track_metadata,
-                now_playing: recentTrackData.listens[0].listened_at === undefined,
-            };
+            return recentTrackData;
         }
 
         const trackMetadata: MusicBrainzRecordingSearch =
@@ -73,10 +70,7 @@ export default async function getRecentTrack() {
             console.error("no valid media found for the current track! :(");
             console.error("case check: ",  matchedRecording?.releases[0]?.title.toLowerCase() !== cleaned_release_name.toLowerCase())
             console.error("isrc check: ", !matchedRecording?.isrcs?.includes(track.additional_info.isrc))
-            return {
-                track: recentTrackData.listens[0].track_metadata,
-                now_playing: recentTrackData.listens[0].listened_at === undefined,
-            };
+            return recentTrackData;
         }
 
         // first release where media.format[0] is Digital Media
@@ -100,8 +94,5 @@ export default async function getRecentTrack() {
             })),
         };
     }
-    return {
-        track: recentTrackData.listens[0].track_metadata,
-        now_playing: recentTrackData.listens[0].listened_at === undefined,
-    };
+    return recentTrackData;
 }

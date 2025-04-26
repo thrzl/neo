@@ -1,4 +1,5 @@
 export type ListenBrainzRes = {
+	latest_listen_ts: number | undefined;
 	listens: Array<{
 		inserted_at: number;
 		listened_at: number | null;
