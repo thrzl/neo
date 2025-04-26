@@ -1,52 +1,102 @@
 ---
-import Html from "../layouts/Html.astro"
-import NowPlayingText from "../components/islands/NowPlayingText.svelte"
+import { getCollection } from "astro:content";
+import PageCard from "../components/PageCard.astro";
+import NowPlaying from "../components/islands/NowPlaying.svelte";
+import NewLayout from "../layouts/Layout.astro";
 
-import { personalLinks } from "../lib/data"
+import { fetchAniListData } from "../lib/build-time-data";
+const post = (await getCollection('blog')).sort((a, b) => b.data.date - a.data.date).filter(post => !post.data.draft)[0];
+
+const aniListData = await fetchAniListData()
 ---
 
-<Html neko>
-    <div class="text-white bg-black h-screen w-screen flex justify-center items-center align-middle flex-col">
-        <NowPlayingText client:only="svelte"/>
-        <h1 class="text-6xl font-bold w-max h-min flex items-end">thrizzle<img class="h-4 w-4 mb-2 inline animate-[spin_7.5s_infinite_linear]" src="sun.svg"/></h1>
-        <p class="text-2xl">you are now entering the home of the sun</p>
-        <a href="/home" class="link italic text-2xl text-green-7 animate-[boil]">enter</a>
+<NewLayout>
+    <h2 class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max mb-2">
+        about this place
+    </h2>
+    <p class="text-lg mb-2">welcome / ようこそ！</p>
+    <p class="text-base mb-2">
+        this site will act as my output to the rest of the world. i need to
+        express my thoughts somehow and this seems like an effective way to do
+        so. i first was inspired to get into neocities/the new web1.0 by 4star
+        and melankorin (u should check their websites out!)
+    </p>
+    <div>
+        <h2 class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max mb-2">
+            about myself
+        </h2>
+        <h3 class="font-bold text-xl">interests</h3>
+        <ul>
+            <li>
+                <span class="list-header">language</span>
+                <br />
+                i've recently gotten into it. i'm by no means an expert, but i'm
+                currently learning japanese and looking more into the field of linguistics
+                itself
+            </li>
+            <li>
+                <span class="list-header">computers</span>
+                <br />
+                i've long been interested in computers, especially hardware. i built
+                my own computer, and love tinkering with older computers
+            </li>
+            <li>
+                <span class="list-header">underground alt hip-hop</span>
+                <br />
+                specific, i know
+            </li>
+        </ul>
+        <h3 class="font-bold text-xl mt-2">anime</h3>
+        <p class="mb-1">im not really super into anime (or much other tv/film), but i have been getting more into it to help me learn japanese:</p>
+        <ul>
+            <li>right now, i'm watching {aniListData.MediaListCollection.lists.find(list => list.status === "CURRENT")?.entries.map((entry, i, entries) => (
+                <Fragment><a href={entry.media.siteUrl} style={`border-bottom-color: ${entry.media.coverImage.color || '#fff'}`}>{entry.media.title.english.replace(/(?=.+)\sSeason\s\d/g, "")}</a>{i < entries.length - 2 ? ', ' : i === entries.length - 2 ? ' and ' : ''}</Fragment>
+            ))}</li>
+            <li>i'm planning to watch {aniListData.MediaListCollection.lists.find(list => list.status === "PLANNING")?.entries.slice(0,3).map((entry, i, entries) => (
+                <Fragment><a href={entry.media.siteUrl} style={`border-bottom-color: ${entry.media.coverImage.color || '#fff'}`}>{entry.media.title.english.replace(/(?=.+)\sSeason\s\d/g, "")}</a>{i < entries.length - 2 ? ', ' : i === entries.length - 2 ? ' and ' : ''}</Fragment>
+            ))} soon.</li>
+            <li>my favorite anime ever are
+            {(() => {
+                const seen = new Set();
+                const entries = aniListData.User.favourites.anime.nodes || [];
+                const filtered = entries.filter(entry => {
+                  const cleanedTitle = entry.title.english.replace(/(?=.+)\sSeason\s\d/g, "");
+                  if (seen.has(cleanedTitle)) return false;
+                  seen.add(cleanedTitle);
+                  return true;
+                });
+                return filtered.map((entry, index) => (
+                  <>
+                    <a
+                      href={entry.siteUrl}
+                      style={`border-bottom-color: ${entry.coverImage.color || '#fff'}`}
+                    >
+                      {entry.title.english.replace(/(?=.+)\sSeason\s\d/g, "")}
+                    </a>
+                    {index < filtered.length - 2 ? ', ' : index === filtered.length - 2 ? ' and ' : ''}
+                  </>
+                ));
+              })()
+            }
+                </li>
+        </ul>
     </div>
-    <div class="hidden" id="rel-me-links">
-        {personalLinks.map((link) => (
-            <a
-              href={link.url}
-              {...(!link.notRelMe ? {rel: "me"} : {})}
-            >
-              {link.title}
-            </a>
-        ))}
-    </div>
-</Html>
+</NewLayout>
 
 <style>
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-
-        100% {
-            transform: rotate(360deg);
-        }
+    ul {
+        @apply ml-4;
     }
-    @keyframes boil {
-        0% {
-            transform: skew(-4deg, 4deg) scale(1.2) rotate(-0.5deg);
-        }
-        /* 33% { transform: skew(1deg, -1deg) scale(0.99) rotate(0.5deg); }
-  66% { transform: skew(-0.5deg, 0.5deg) scale(1.01) rotate(-1deg); } */
-        100% {
-            transform: skew(0deg, 0deg) scale(1) rotate(-1.2deg);
-        }
+
+    ul li {
+        @apply mb-2 list-disc
+    }
+
+    span.list-header {
+        @apply italic font-bold
     }
 
     a {
-        animation: boil 1s steps(3, end) infinite;
-        will-change: transform;
+        @apply inline b-b-2 b-b-dotted hover:b-b-1 italic lowercase
     }
 </style>

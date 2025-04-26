@@ -1,0 +1,52 @@
+---
+import Html from "../layouts/Html.astro"
+import NowPlayingText from "../components/islands/NowPlayingText.svelte"
+
+import { personalLinks } from "../lib/data"
+---
+
+<Html neko>
+    <div class="text-white bg-black h-screen w-screen flex justify-center items-center align-middle flex-col">
+        <NowPlayingText client:only="svelte"/>
+        <h1 class="text-6xl font-bold w-max h-min flex items-end">thrizzle<img class="h-4 w-4 mb-2 inline animate-[spin_7.5s_infinite_linear]" src="sun.svg"/></h1>
+        <p class="text-2xl">you are now entering the home of the sun</p>
+        <a href="/home" class="link italic text-2xl text-green-7 animate-[boil]">enter</a>
+    </div>
+    <div class="hidden" id="rel-me-links">
+        {personalLinks.map((link) => (
+            <a
+              href={link.url}
+              {...(!link.notRelMe ? {rel: "me"} : {})}
+            >
+              {link.title}
+            </a>
+        ))}
+    </div>
+</Html>
+
+<style>
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+    @keyframes boil {
+        0% {
+            transform: skew(-4deg, 4deg) scale(1.2) rotate(-0.5deg);
+        }
+        /* 33% { transform: skew(1deg, -1deg) scale(0.99) rotate(0.5deg); }
+  66% { transform: skew(-0.5deg, 0.5deg) scale(1.01) rotate(-1deg); } */
+        100% {
+            transform: skew(0deg, 0deg) scale(1) rotate(-1.2deg);
+        }
+    }
+
+    a {
+        animation: boil 1s steps(3, end) infinite;
+        will-change: transform;
+    }
+</style>
