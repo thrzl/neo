@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import LinkCard from "../components/LinkCard.astro";
-import { getCollection, render } from "astro:content";
+import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import truncate from "html-truncate";
 let blogPosts: CollectionEntry<"blog">[] = await getCollection("blog");
