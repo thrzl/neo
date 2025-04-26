@@ -40,11 +40,11 @@ const { Content } = await render(post);
     <article class="h-entry">
         <header class="mb-4">
             <h1 class="group w-max block" copyValue={Astro.url}>
-                <span
-                    class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max inline-block cursor-pointer p-name"
+                <a href={Astro.url}
+                    class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max inline-block cursor-pointer p-name u-url"
                 >
                     {post.data.title}
-                </span>
+                </a>
                 <svg
                     class="h-4 hidden transition-[color,transform] duration-1000 scale-100 group-active:transition-none group-hover:inline group-active:scale-125 ml-1 group-active:text-green"
                     fill="none"
