@@ -2,6 +2,14 @@
 import { navBarLinks } from "../lib/data";
 const links = navBarLinks
 const currentPath = Astro.url.pathname;
+
+function selectedSlug(slug: string) {
+    if (slug === "/" && currentPath === "/") {
+        console.log("true")
+        return true
+    }
+    return slug !== "/" ? currentPath.startsWith(slug) : false
+}
 ---
 
 
@@ -10,7 +18,7 @@ const currentPath = Astro.url.pathname;
             links.map((link: {name: string, slug: string}) => (
                 <a
                     href={link.slug}
-                    class={`${currentPath.startsWith(link.slug) ? "selected": ""} block b-b-2 b-green-7 b-dotted hover:text-glow hover:b-green-5`}
+                    class={`${selectedSlug(link.slug) ? "selected": ""} block b-b-2 b-green-7 b-dotted hover:text-glow hover:b-green-5`}
                 >
                     {link.name}
                 </a>

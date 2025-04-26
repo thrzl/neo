@@ -28,13 +28,13 @@ import Footer from "../components/Footer.astro";
 
 <Html backgroundColor={backgroundColor}>
 
-    <div class="grid lg:grid-cols-[25%_50%_25%] justify-center text-white">
+    <div class="grid grid-cols-[25%_50%_25%] justify-center text-white overflow-x-scroll min-w-screen">
         <Sidebar/>
         <main
             class="relative self-start text-center inline-block bg-green-9 w-full min-h-screen px-8 pt-16 lg:mt-16 mb-16 text-white inline-block"
         >
             <div
-                class="bg-green-8 flex flex-col justify-end w-full min-h-3/4 py-4 my-4"
+                class="bg-green-8 flex flex-col justify-end w-80vw lg:w-full min-h-3/4 py-4 my-4"
             >
                 <h1 class="text-5xl font-bold z-1">
                     thrizzle's <span class="italic">{title}</span>
@@ -42,12 +42,13 @@ import Footer from "../components/Footer.astro";
                 <p class="b-t-dotted b-t-1 b-t-green w-max mx-auto mb-2">
                     {description}
                 </p>
-                <TopNavbar />
+                <!-- <TopNavbar /> -->
             </div>
-            <div class="text-left my-4 line-height-snug">
+            <div class="text-left my-4 line-height-snug w-80vw lg:w-full">
                 <slot />
             </div>
         </main>
+        <div class="w-full"></div>
     </div>
     <Footer/>
 </Html>
