@@ -5,6 +5,21 @@ import { getCollection, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import truncate from "html-truncate";
 let blogPosts: CollectionEntry<"blog">[] = await getCollection("blog");
+const plants = "💐 🌸 🪷 🏵️ 🌹 🥀 🌺 🌻 🌼 🌷 🪻 🌱 🪴 🌵 🌾 🌿 ☘️ 🍀 🍁 🍂 🍃".split(" ")
+
+function chooseFlower(text: string) {
+  let hash = 0;
+  for (let i = 0; i < text.length; i++) {
+    hash = text.charCodeAt(i) + ((hash << 5) - hash);
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  const hashNumber = Math.abs(hash)
+
+  const range = plants.length;
+  return plants[hashNumber % range];
+}
+
+console.log(chooseFlower("welcome, welcome"))
 
 if (import.meta.env.PROD) {
     blogPosts = blogPosts.filter((post) => !post.data.draft);
@@ -59,8 +74,9 @@ function formatDate(date: string): string {
                         <article class="h-entry mb-4" id={post.id}>
                             <a
                                 href={`/garden/${post.id}`}
-                                class="w-max block b-b-dotted b-b-1 b-b-green hover:text-glow hover:b-b-2"
+                                class="w-max block b-b-dotted b-b-1 b-b-green hover:text-glow hover:b-b-2 relative"
                             >
+                                <span class="absolute top-0 -right-3">{chooseFlower(post.data.title)}</span>
                                 <h1 class="text-2xl font-bold w-max inline-block cursor-pointer p-name">
                                     {post.data.title}
                                 </h1>
