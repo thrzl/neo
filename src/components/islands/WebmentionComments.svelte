@@ -30,9 +30,14 @@
     <input type="hidden" name="target" value={new URL(`garden/${slug}`, baseUrl).href}>
   </form>
 {#each comments.children as comment}
-    <div class="b-2 p-4 b-green-8 b-dashed">
-        <p class="prose"><span class="text-green font-bold">{comment.author.name}</span> {comment.content.text}</p>
-        <p class="text-base">written by {comment.author.name}</p>
+    <div class="b-2 p-4 b-green-8 b-dashed u-comment h-cite mb-4">
+        <img src={comment.author.photo} alt={`${comment.author.name}'s profile image`} class="h-4 inline"/>
+        <a href={comment.author.url} class="text-green font-bold text-sm italic u-author h-card">{comment.author.name}</a>
+        <p class="prose text-2xl p-content p-name">{comment.content.text}</p>
+        <div class="flex justify-between items-end w-full">
+            <time class="text-sm dt-published lowercase italic" datetime={new Date(comment["wm-received"]).toISOString()}>{comment.published || new Date(comment["wm-received"]).toDateString()}</time>
+        <a href={comment.url} class="u-url b-b-2 b-green-7 b-dotted hover:text-glow hover:b-green-5">view source</a>
+    </div>
     </div>
 {/each}
 {/await}
