@@ -8,7 +8,7 @@ export const navBarLinks = [
 export const personalLinks = [
     { title: "mastodon", url: "https://wetdry.world/@thrizzle" },
     { title: "github", url: "https://github.com/thrzl" },
-    { title: "website source", url: "https://github.com/thrzl/neo", notRelMe: true },
+    { title: "website source", url: "https://github.com/thrzl/neo", rel: "external" },
     { title: "listenbrainz", url: "https://listenbrainz.org/user/thrizzle/" },
     { title: "spacehey", url: "https://spacehey.com/thrizzle"}
 ]

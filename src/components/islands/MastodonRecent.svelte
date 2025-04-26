@@ -56,7 +56,7 @@
     />
 </p>
 {:then status}
-<span class="font-800 italic text-sm">{timeAgo.format(new Date(status.created_at))}&nbsp;</span>
+<span class="italic op-75 text-sm">{timeAgo.format(new Date(status.created_at))}&nbsp;</span>
 <p class="text-base line-height-tight">
     {htmlDecode(status.content)}
 </p>
