@@ -19,8 +19,6 @@ function chooseFlower(text: string) {
   return plants[hashNumber % range];
 }
 
-console.log(chooseFlower("welcome, welcome"))
-
 if (import.meta.env.PROD) {
     blogPosts = blogPosts.filter((post) => !post.data.draft);
 }
