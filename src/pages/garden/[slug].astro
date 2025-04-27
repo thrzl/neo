@@ -104,6 +104,14 @@ const { Content } = await render(post);
                 value={new URL(`garden/${slug}`, Astro.site).href}
             />
         </form>
+        <p class="op-50 text-2xl italic text-center w-full">or...</p>
+        <form class="my-4" method="get" action="https://quill.p3k.io/" target="_blank">
+            <input type="hidden" name="dontask" value="1">
+            <input type="hidden" name="me" value="https://commentpara.de/">
+            <label class="mt-4" for="">(no sign-up!) add a comment via </label>
+            <input class="inline px-2 py-1 b-1 b-dotted b-green" type="submit" value="commentpara.de">
+            <input type="hidden" name="reply" value={Astro.url.href}>
+        </form>
         <WebmentionComments
             client:visible="svelte"
             baseUrl={Astro.site}
