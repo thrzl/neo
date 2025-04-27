@@ -4,7 +4,7 @@ title: "soulless design, contd."
 description: "love, of money"
 ---
 
-i wrote [a couple days ago](/soulless_design) about some of the modern UI design trends that i hate, and now that i thought some more about it i realized what issues i have with hardware as well.
+i wrote [a couple days ago](/garden/soulless_design) about some of the modern UI design trends that i hate, and now that i thought some more about it i realized what issues i have with hardware as well.
 
 ## i. how things are now
 
@@ -52,7 +52,7 @@ made it easy to let people both try games and to not have to worry about finding
 
 #### **ui design**
 
-i talked about this more in the [previous article](garden/soulless_design), but the 3DS' interface legit looked and behaved like it's own world. not only did it interact with *our* world (like on the homescreen when you yell into it and the current selection spins), but just about every app nintendo designed for it was built so it would seem like you were looking *into* the console on the top screen, and that you had real physical buttons on the bottom screen. back to the home screen (no i'm not going to stop talking about it), the background fr sits in the back of the screen and curves around as though it's a circular room, and this effect is made much more clear in 3D.
+i talked about this more in the [previous article](/garden/soulless_design), but the 3DS' interface legit looked and behaved like it's own world. not only did it interact with *our* world (like on the homescreen when you yell into it and the current selection spins), but just about every app nintendo designed for it was built so it would seem like you were looking *into* the console on the top screen, and that you had real physical buttons on the bottom screen. back to the home screen (no i'm not going to stop talking about it), the background fr sits in the back of the screen and curves around as though it's a circular room, and this effect is made much more clear in 3D.
 
 in certain games like zelda twilight princess, when the 3D effect is on in the title screen you can literally look off to the sides to see what's not shown on the screen. you're looking *into* hyrule's world, not just at it. the way that the 3DS is its own world locks in the special place it has in my heart, and although i understand the allure of the switch, i really would've loved if they just released more powerful 3DS models.
 
