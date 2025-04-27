@@ -36,11 +36,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: astro-build
+          path: dist
+          
 
       - name: deploy2nekoweb
         uses: indiefellas/deploy2nekoweb@v4
         with:
           nekoweb-api-key: ${{ secrets.NEKOWEB_API_KEY }}
           nekoweb-folder: /dist
-          directory: .
+          directory: ./dist
               
