@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
-    name: build and deploy to nekoweb
+  build:
+    name: build site w/ astro
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -21,15 +21,25 @@ jobs:
         run: "bun install"
       - name: Build with Astro
         run: bun astro build
-      - name: deploy2nekoweb
-        uses: indiefellas/deploy2nekoweb@v4
-        with:
-          nekoweb-api-key: ${{ secrets.NEKOWEB_API_KEY }}
-          nekoweb-folder: /dist
-          directory: ./dist
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: astro-build
           path: ./dist
+
+  deploy:
+    name: deploy2nekoweb
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: astro-build
+
+      - name: deploy2nekoweb
+        uses: indiefellas/deploy2nekoweb@v4
+        with:
+          nekoweb-api-key: ${{ secrets.NEKOWEB_API_KEY }}
+          nekoweb-folder: /dist
+          directory: ./astro-build
               
