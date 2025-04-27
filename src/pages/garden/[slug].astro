@@ -37,7 +37,7 @@ const { Content } = await render(post);
             >see other posts...</a>
     </div>
     <hr class="divider" />
-    <article class="h-entry">
+    <article class="h-entry w-full">
         <header class="mb-4">
             <h1 class="group w-max block" copyValue={Astro.url}>
                 <a href={Astro.url}
@@ -64,7 +64,7 @@ const { Content } = await render(post);
                 >written on {post.data.date.toDateString()}</time
             >
         </header>
-        <div class="prose text-2xl lg:text-lg e-content"><Content /></div>
+        <div class="prose text-2xl lg:text-lg text-justify e-content"><Content /></div>
     </article>
     <hr class="divider" />
     <section class="mt-2">
