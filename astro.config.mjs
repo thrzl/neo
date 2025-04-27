@@ -26,6 +26,13 @@ export default defineConfig({
         },
         "a:hover": {
           "border-bottom": "1px dotted lightgreen"
+        },
+        "h1, h2, h3, h4, h5, h6": {
+          "border-bottom": "1px dotted lightgreen",
+          "width": "max-content"
+        },
+        "#footnote-label": {
+          "text-transform": "lowercase"
         }
 
       }}
