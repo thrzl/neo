@@ -11,6 +11,14 @@ function makeAbsoluteUrls(html: string, baseUrl: URL) {
         img.src = new URL(img.src, baseUrl.href).href
       }
     }
+
+    const aRaw: HTMLCollection = doc.getElementsByTagName("a")
+    for (const a of aRaw) {
+      if (a.href && !a.href.startsWith(baseUrl)) {
+        a.href = new URL(a.href, baseUrl.href).href
+      }
+    }
+
     return doc.documentElement.outerHTML
   }
   
