@@ -27,7 +27,6 @@
 			return; // make the linter happy
 		}
 		const palette = await getDominantColor(coverArt.src);
-		console.log(palette);
 
 		sessionStorage.setItem("palette", JSON.stringify(palette));
 		sessionStorage.setItem(

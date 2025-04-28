@@ -5,7 +5,6 @@ const currentPath = Astro.url.pathname;
 
 function selectedSlug(slug: string) {
     if (slug === "/" && currentPath === "/") {
-        console.log("true")
         return true
     }
     return slug !== "/" ? currentPath.startsWith(slug) : false

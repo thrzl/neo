@@ -12,7 +12,6 @@
     let trackTitleOverflowing: boolean; 
 
     $: if (trackTitle && trackTitle.scrollWidth > trackTitle.clientWidth) {
-            console.log(trackTitle.scrollWidth)
             trackTitleOverflowing = true;
             setTimeout(window.Marquee3k.init, 150)
         }
