@@ -19,7 +19,7 @@ function makeAbsoluteUrls(html: string, baseUrl: URL) {
       }
     }
 
-    return doc.documentElement.outerHTML
+    return doc.body.innerHTML
   }
   
 
