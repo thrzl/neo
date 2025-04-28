@@ -27,7 +27,7 @@
 {#await recentTrack}
     <p>loading music data...</p>
 {:then recentTrackData}
-    <span class="italic op-75 text-sm ml-1">{timeAgo.format(recentTrackData.latest_listen_ts ? new Date(recentTrackData.latest_listen_ts*1000) : new Date())}&nbsp;</span>
+    <span class="italic op-75 text-sm ml-1">{timeAgo.format(recentTrackData.latest_listen_ts ? new Date(recentTrackData.latest_listen_ts*1000) : new Date()).replace("just now", "right now")}&nbsp;</span>
 	<div bind:this={trackTitle} class="marquee3k w-full overflow-clip text-nowrap" data-speed="0.75"><span class="text-2xl font-bold pl-16 m-0">{cleanTrackString(recentTrackData.listens[0].track_metadata.track_name.toRespectfulLowerCase())}</span></div>
     <p class="text-base italic">{recentTrackData.listens[0].track_metadata.artist_name.toRespectfulLowerCase()}</p>
     <script>

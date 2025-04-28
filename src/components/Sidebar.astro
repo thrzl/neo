@@ -105,7 +105,7 @@ if (import.meta.env.PROD) {
     changelog
   </h2>
   </a>
-  <span class="italic op-75 text-sm">{timeAgo.format(new Date(commit.date))}&nbsp;</span>
+  <span class="italic op-75 text-sm">{commit.hash}</span>
 
 <section>
 <p class="inline">{commit.message}</p>
