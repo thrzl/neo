@@ -3,9 +3,12 @@ import { getCollection } from "astro:content";
 import NewLayout from "../layouts/Layout.astro";
 
 import { fetchAniListData } from "../lib/build-time-data";
-const post = (await getCollection('blog')).sort((a, b) => b.data.date - a.data.date).filter(post => !post.data.draft)[0];
+import IndieWebRing from "../components/IndieWebRing.astro";
+const post = (await getCollection("blog"))
+    .sort((a, b) => b.data.date - a.data.date)
+    .filter((post) => !post.data.draft)[0];
 
-const aniListData = await fetchAniListData()
+const aniListData = await fetchAniListData();
 ---
 
 <NewLayout>
@@ -45,39 +48,138 @@ const aniListData = await fetchAniListData()
             </li>
         </ul>
         <h3 class="font-bold text-xl mt-2">anime</h3>
-        <p class="mb-1">im not really super into anime (or much other tv/film), but i have been getting more into it to help me learn japanese:</p>
+        <p class="mb-1">
+            im not really super into anime (or much other tv/film), but i have
+            been getting more into it to help me learn japanese:
+        </p>
         <ul>
-            <li>right now, i'm watching {aniListData.MediaListCollection.lists.find(list => list.status === "CURRENT")?.entries.map((entry, i, entries) => (
-                <Fragment><a href={entry.media.siteUrl} style={`border-bottom-color: ${entry.media.coverImage.color || '#fff'}`}>{entry.media.title.english.replace(/(?=.+)\sSeason\s\d/g, "")}</a>{i < entries.length - 2 ? ', ' : i === entries.length - 2 ? ' and ' : ''}</Fragment>
-            ))}</li>
-            <li>i'm planning to watch {aniListData.MediaListCollection.lists.find(list => list.status === "PLANNING")?.entries.slice(0,3).map((entry, i, entries) => (
-                <Fragment><a href={entry.media.siteUrl} style={`border-bottom-color: ${entry.media.coverImage.color || '#fff'}`}>{entry.media.title.english.replace(/(?=.+)\sSeason\s\d/g, "")}</a>{i < entries.length - 2 ? ', ' : i === entries.length - 2 ? ' and ' : ''}</Fragment>
-            ))} soon.</li>
-            <li>my favorite anime ever are
-            {(() => {
-                const seen = new Set();
-                const entries = aniListData.User.favourites.anime.nodes || [];
-                const filtered = entries.filter(entry => {
-                  const cleanedTitle = entry.title.english.replace(/(?=.+)\sSeason\s\d/g, "");
-                  if (seen.has(cleanedTitle)) return false;
-                  seen.add(cleanedTitle);
-                  return true;
-                });
-                return filtered.map((entry, index) => (
-                  <>
-                    <a
-                      href={entry.siteUrl}
-                      style={`border-bottom-color: ${entry.coverImage.color || '#fff'}`}
-                    >
-                      {entry.title.english.replace(/(?=.+)\sSeason\s\d/g, "")}
-                    </a>
-                    {index < filtered.length - 2 ? ', ' : index === filtered.length - 2 ? ' and ' : ''}
-                  </>
-                ));
-              })()
-            }
-                </li>
+            <li>
+                right now, i'm watching {
+                    aniListData.MediaListCollection.lists
+                        .find((list) => list.status === "CURRENT")
+                        ?.entries.map((entry, i, entries) => (
+                            <Fragment>
+                                <a
+                                    href={entry.media.siteUrl}
+                                    style={`border-bottom-color: ${entry.media.coverImage.color || "#fff"}`}
+                                >
+                                    {entry.media.title.english.replace(
+                                        /(?=.+)\sSeason\s\d/g,
+                                        "",
+                                    )}
+                                </a>
+                                {i < entries.length - 2
+                                    ? ", "
+                                    : i === entries.length - 2
+                                      ? " and "
+                                      : ""}
+                            </Fragment>
+                        ))
+                }
+            </li>
+            <li>
+                i'm planning to watch {
+                    aniListData.MediaListCollection.lists
+                        .find((list) => list.status === "PLANNING")
+                        ?.entries.slice(0, 3)
+                        .map((entry, i, entries) => (
+                            <Fragment>
+                                <a
+                                    href={entry.media.siteUrl}
+                                    style={`border-bottom-color: ${entry.media.coverImage.color || "#fff"}`}
+                                >
+                                    {entry.media.title.english.replace(
+                                        /(?=.+)\sSeason\s\d/g,
+                                        "",
+                                    )}
+                                </a>
+                                {i < entries.length - 2
+                                    ? ", "
+                                    : i === entries.length - 2
+                                      ? " and "
+                                      : ""}
+                            </Fragment>
+                        ))
+                } soon.
+            </li>
+            <li>
+                my favorite anime ever are
+                {
+                    (() => {
+                        const seen = new Set();
+                        const entries =
+                            aniListData.User.favourites.anime.nodes || [];
+                        const filtered = entries.filter((entry) => {
+                            const cleanedTitle = entry.title.english.replace(
+                                /(?=.+)\sSeason\s\d/g,
+                                "",
+                            );
+                            if (seen.has(cleanedTitle)) return false;
+                            seen.add(cleanedTitle);
+                            return true;
+                        });
+                        return filtered.map((entry, index) => (
+                            <>
+                                <a
+                                    href={entry.siteUrl}
+                                    style={`border-bottom-color: ${entry.coverImage.color || "#fff"}`}
+                                >
+                                    {entry.title.english.replace(
+                                        /(?=.+)\sSeason\s\d/g,
+                                        "",
+                                    )}
+                                </a>
+                                {index < filtered.length - 2
+                                    ? ", "
+                                    : index === filtered.length - 2
+                                      ? " and "
+                                      : ""}
+                            </>
+                        ));
+                    })()
+                }
+            </li>
         </ul>
+    </div>
+    <h2 class="font-bold text-lg mt-4">other places</h2>
+    <div
+        class="flex flex-row gap-x-2 mt-1 mx-auto w-max children:!b-b-none"
+        id="people-buttons"
+    >
+        <a href="https://melankorin.net/">
+            <img
+                width="88px"
+                height="31px"
+                src="https://melankorin.net/assets/img/buttons/button-1.gif"
+                alt="melankorin.net button"
+            />
+        </a>
+        <a href="https://fourstar.nekoweb.org"
+            ><img
+                width="88px"
+                height="31px"
+                src="https://fourstar.nekoweb.org/88x31.gif"
+                alt="FourStar button"
+            /></a
+        >
+        <a href="https://sailorichigo.nekoweb.org/"
+            ><img
+                src="https://sailorichigo.nekoweb.org/images/sailorichigo.gif"
+                alt="sailorichigo"
+            /></a
+        >
+        <a href="https://nekoweb.org/"
+            ><img src="https://nekoweb.org/assets/buttons/button5.gif" /></a
+        ><!-- button by max.nekoweb.org -->
+        <a target="_blank" href="https://byemc.xyz"
+            ><img
+                src="https://byemc.xyz/assets/buttons/byebutton.gif"
+                alt="Bye's Button"
+            /></a
+        >
+    </div>
+    <div class="mx-auto w-max mt-2">
+        <IndieWebRing/>
     </div>
 </NewLayout>
 
@@ -87,14 +189,14 @@ const aniListData = await fetchAniListData()
     }
 
     ul li {
-        @apply mb-2 list-disc
+        @apply mb-2 list-disc;
     }
 
     span.list-header {
-        @apply italic font-bold
+        @apply italic font-bold;
     }
 
     a {
-        @apply inline b-b-2 b-b-dotted hover:b-b-1 italic lowercase
+        @apply inline b-b-2 b-b-dotted hover:b-b-1 italic lowercase;
     }
 </style>

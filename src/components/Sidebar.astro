@@ -2,11 +2,11 @@
 import Navbar from "../components/SideNavbar.astro";
 import { personalLinks } from "../lib/data";
 import MastodonRecent from "../components/islands/MastodonRecent.svelte";
-import TimeAgo from "javascript-time-ago"
-import en from "javascript-time-ago/locale/en"
-import NowPlayingText from "../components/islands/NowPlayingText.svelte"
-TimeAgo.addDefaultLocale(en)
-const timeAgo = new TimeAgo("en-US")
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
+import NowPlayingText from "../components/islands/NowPlayingText.svelte";
+TimeAgo.addDefaultLocale(en);
+const timeAgo = new TimeAgo("en-US");
 let commit: { message: string; hash: string; date: string };
 let websiteCarbon: {
   cleanerThan: number;
@@ -28,7 +28,7 @@ if (import.meta.env.PROD) {
   commit = {
     message: commitRes[0].commit.message,
     hash: commitRes[0].sha.slice(0, 7),
-    date: commitRes[0].commit.committer.date
+    date: commitRes[0].commit.committer.date,
   };
 
   // website carbon
@@ -49,7 +49,11 @@ if (import.meta.env.PROD) {
       },
     },
   };
-  commit = { message: "now working!", hash: "1234567", date: "2025-04-25T16:28:32Z" };
+  commit = {
+    message: "now working!",
+    hash: "1234567",
+    date: "2025-04-25T16:28:32Z",
+  };
 }
 ---
 
@@ -86,7 +90,11 @@ if (import.meta.env.PROD) {
       d="M22 7V4h-1V3h-1V2h-1V1H5v1H4v1H3v1H2v3H1v9h1v3h1v1h1v1h1v1h2v1h7v-1h2v-2H9v-1H8v-2h1v1h9v-1h2v-1h1v-1h1v-2h1V7zm-3 7h-3V7h-2v1h-1v4h-2V8h-1V7H8v7H5V6h1V5h1V4h3v1h1v1h2V5h1V4h3v1h1v1h1z"
     ></path></svg
   ><a href="https://wetdry.world/@thrizzle">
-    <h2 class="font-bold text-lg ml-1 mt-4 inline-block link b-b-blue line-height-none">status</h2>
+    <h2
+      class="font-bold text-lg ml-1 mt-4 inline-block link b-b-blue line-height-none"
+    >
+      status
+    </h2>
   </a>
   <MastodonRecent client:visible="svelte" transition:persist />
 
@@ -99,64 +107,68 @@ if (import.meta.env.PROD) {
       fill="currentColor"
       d="M23 9v6h-1v2h-1v2h-1v1h-1v1h-1v1h-2v1h-1v-5h-1v-1h1v-1h2v-1h1v-1h1V9h-1V6h-2v1h-1v1h-1V7h-4v1H9V7H8V6H6v3H5v5h1v1h1v1h2v2H7v-1H6v-1H4v1h1v2h1v1h3v3H8v-1H6v-1H5v-1H4v-1H3v-2H2v-2H1V9h1V7h1V5h1V4h1V3h2V2h2V1h6v1h2v1h2v1h1v1h1v2h1v2z"
     ></path></svg
-  ><a href=`https://github.com/thrzl/neo/commit/${commit.hash}`><h2
-    class="font-bold text-lg ml-1 mt-4 inline-block link b-b-white line-height-none"
-  >
-    changelog
-  </h2>
+  ><a href=`https://github.com/thrzl/neo/commit/${commit.hash}`
+    ><h2
+      class="font-bold text-lg ml-1 mt-4 inline-block link b-b-white line-height-none"
+    >
+      changelog
+    </h2>
   </a>
   <span class="italic op-75 text-sm">{commit.hash}</span>
 
-<section>
-<p class="inline">{commit.message}</p>
-</section>
+  <section>
+    <p class="inline">{commit.message}</p>
+  </section>
 
-<!-- now playing -->
-<svg xmlns="http://www.w3.org/2000/svg" height="1rem" class="inline" viewBox="0 0 24 24"><path fill="currentColor" d="M1 3h12v3H1zm0 6h12v3H1zm0 6h6v3H1z"/><path fill="currentColor" d="M23 1v6h-2v1h-2v13h-1v1h-1v1h-5v-1h-2v-1H9v-3h1v-1h2v-1h4V4h1V3h2V2h2V1z"/></svg>
-<h2 class="font-bold text-lg mt-4 inline-block link b-b-blue line-height-none">recent track</h2>
-<NowPlayingText client:only="svelte"/>
+  <!-- now playing -->
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="1rem"
+    class="inline"
+    viewBox="0 0 24 24"
+    ><path fill="currentColor" d="M1 3h12v3H1zm0 6h12v3H1zm0 6h6v3H1z"
+    ></path><path
+      fill="currentColor"
+      d="M23 1v6h-2v1h-2v13h-1v1h-1v1h-5v-1h-2v-1H9v-3h1v-1h2v-1h4V4h1V3h2V2h2V1z"
+    ></path></svg
+  >
+  <h2
+    class="font-bold text-lg mt-4 inline-block link b-b-blue line-height-none"
+  >
+    recent track
+  </h2>
+  <NowPlayingText client:only="svelte" />
 
-<!-- buttons -->
-<h2 class="font-bold text-lg mt-4">buttons</h2>
-<div class="flex flex-col gap-y-1 mt-1" id="buttons">
-  <a href="https://melankorin.net/">
+  <!-- buttons -->
+
+  <section class="text-right mt-4 block w-full flex flex-col items-end" id="buttons">
     <img
-      width="88px"
-      height="31px"
-      src="https://melankorin.net/assets/img/buttons/button-1.gif"
-      alt="melankorin.net button"
+      height="31"
+      width="88"
+      sizes="88x31"
+      src="/buttons/indiewebcamp.svg"
     />
-  </a>
-  <a href="https://fourstar.nekoweb.org"
-    ><img
-      width="88px"
-      height="31px"
-      src="https://fourstar.nekoweb.org/88x31.gif"
-      alt="FourStar button"
-    /></a
-  >
-  <a href="https://sailorichigo.nekoweb.org/"
-    ><img
-      src="https://sailorichigo.nekoweb.org/images/sailorichigo.gif"
-      alt="sailorichigo"
-    /></a
-  >
-  <a href="https://nekoweb.org/"
-    ><img src="https://nekoweb.org/assets/buttons/button5.gif" /></a
-  ><!-- button by max.nekoweb.org -->
+    <img height="31" width="88" sizes="88x31" src="/buttons/webmention.svg"/>
+    <img height="31" width="88" sizes="88x31" src="/buttons/microformats.svg"/>
+    <a href="https://no-www.org/">
+      <img height="31" width="88" sizes="88x31" src="https://no-www.org/images/blog-button.gif"/>
+    </a>
+    <img height="31" width="88" sizes="88x31" src="/buttons/notbyai.svg"/>
+  </section>
+
+  <!-- carbon stats -->
+  <p class="mt-6 italic text-green-6 hover:text-white">
+    this website uses about {
+      websiteCarbon.statistics.co2.renewable.grams.toPrecision(3)
+    } grams of CO2 per load. that's in the top {
+      websiteCarbon.cleanerThan * 100
+    }% of all websites!
+  </p>
+
+  <style>
+    section#buttons > img {
+      float: right;
+      display: block
+    }
+  </style>
 </div>
-
-
-<!-- carbon stats -->
-<p class="mt-6 italic text-green-6 hover:text-white">
-  this website uses about {
-    websiteCarbon.statistics.co2.renewable.grams.toPrecision(3)
-  } grams of CO2 per load. that's in the top {websiteCarbon.cleanerThan * 100}%
-  of all websites!
-</p>
-
-<style>
-  div#buttons > a > img {
-    float: right;
-  }
-</style>
