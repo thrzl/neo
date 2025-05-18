@@ -4,7 +4,7 @@ import { personalLinks } from "../lib/data";
 import MastodonRecent from "../components/islands/MastodonRecent.svelte";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
-import NowPlayingText from "../components/islands/NowPlayingText.svelte";
+import NowPlayingText from "../components/islands/NewNowPlaying.svelte";
 TimeAgo.addDefaultLocale(en);
 const timeAgo = new TimeAgo("en-US");
 let commit: { message: string; hash: string; date: string };
@@ -39,12 +39,12 @@ if (import.meta.env.PROD) {
   ).json();
 } else {
   websiteCarbon = {
-    cleanerThan: 0.5,
+    cleanerThan: Math.random(),
     rating: "Z-",
     statistics: {
       co2: {
         renewable: {
-          grams: 0.020796548100672666,
+          grams: Math.random()/10,
         },
       },
     },
@@ -58,7 +58,7 @@ if (import.meta.env.PROD) {
 ---
 
 <div
-  class="justify-self-end w-full inline-block max-w-64 align-top mt-76 px-8 text-right b-r-green-8 b-solid b-r-1 mb-6"
+  class="justify-self-end w-full inline-block max-w-64 align-top mt-76 px-8 text-right b-r-cover-bright b-solid b-r-1 mb-6"
 >
   <!-- navigation links -->
   <h2 class="font-bold text-lg">navigation</h2>
@@ -70,7 +70,7 @@ if (import.meta.env.PROD) {
         <li>
           <a
             href={link.url}
-            class="block b-b-2 b-green-7 b-dotted hover:text-glow hover:b-green-5"
+            class="block b-b-2 b-cover-accent b-dotted hover:text-glow hover:b-cover-bright"
             rel={link.rel || "me"}
           >
             {link.title}
@@ -161,7 +161,7 @@ if (import.meta.env.PROD) {
     this website uses about {
       websiteCarbon.statistics.co2.renewable.grams.toPrecision(3)
     } grams of CO2 per load. that's in the top {
-      websiteCarbon.cleanerThan * 100
+      (1-websiteCarbon.cleanerThan).toPrecision(2) * 100
     }% of all websites!
   </p>
 

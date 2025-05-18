@@ -29,7 +29,7 @@ const { neko, backgroundColor } = Astro.props;
         <ClientRouter />
     </head>
     <body
-        class=`bg-${backgroundColor?.replace("bg-","") || "[--accent-bg-light, #000]"} text-150% lg:text-100%`
+        class=`bg-cover-base text-150% lg:text-100%`
     >
         {neko && <script src="../assets/oneko.js" />}
         <slot />

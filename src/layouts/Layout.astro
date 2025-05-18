@@ -1,25 +1,72 @@
 ---
 const { backgroundColor = "bg-green-9", title = "planet", description = "a home for all my hopes, dreams, thoughts and schemes", showHeader = true } = Astro.props;
 import Html from "./Html.astro";
-import TopNavbar from "../components/TopNavbar.astro";
 import Sidebar from "../components/Sidebar.astro";
 import Footer from "../components/Footer.astro";
-
 ---
+
+
 <Html backgroundColor={backgroundColor}>
+    <script>
+        document.addEventListener("astro:page-load", () => {
+            const textColors = sessionStorage.getItem(
+				"textColors"
+			);
+			const palette = JSON.parse(sessionStorage.getItem("palette"))
+			if (!palette || !textColors) {
+				return
+			}
+			document.documentElement.style.setProperty(
+				"--accent-bg-dark",
+				`rgb(${palette?.DarkVibrant?.rgb.join(", ")})` || "#000000",
+			);
+			document.documentElement.style.setProperty(
+				"--accent-bg",
+				`rgb(${palette?.Vibrant?.rgb.join(", ")})` || "#fff",
+			);
+			document.documentElement.style.setProperty(
+				"--accent-bg-light",
+				`rgb(${palette?.LightVibrant?.rgb.join(", ")})` || "#fff",
+			);
+			document.documentElement.style.setProperty(
+				"--accent-muted-light",
+				`rgb(${palette?.LightMuted?.rgb.join(", ")})` || "#fff",
+			);
+			document.documentElement.style.setProperty(
+				"--accent-muted-dark",
+				`rgb(${palette?.DarkMuted?.rgb.join(", ")})` || "#fff",
+			);
+			document.documentElement.style.setProperty(
+				"--accent-muted",
+				`rgb(${palette?.Muted?.rgb.join(", ")})` || "#fff",
+			);
+			document.documentElement.style.setProperty(
+				"--accent-text-dark",
+				textColors.dark || "#ffffff",
+			);
+			document.documentElement.style.setProperty(
+				"--accent-text-light",
+				textColors.light || "#ffffff",
+			);
+			document.documentElement.style.setProperty(
+				"--accent-text",
+				palette?.LightMuted?.bodyTextColor || "#ffffff",
+			);
+        })
+    </script>
 
     <div class="grid grid-cols-[25%_50%_25%] justify-center text-white overflow-x-scroll min-w-screen">
         <Sidebar/>
         <main
-            class="relative self-start text-center inline-block bg-green-9 w-full min-h-screen px-8 pt-16 lg:mt-16 mb-16 text-white inline-block"
+            class="relative self-start text-center inline-block bg-cover-base w-full min-h-screen px-8 pt-16 lg:mt-16 mb-16 text-white inline-block"
         >
             {showHeader && (<div
-                class="bg-green-8 flex flex-col justify-end w-80vw lg:w-full min-h-3/4 py-4 my-4"
+                class="bg-cover-mutedlight flex flex-col justify-end w-80vw lg:w-full min-h-3/4 py-4 my-4"
             >
                 <h1 class="text-5xl font-bold z-1">
                     thrizzle's <span class="italic">{title}</span>
                 </h1>
-                <p class="b-t-dotted b-t-1 b-t-green w-max mx-auto mb-2 print-hidden">
+                <p class="b-t-dotted b-t-1 b-t-accent w-max mx-auto mb-2 print-hidden">
                     {description}
                 </p>
                 <!-- <TopNavbar /> -->

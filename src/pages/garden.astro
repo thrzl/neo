@@ -45,7 +45,7 @@ function formatDate(date: string): string {
 </script>
 
 <Layout title="garden" description="my thoughts and ruminations">
-    <a href="/rss.xml" class="b-b-dotted b-b-2 b-b-green hover:b-b-1">
+    <a href="/rss.xml" class="b-b-dotted b-b-2 b-b-cover-accent hover:b-b-1">
         <svg
             class="text-orange inline"
             xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +72,7 @@ function formatDate(date: string): string {
                         <article class="h-entry mb-4" id={post.id}>
                             <a
                                 href={`/garden/${post.id}`}
-                                class="w-max block b-b-dotted b-b-1 b-b-green hover:text-glow hover:b-b-2 relative"
+                                class="w-max block b-b-dotted b-b-1 b-b-cover-bright hover:text-glow hover:b-b-2 relative"
                             >
                                 <span class="absolute -top-2 -right-5 lg:top-0 lg:-right-3">{chooseFlower(post.data.title)}</span>
                                 <h1 class="text-2xl font-bold w-max inline-block cursor-pointer p-name">
@@ -93,7 +93,7 @@ function formatDate(date: string): string {
                                 written on {post.data.date.toDateString()}
                             </time>
                             <div
-                                class="prose text-2xl lg:text-lg mt-4 px-4 max-w-full b-4 b-dashed b-green-8 e-content inline-block"
+                                class="prose text-2xl lg:text-lg mt-4 px-4 max-w-full b-4 b-dashed b-cover-bright e-content inline-block"
                                 set:html={truncate(post.rendered.html, 250)}
                             >
                                 {/* oooooo xss.... */}

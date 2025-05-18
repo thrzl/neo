@@ -24,7 +24,7 @@
 {:then comments}
   {#if comments.children[0]}
   {#each comments.children as comment}
-    <div class="b-2 p-4 b-green-8 b-dashed u-comment h-cite mb-4">
+    <div class="b-2 p-4 b-cover-muted b-dashed u-comment h-cite mb-4">
       <img
         src={comment.author.photo}
         alt={`${comment.author.name}'s profile image`}
@@ -32,7 +32,7 @@
       />
       <a
         href={comment.author.url}
-        class="text-green font-bold text-sm italic u-author h-card"
+        class="text-cover-accent font-bold text-sm italic u-author h-card"
         >{comment.author.name}</a
       >
       <p class="prose lg:text-2xl text-4xl p-content p-name">{comment.content.text}</p>
@@ -45,14 +45,14 @@
         >
         <a
           href={comment.url}
-          class="u-url b-b-2 b-green-7 b-dotted hover:text-glow hover:b-green-5"
+          class="u-url b-b-2 b-cover-mutedlight b-dotted hover:text-glow hover:b-cover-bright"
           >view source</a
         >
       </div>
     </div>
     {/each}
     {:else}
-    <div class="b-2 p-4 b-green-8 b-dashed mb-4 justify-center items-center">
+    <div class="b-2 p-4 b-cover-muted b-dashed mb-4 justify-center items-center">
       <h1 class="text-center text-xl italic op-50 pointer-events-none">no comments yet...</h1>
 
     </div>

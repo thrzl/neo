@@ -7,11 +7,13 @@
 
     import getRecentTrack from "../../lib/listenbrainz";
     import "../../lib/helpers";
+    import type { Palette } from "@vibrant/color";
 
     const recentTrack = getRecentTrack();
     let trackTitle: HTMLDivElement;
     let coverArt: HTMLImageElement;
-
+    let coverPalette: Palette;
+    
     $: if (trackTitle && trackTitle.scrollWidth > trackTitle.clientWidth) {
         trackTitleOverflowing = true;
         setTimeout(window.Marquee3k.init, 150);
@@ -19,6 +21,9 @@
 
     $: if (coverArt) {
         getDominantColor(coverArt.src).then((palette) => {
+            console.log(":P")
+            coverPalette = palette
+            console.log(coverPalette)
             sessionStorage.setItem("palette", JSON.stringify(palette));
             sessionStorage.setItem(
                 "blackText",
@@ -105,4 +110,12 @@
         height="0"
         alt="{trackTitle} cover art"
     />
+    <!-- {#if coverPalette}
+    <div class="flex flex-row">
+        {#each Object.values(coverPalette) as color}
+            <div class="w-8 h-full" style="background-color: {color.rgb}"></div>
+
+        {/each}
+    </div>
+    {/if} -->
 {/await}

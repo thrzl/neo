@@ -33,7 +33,7 @@ const { Content } = await render(post);
     <div class="w-full text-center">
         <a
             href="/garden"
-            class="mx-auto italic b-b-2 b-green-7 b-dotted hover:text-glow hover:b-green-5"
+            class="mx-auto italic b-b-2 b-muted b-dotted b-b-cover-accent hover:text-glow"
             >see other posts...</a>
     </div>
     <hr class="divider" />
@@ -41,12 +41,12 @@ const { Content } = await render(post);
         <header class="mb-4">
             <h1 class="group w-max block" copyValue={Astro.url}>
                 <a href={Astro.url}
-                    class="text-2xl font-bold b-b-dotted b-b-1 b-b-green w-max inline-block cursor-pointer p-name u-url"
+                    class="text-2xl font-bold b-b-dotted b-b-1 b-b-cover-accent w-max inline-block cursor-pointer p-name u-url"
                 >
                     {post.data.title}
                 </a>
                 <svg
-                    class="h-4 hidden transition-[color,transform] duration-1000 scale-100 group-active:transition-none group-hover:inline group-active:scale-125 ml-1 group-active:text-green"
+                    class="h-4 hidden transition-[color,transform] duration-1000 scale-100 group-active:transition-none group-hover:inline group-active:scale-125 ml-1 group-active:text-cover-accent"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -68,7 +68,7 @@ const { Content } = await render(post);
     </article>
     <hr class="divider" />
     <section class="mt-2">
-        <h2 class="text-xl mb-2 font-bold b-b-dotted b-b-1 b-b-green w-max">
+        <h2 class="text-xl mb-2 font-bold b-b-dotted b-b-1 b-b-cover-accent w-max">
             comments
         </h2>
         <form
@@ -84,7 +84,7 @@ const { Content } = await render(post);
                     <input
                         type="url"
                         name="source"
-                        class="bg-transparent b-green b-2 px-1 inline"
+                        class="bg-transparent b-accent b-2 px-1 inline"
                         id="webmention-form-url"
                     />
 
@@ -92,7 +92,7 @@ const { Content } = await render(post);
                     <input
                         type="submit"
                         value="send webmention"
-                        class="inline bg-green-7 px-2 py-1 cursor-pointer"
+                        class="inline bg-cover-mutedlight px-2 py-1 cursor-pointer"
                         id="webmention-form-submit"
                     />
                 </div>
@@ -108,7 +108,7 @@ const { Content } = await render(post);
             <input type="hidden" name="dontask" value="1">
             <input type="hidden" name="me" value="https://commentpara.de/">
             <label class="mt-4" for="">(no sign-up!) add a comment via </label>
-            <input class="inline px-2 py-1 b-1 b-dotted b-green" type="submit" value="commentpara.de">
+            <input class="inline px-2 py-1 b-1 b-dotted b-cover-accent" type="submit" value="commentpara.de">
             <input type="hidden" name="reply" value={Astro.url.href}>
         </form>
         <WebmentionComments
