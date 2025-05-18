@@ -199,18 +199,19 @@
 			class="bottom-0 op-0 op-100 transition-delay-150 transition-200 w-full h-full z-2 flex justify-end items-end flex-col"
 		>
 			{#if track.matched}
-				<a
+				<div
 					bind:this={trackTitle}
-					href="https://musicbrainz.org/recording/{track.mbid}"
-					class="block text-nowrap overflow-clip marquee3k text-white text-4xl !line-height-none font-800 text-right w-max max-w-full"
+					class="block text-nowrap overflow-clip marquee3k text-white text-4xl font-800 text-right w-max max-w-full"
 					data-speed="0.75"
 				>
-					<span class="font-bold" style={trackTitleOverflowing ? `padding-right: 4rem`: ""}>
-						{track.name
-							.toRespectfulLowerCase()
-							.replaceAll("’", "'")}
-					</span>
-				</a>
+					<div>
+						<a href="https://musicbrainz.org/recording/{track.mbid}" class="font-bold inline" style={trackTitleOverflowing ? `margin-right: 4rem`: ""}>
+							{track.name
+								.toRespectfulLowerCase()
+								.replaceAll("’", "'")}
+						</a>
+					</div>
+				</div>
 				<p class="text-sm text-neutral-300 text-right w-4/5 italic">
 					{#each track.artists as artist, i}
 						<a href="https://listenbrainz.org/artist/{artist.mbid}"
