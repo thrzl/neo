@@ -188,7 +188,7 @@
 				}
 				getAlbumArtColor();
 			}}
-			class="w-full h-auto mb-2 b-cover-accent b-4 b-solid"
+			class="w-full aspect-ratio-square mb-2 b-cover-accent bg-cover-accent b-4 b-solid"
 			loading="lazy"
 		/>
 		<!-- show title and artist in center on hover, and darken background -->
