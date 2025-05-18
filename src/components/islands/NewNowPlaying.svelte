@@ -5,7 +5,7 @@
 	import "../../lib/helpers";
 	import Marquee from "../Marquee.svelte";
 
-	let trackTitle: HTMLAnchorElement | null = null;
+	let trackTitle: HTMLDivElement;
 	let trackTitleOverflowing = false;
 	let marqueeElement: HTMLElement;
 
@@ -14,8 +14,10 @@
 	}
 
 	$: if (trackTitle) {
+		console.log(trackTitle.scrollWidth, trackTitle.clientWidth)
 		if (trackTitle && trackTitle.scrollWidth > trackTitle.clientWidth) {
 			trackTitleOverflowing = true;
+			setTimeout(window.Marquee3k.init, 150);
 		}
 	}
 
@@ -24,17 +26,15 @@
 
 	async function getAlbumArtColor() {
 		if (!coverArt || coverArt.src.includes("/music.avif")) {
-			console.log("cancelling cover art")
+			console.log("cancelling cover art");
 			return; // make the linter happy
 		}
 		if (sessionStorage.getItem("previousImg") === coverArt.src) {
-			console.info("hey, i know this one!")
-			const textColors = sessionStorage.getItem(
-				"textColors"
-			);
-			const palette = JSON.parse(sessionStorage.getItem("palette"))
+			console.info("hey, i know this one!");
+			const textColors = sessionStorage.getItem("textColors");
+			const palette = JSON.parse(sessionStorage.getItem("palette"));
 			if (!palette || !textColors) {
-				console.log("whoops..")
+				console.log("whoops..");
 			}
 			document.documentElement.style.setProperty(
 				"--accent-bg-dark",
@@ -72,11 +72,12 @@
 				"--accent-text",
 				palette?.LightMuted?.bodyTextColor || "#ffffff",
 			);
-			return
+			return;
 		}
 		const palette = await getDominantColor(coverArt.src);
 
-		!coverArt.src.includes("/music.avif") && sessionStorage.setItem("previousImg", coverArt.src)
+		!coverArt.src.includes("/music.avif") &&
+			sessionStorage.setItem("previousImg", coverArt.src);
 		sessionStorage.setItem("palette", JSON.stringify(palette));
 		sessionStorage.setItem(
 			"textColors",
@@ -128,58 +129,65 @@
 	function stitchArtistCredits(
 		artists: ListenBrainzRes["listens"][0]["track_metadata"]["mbid_mapping"]["artists"],
 	) {
-		return artists ? artists
-			.map(
-				(artist) =>
-					artist.artist_credit_name.toRespectfulLowerCase() +
-					(artist.join_phrase || ""),
-			)
-			.join("") : null;
+		return artists
+			? artists
+					.map(
+						(artist) =>
+							artist.artist_credit_name.toRespectfulLowerCase() +
+							(artist.join_phrase || ""),
+					)
+					.join("")
+			: null;
 	}
 </script>
 
 {#await recentTrack}
-<div
-	class="relative overflow-hidden w-full grow group aspect-ratio-square p-2 hover:p-0 duration-300 cursor-help"
->
-<img
-	src="/music.avif"
-	alt="placeholder cover art"
-	class="w-full h-auto mb-2"
-	loading="lazy"
-/>
-<!-- show title and artist in center on hover, and darken background -->
-<div
-	class="absolute bg-[--accent-muted-dark] bottom-0 op-0 op-80 transition-delay-150 transition-200 w-full h-full z-1"
-></div>
-<div
-	class="absolute bottom-0 op-0 op-100 transition-delay-150 transition-200 w-full h-full z-2 flex justify-center items-center flex-col"
->
-	<p class="text-sm text-neutral-300 text-center w-full italic">
-		please wait
-	</p>
-	<p
-		class="text-white text-4xl !line-height-none font-800 text-center w-4/5"
-	>
-		loading data...
-	</p>
-</div>
-</div>
-{:then track }
 	<div
-		href={track.matched && `https://listenbrainz.org/release/${track.release.mbid}`}
+		class="relative overflow-hidden w-full grow group aspect-ratio-square p-2 hover:p-0 duration-300 cursor-help"
+	>
+		<img
+			src="/music.avif"
+			alt="placeholder cover art"
+			class="w-full h-auto mb-2"
+			loading="lazy"
+		/>
+		<!-- show title and artist in center on hover, and darken background -->
+		<div
+			class="absolute bg-[--accent-muted-dark] bottom-0 op-0 op-80 transition-delay-150 transition-200 w-full h-full z-1"
+		></div>
+		<div
+			class="absolute bottom-0 op-0 op-100 transition-delay-150 transition-200 w-full h-full z-2 flex justify-center items-center flex-col"
+		>
+			<p class="text-sm text-neutral-300 text-center w-full italic">
+				please wait
+			</p>
+			<p
+				class="text-white text-4xl !line-height-none font-800 text-center w-4/5"
+			>
+				loading data...
+			</p>
+		</div>
+	</div>
+{:then track}
+	<div
+		href={track.matched &&
+			`https://listenbrainz.org/release/${track.release.mbid}`}
 		class="block w-full"
 	>
 		<!-- <strong>{release.release_name}</strong> by {release.artist_name} 
 	(Listens: {release.listen_count}) -->
 		<img
-			src="https://wsrv.nl/?url=coverartarchive.org/release/{track
-				.release.mbid}/front-500"
+			src="https://wsrv.nl/?url=coverartarchive.org/release/{track.release
+				.mbid}/front-250"
 			alt="{track.release.name} cover art"
-			on:error={(e) =>
-				((e.target.src = "/music.avif"))}
+			on:error={(e) => (e.target.src = "/music.avif")}
 			bind:this={coverArt}
-			on:load={(e) => {console.log("e.target", e.target.src); if (e.target.src.includes("/music.avif")) {console.log("cancelling album get"); return}; console.log("getting colors"); getAlbumArtColor()}}
+			on:load={(e) => {
+				if (e.target.src.includes("/music.avif")) {
+					return;
+				}
+				getAlbumArtColor();
+			}}
 			class="w-full h-auto mb-2 b-cover-accent b-4 b-solid"
 			loading="lazy"
 		/>
@@ -191,29 +199,47 @@
 			class="bottom-0 op-0 op-100 transition-delay-150 transition-200 w-full h-full z-2 flex justify-end items-end flex-col"
 		>
 			{#if track.matched}
-			<a href="https://musicbrainz.org/recording/{track.mbid}"
-				class="text-white text-4xl !line-height-none font-800 text-right w-max"
-			>
-				{(track.name)
-					.toRespectfulLowerCase()
-					.replaceAll("’", "'")}
-			</a>
-			<p class="text-sm text-neutral-300 text-right w-full italic">
-				{#each track.artists as artist, i}
-					<a href="https://listenbrainz.org/artist/{artist.mbid}">{artist.name.toRespectfulLowerCase().replaceAll("’", "'")}</a> {i !== (track.artists.length-1) ? artist.join_phrase : ""}
-				{/each}
-			</p>
+				<a
+					bind:this={trackTitle}
+					href="https://musicbrainz.org/recording/{track.mbid}"
+					class="block text-nowrap overflow-clip marquee3k text-white text-4xl !line-height-none font-800 text-right w-max max-w-full"
+					data-speed="0.75"
+				>
+					<span class="font-bold" style={trackTitleOverflowing ? `padding-right: 4rem`: ""}>
+						{track.name
+							.toRespectfulLowerCase()
+							.replaceAll("’", "'")}
+					</span>
+				</a>
+				<p class="text-sm text-neutral-300 text-right w-4/5 italic">
+					{#each track.artists as artist, i}
+						<a href="https://listenbrainz.org/artist/{artist.mbid}"
+							>{artist.name
+								.toRespectfulLowerCase()
+								.replaceAll("’", "'")}</a
+						>
+						{i !== track.artists.length - 1
+							? artist.join_phrase
+							: ""}
+					{/each}
+				</p>
 			{:else}
-			<p
-				class="text-white text-4xl !line-height-none font-800 text-right w-full"
-			>
-				{track.name.replace(/\s*\(feat\. [^)]+\)/i, "")
-					.toRespectfulLowerCase()
-					.replaceAll("’", "'")}
-			</p>
-			<p class="text-sm text-neutral-300 text-right w-full italic">
-				{track.artists[0].name.toRespectfulLowerCase().replaceAll("’", "'")}
-			</p>
+				<div
+					bind:this={trackTitle}
+					class="block text-nowrap overflow-clip marquee3k text-white text-4xl !line-height-none font-800 text-right w-max max-w-full"
+				>
+					<span class="font-bold pr-16">
+						{track.name
+							.replace(/\s*\(feat\. [^)]+\)/i, "")
+							.toRespectfulLowerCase()
+							.replaceAll("’", "'")}
+					</span>
+				</div>
+				<p class="text-sm text-neutral-300 text-right w-full italic">
+					{track.artists[0].name
+						.toRespectfulLowerCase()
+						.replaceAll("’", "'")}
+				</p>
 			{/if}
 			<!-- {#if now_playing}
 				<p
@@ -238,6 +264,6 @@
 		/* b-b-dotted b-b-cover-accent */
 	}
 	a:hover {
-		text-shadow: 0 0 0.125rem white
+		text-shadow: 0 0 0.125rem white;
 	}
 </style>
