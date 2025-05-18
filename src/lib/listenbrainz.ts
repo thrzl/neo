@@ -1,4 +1,19 @@
-import type { ListenBrainzRes, MusicBrainzRecordingSearch } from "./types";
+import type { MusicBrainzRecordingSearch, ListenBrainzRes } from "./types";
+
+export type Track = {
+    release: {
+        mbid: string,
+        name: string,
+    },
+    artists: {
+        name: string,
+        join_phrase: string,
+        mbid: string
+    },
+    name: string,
+    mbid: string,
+    matched: boolean
+}
 
 async function getNowPlaying() {
     const res = await fetch(
@@ -22,77 +37,135 @@ async function getLastListen() {
     return lastListen.payload;
 }
 
-export default async function getRecentTrack() {
-    let recentTrackData = await getNowPlaying();
-
-    if (recentTrackData.listens.length === 0) {
-        recentTrackData = await getLastListen();
-    } else if (!recentTrackData.listens[0].track_metadata.mbid_mapping) {
-        const track = recentTrackData.listens[0].track_metadata;
-
-        const cleaned_release_name = track.release_name
-            .replace(/\s*-\s*[^-]+$/, "") // remove '- EP', '- Single', etc.
-            .replace(/\s*\(feat\. [^)]+\)/i, ""); // remove '(feat. ...)'
-
-        // musicbrainz api search for recording with the same isrc OR with the same track, release, and artist name
-        const query = track.additional_info.isrc ? `isrc:${track.additional_info.isrc} OR (recording:"${track.track_name.replace(/\s*\(feat\. [^)]+\)/i, '')}" AND artist:"${track.artist_name}" AND release:"${cleaned_release_name}")` : `recording:"${track.track_name.replace(/\s*\(feat\. [^)]+\)/i, '')}" AND artist:"${track.artist_name}" AND release:"${cleaned_release_name}"`
-        const rawTrackMetadata = await fetch(
-            `https://musicbrainz.org/ws/2/recording?fmt=json&query=${query}`,
-        );
-
-        if (!rawTrackMetadata.ok) {
-            console.error(
-                "failed to fetch metadata lookup for now playing recording",
-            );
-            return recentTrackData;
+export default async function getRecentTrack(): Promise<Track> {
+    const nowPlaying = (await getNowPlaying()).listens[0];
+    if (nowPlaying?.track_metadata.additional_info) {
+        // if the track has an mbid, meaning it was found in the database
+        const data = nowPlaying.track_metadata
+        const rawData = await fetch(`https://musicbrainz.org/ws/2/recording?fmt=json&query=rid:${data.additional_info.recording_mbid} AND release:(${data.release_name})`)
+        const trackMetadata: MusicBrainzRecordingSearch = await rawData.json();
+        const track = trackMetadata.recordings[0]
+        console.log(track.releases)
+        const release = track.releases.filter((release) => {
+            return release.title === data.release_name && release.media[0].format === "Digital Media"
+        })[0] || track.releases.filter((release) => {
+            return release.media[0].format === "Digital Media"
+        })[0] || track.releases[0]
+        return {
+            name: track.title,
+            mbid: track.id,
+            release: {
+                mbid: release.id,
+                name: release.title,
+            },
+            artists: track["artist-credit"].map((credit, i) =>
+            ({
+                name: credit.name,
+                mbid: credit.artist.id,
+                join_phrase: credit.joinphrase || " · "
+            }
+            )),
+            matched: true
         }
-
-        const trackMetadata: MusicBrainzRecordingSearch =
-            await rawTrackMetadata.json();
-
-        // console.debug("trackMetadata: ", trackMetadata);
-
-        // recording should be the release with a matching isrc or the first release
-        const matchedRecording =
-            trackMetadata.recordings.find((recording) =>
-                recording.isrcs?.includes(track.additional_info.isrc),
-            ) || trackMetadata.recordings[0];
-
-        console.debug("matchedRecording: ", matchedRecording)
-        const preferredRelease = matchedRecording?.releases.find((release) => !release.disambiguation) || matchedRecording?.releases[0]
-
-
-        if (
-            matchedRecording?.releases[0]?.title.toLowerCase() !== cleaned_release_name.toLowerCase() && // check for same title
-            !matchedRecording?.isrcs?.includes(track.additional_info.isrc) // check if the isrc matches
-        ) {
-
-            console.error("no valid media found for the current track! :(");
-            console.error("case check: ",  matchedRecording?.releases[0]?.title.toLowerCase() !== cleaned_release_name.toLowerCase())
-            console.error("isrc check: ", !matchedRecording?.isrcs?.includes(track.additional_info.isrc))
-            return recentTrackData;
-        }
-
-        // first release where media.format[0] is Digital Media
-        const matchedRelease = matchedRecording.releases.find(
-            (rel) => rel.media && rel.media.length > 0 && rel.media[0].format === "Digital Media",
-        ) || matchedRecording.releases[0];
-
-        recentTrackData.listens[0].track_metadata.mbid_mapping = {
-            release_mbid: matchedRelease.id,
-            recording_mbid: matchedRecording.id,
-            recording_name: matchedRecording.title,
-            caa_id: 0,
-            caa_release_mbid: matchedRelease.id,
-            artist_mbids: matchedRecording["artist-credit"].map(
-                (artist) => artist.artist.id,
-            ),
-            artists: matchedRecording["artist-credit"].map((artist) => ({
-                artist_credit_name: artist.name,
-                artist_mbid: artist.artist.id,
-                join_phrase: artist.joinphrase || "",
-            })),
-        };
     }
-    return recentTrackData;
+
+
+
+    const recentTrackData = await getLastListen();
+    const track = recentTrackData.listens[0].track_metadata;
+
+    const copOut = {
+        name: track.track_name,
+        mbid: "",
+        artists: [
+            {
+                name: track.artist_name,
+                mbid: "",
+                join_phrase: ""
+            }
+        ],
+        release: {
+            mbid: "",
+            name: ""
+        },
+        matched: false
+    }
+
+    if (!track.release_name) {
+        return copOut
+    }
+
+    const cleaned_release_name = track.release_name
+        .replace(/\s*-\s*[^-]+$/, "") // remove '- EP', '- Single', etc.
+        .replace(/\s*\(feat\. [^)]+\)/i, ""); // remove '(feat. ...)'
+
+    // musicbrainz api search for recording with the same isrc OR with the same track, release, and artist name
+    const query = track.additional_info?.isrc ? `isrc:${track.additional_info.isrc} OR (recording:"${track.track_name.replace(/\s*\(feat\. [^)]+\)/i, '')}" AND artist:"${track.artist_name}" AND release:"${cleaned_release_name}")` : `recording:"${track.track_name.replace(/\s*\(feat\. [^)]+\)/i, '')}" AND artist:"${track.artist_name}" AND release:"${cleaned_release_name}"`
+    const rawTrackMetadata = await fetch(
+        `https://musicbrainz.org/ws/2/recording?fmt=json&query=${query}`,
+    );
+
+    if (!rawTrackMetadata.ok) {
+        console.error(
+            "failed to fetch metadata lookup for now playing recording",
+        );
+        return copOut;
+    }
+
+    const trackMetadata: MusicBrainzRecordingSearch =
+        await rawTrackMetadata.json();
+
+    // console.debug("trackMetadata: ", trackMetadata);
+
+    // recording should be the release with a matching isrc or the first release
+    const matchedRecording =
+        trackMetadata.recordings.find((recording) =>
+            recording.isrcs?.includes(track.additional_info.isrc),
+        ) || trackMetadata.recordings[0];
+
+    console.debug("matchedRecording: ", matchedRecording)
+    const matchedRelease = matchedRecording?.releases.find((release) => release["artist-credit"].map(credit => credit.artist
+        .id
+    ).includes(matchedRecording["artist-credit"][0].artist.id) && release.media[0].format === "Digital Media") || matchedRecording?.releases[0]
+
+    if (
+        (matchedRelease?.title.toLowerCase() !== cleaned_release_name.toLowerCase() && // check for same title
+            (!track.additional_info.isrc ? !matchedRecording?.isrcs?.includes(track.additional_info.isrc) : false))
+    ) {
+        console.error("no valid media found for the current track! :(");
+        console.error("case check: ", matchedRelease?.title.toLowerCase() !== cleaned_release_name.toLowerCase())
+        console.error("isrc check: ", (!track.additional_info.isrc ? !matchedRecording?.isrcs?.includes(track.additional_info.isrc) : true))
+        return copOut;
+    }
+
+    recentTrackData.listens[0].track_metadata.mbid_mapping = {
+        release_mbid: matchedRelease.id,
+        recording_mbid: matchedRecording.id,
+        recording_name: matchedRecording.title,
+        caa_id: 0,
+        caa_release_mbid: matchedRelease.id,
+        artist_mbids: matchedRecording["artist-credit"].map(
+            (artist) => artist.artist.id,
+        ),
+        artists: matchedRecording["artist-credit"].map((artist) => ({
+            artist_credit_name: artist.name,
+            artist_mbid: artist.artist.id,
+            join_phrase: artist.joinphrase || "",
+        })),
+    };
+
+    return {
+        release: {
+            name: matchedRelease.title,
+            mbid: matchedRelease.id,
+        },
+        artists: matchedRecording["artist-credit"].map((credit) => ({
+            name: credit.name,
+            mbid: credit.artist.id,
+            join_phrase: credit.joinphrase || " · "
+        })),
+        name: matchedRecording.title,
+        mbid: matchedRecording.id,
+        matched: true
+    };
 }
