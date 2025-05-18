@@ -21,14 +21,14 @@ export default defineConfig({
         "a": {
           "text-decoration": "none",
           "font-style": "italic",
-          "border-bottom": "2px dotted lightgreen"
+          "border-bottom": "2px dotted var(--accent-bg, rgb(74 222 128))"
           // b-b-dotted b-b-1 b-b-green
         },
         "a:hover": {
-          "border-bottom": "1px dotted lightgreen"
+          "border-bottom": "1px dotted var(--accent-bg, rgb(74 222 128))"
         },
         "h1, h2, h3, h4, h5, h6": {
-          "border-bottom": "1px dotted lightgreen",
+          "border-bottom": "1px dotted var(--accent-bg, rgb(74 222 128))",
           "width": "max-content"
         },
         "#footnote-label": {
