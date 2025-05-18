@@ -9,7 +9,7 @@ export type Track = {
         name: string,
         join_phrase: string,
         mbid: string
-    },
+    }[],
     name: string,
     mbid: string,
     matched: boolean
