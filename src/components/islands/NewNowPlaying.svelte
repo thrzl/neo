@@ -1,9 +1,8 @@
 <script lang="ts">
 	import type { ListenBrainzRes } from "../../lib/types";
 	import { getDominantColor } from "../../lib/colors";
-	import getRecentTrack from "../../lib/listenbrainz";
 	import "../../lib/helpers";
-	import Marquee from "../Marquee.svelte";
+    import type { Track } from "../../lib/listenbrainz";
 
 	let trackTitle: HTMLDivElement;
 	let trackTitleOverflowing = false;
@@ -21,6 +20,10 @@
 		}
 	}
 
+	async function getRecentTrack(): Promise<Track> {
+		const res = await fetch("https://lstnbrnz.thrzl.xyz/?user=thrizzle")
+		return await res.json()
+	}
 	const recentTrack = getRecentTrack();
 	let coverArt: HTMLImageElement | null = null;
 

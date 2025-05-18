@@ -36,70 +36,6 @@ export type ListenBrainzRes = {
 	user_id: string;
 };
 
-export type ListenBrainzMetadata = {
-	artist_credit_name: string;
-	artist_mbids: Array<string>;
-	recording_mbid: string;
-	recording_name: string;
-	release_mbid: string;
-	release_name: string;
-};
-
-export type MusicBrainzRecordingSearch = {
-	created: string;
-	count: number;
-	offset: number;
-	recordings: Array<{
-		id: string;
-		title: string;
-		length: number;
-		"artist-credit": Array<{
-			joinphrase?: string;
-			name: string;
-			artist: {
-				id: string;
-				name: string;
-			};
-		}>;
-		releases: Array<{
-			id: string;
-			title: string;
-			status: string;
-			disambiguation: string | undefined;
-			"artist-credit": Array<{
-				name: string;
-				artist: {
-					id: string;
-					name: string;
-					"sort-name": string;
-				};
-			}>;
-			"release-group": {
-				id: string;
-				"type-id": string;
-				"primary-type-id": string;
-				title: string;
-				"primary-type": string;
-			};
-			date?: string;
-			country?: string;
-			"track-count": number;
-			media: Array<{
-				format: string;
-				track: Array<{
-					id: string;
-					number: string;
-					title: string;
-					length: number;
-				}>;
-				"track-count": number;
-				"track-offset": number;
-			}>;
-		}>;
-		isrcs: Array<string>;
-	}>;
-};
-
 export type AniListMedia = {
 	data: {
 		User: {
@@ -107,76 +43,76 @@ export type AniListMedia = {
 				anime: {
 					nodes: Array<{
 						title: {
-							english: string
-							native: string
-						}
+							english: string;
+							native: string;
+						};
 						coverImage: {
-							color: string
-						}
-						siteUrl: string
-						bannerImage: string
-					}>
-				}
-			}
-		}
+							color: string;
+						};
+						siteUrl: string;
+						bannerImage: string;
+					}>;
+				};
+			};
+		};
 		MediaList: {
 			user: {
-				name: string
-			}
+				name: string;
+			};
 			media: {
 				title: {
-					english: string
-					native: string
-				}
-				siteUrl: string
-				bannerImage: string
-			}
-		}
+					english: string;
+					native: string;
+				};
+				siteUrl: string;
+				bannerImage: string;
+			};
+		};
 		MediaListCollection: {
 			lists: Array<{
-				status: string
+				status: string;
 				entries: Array<{
 					media: {
 						coverImage: {
-							color: string
-						}
+							color: string;
+						};
 						title: {
-							english: string
-							native: string
-						}
-						siteUrl: string
-					}
-				}>
-			}>
-		}
-	}
-}
+							english: string;
+							native: string;
+						};
+						siteUrl: string;
+					};
+				}>;
+			}>;
+		};
+	};
+};
 
 export type WebMention = {
-	"type": string,
-	"name": string,
-	"children": [
+	type: string;
+	name: string;
+	children: [
 		{
-			"type": string,
-			"author": {
-				"type": string,
-				"name": string,
-				"photo": string,
-				"url": string
-			},
-			"url": string,
-			"published": string | null,
-			"wm-received": string | null,
-			"wm-id": number,
-			"wm-source": string,
-			"wm-target": string,
-			"wm-protocol": string,
-			"content": {
-				"text": string
-			},
-			"in-reply-to": string,
-			"wm-property": string,
-			"wm-private": boolean
-		}
-	]
-}
+			type: string;
+			author: {
+				type: string;
+				name: string;
+				photo: string;
+				url: string;
+			};
+			url: string;
+			published: string | null;
+			"wm-received": string | null;
+			"wm-id": number;
+			"wm-source": string;
+			"wm-target": string;
+			"wm-protocol": string;
+			content: {
+				text: string;
+			};
+			"in-reply-to": string;
+			"wm-property": string;
+			"wm-private": boolean;
+		},
+	];
+};
