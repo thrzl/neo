@@ -1,4 +1,4 @@
-import type { AniListMedia } from "./types";
+import type { AniListMedia } from "../env"
 
 export const defaultAniListResponse = {
   "data": {
@@ -302,7 +302,7 @@ export const anilistGraphQLVariables = {
   "chunk": 1
 }
 
-export async function fetchAniListData() {
+export async function fetchAniListData(): Promise<AniListMedia["data"]> {
   if (!import.meta.env.PROD) {
     return defaultAniListResponse.data
   }
