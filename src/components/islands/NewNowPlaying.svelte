@@ -5,7 +5,7 @@ import "@gouch/to-title-case";
 import { onMount } from "svelte";
 
 let trackTitle: HTMLDivElement;
-let trackTitleOverflowing = false;
+// let trackTitleOverflowing = false;
 
 // biome-ignore lint/style/useConst: svelte needs this
 let marqueeElement: HTMLElement | null = null;
@@ -29,12 +29,14 @@ $: if (marqueeElement) {
 	window.Marquee3k.refreshAll();
 }
 
-$: if (trackTitle) {
+function trackTitleOverflowing() {
+	if (!trackTitle) {return false}
 	console.log(trackTitle.scrollWidth, trackTitle.clientWidth);
 	if (trackTitle && trackTitle.scrollWidth > trackTitle.clientWidth) {
-		trackTitleOverflowing = true;
 		setTimeout(window.Marquee3k.init, 150);
+		return true
 	}
+	return false
 }
 
 async function getRecentTrack(): Promise<Track> {
@@ -228,7 +230,7 @@ async function getAlbumArtColor() {
 					data-speed="0.75"
 				>
 					<div>
-						<a href="https://musicbrainz.org/recording/{recentTrack.mbid}" class="font-bold inline {trackTitleOverflowing ? 'mr-16': ''}">
+						<a href="https://musicbrainz.org/recording/{recentTrack.mbid}" class="font-bold inline {trackTitleOverflowing() ? 'mr-16': ''}">
 							{recentTrack.name
 								.toRespectfulLowerCase()
 								.replaceAll("’", "'")}
