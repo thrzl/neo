@@ -2,6 +2,7 @@
 import { getDominantColor } from "../../lib/colors";
 import type { Track } from "../../env";
 import "@gouch/to-title-case";
+import { onMount } from "svelte";
 
 let trackTitle: HTMLDivElement;
 let trackTitleOverflowing = false;
@@ -37,7 +38,18 @@ async function getRecentTrack(): Promise<Track> {
 	const res = await fetch("https://lstnbrnz.thrzl.xyz/?user=thrizzle");
 	return await res.json();
 }
-const recentTrack = getRecentTrack();
+let recentTrack: Track | null = null
+
+async function updateRecentTrack() {
+	recentTrack = await getRecentTrack()
+}
+
+onMount(() => {
+	updateRecentTrack()
+
+	const interval = setInterval(updateRecentTrack, 15000);
+	return () => clearInterval(interval);
+})
 
 // biome-ignore lint/style/useConst: needed by svelte
 let coverArt: HTMLImageElement | null = null;
@@ -148,7 +160,7 @@ async function getAlbumArtColor() {
 
 </script>
 
-{#await recentTrack}
+{#if recentTrack === null}
 	<div
 		class="relative overflow-hidden w-full grow group aspect-ratio-square p-2 hover:p-0 duration-300 cursor-help"
 	>
@@ -175,14 +187,14 @@ async function getAlbumArtColor() {
 			</p>
 		</div>
 	</div>
-{:then track}
+{:else}
 	<div
 		class="block w-full"
 	>
 		<img
-			src="https://wsrv.nl/?url=coverartarchive.org/release/{track.release
+			src="https://wsrv.nl/?url=coverartarchive.org/release/{recentTrack.release
 				.mbid}/front-250"
-			alt="{track.release.name} cover art"
+			alt="{recentTrack.release.name} cover art"
 			on:error={(e) => {
 				const img = e.target as HTMLImageElement;
 				img.src = "/music.avif"}}
@@ -204,28 +216,29 @@ async function getAlbumArtColor() {
 		<div
 			class="bottom-0 op-0 op-100 transition-delay-150 transition-200 w-full h-full z-2 flex justify-end items-end flex-col"
 		>
-			{#if track.matched}
+		{#key recentTrack.mbid}
+			{#if recentTrack.matched}
 				<div
 					bind:this={trackTitle}
 					class="block text-nowrap overflow-clip marquee3k text-white text-4xl font-800 text-right w-max max-w-full"
 					data-speed="0.75"
 				>
 					<div>
-						<a href="https://musicbrainz.org/recording/{track.mbid}" class="font-bold inline" style={trackTitleOverflowing ? `margin-right: 4rem`: ""}>
-							{track.name
+						<a href="https://musicbrainz.org/recording/{recentTrack.mbid}" class="font-bold inline" style={trackTitleOverflowing ? `margin-right: 4rem`: ""}>
+							{recentTrack.name
 								.toRespectfulLowerCase()
 								.replaceAll("’", "'")}
 						</a>
 					</div>
 				</div>
 				<p class="text-sm text-neutral-300 text-right w-4/5 italic">
-					{#each track.artists as artist, i}
+					{#each recentTrack.artists as artist, i}
 						<a href="https://listenbrainz.org/artist/{artist.mbid}"
 							>{artist.name
 								.toRespectfulLowerCase()
 								.replaceAll("’", "'")}</a
 						>
-						{i !== track.artists.length - 1
+						{i !== recentTrack.artists.length - 1
 							? artist.join_phrase
 							: ""}
 					{/each}
@@ -236,18 +249,19 @@ async function getAlbumArtColor() {
 					class="block text-nowrap overflow-clip marquee3k text-white text-4xl !line-height-none font-800 text-right w-max max-w-full"
 				>
 					<span class="font-bold pr-16">
-						{track.name
+						{recentTrack.name
 							.replace(/\s*\(feat\. [^)]+\)/i, "")
 							.toRespectfulLowerCase()
 							.replaceAll("’", "'")}
 					</span>
 				</div>
 				<p class="text-sm text-neutral-300 text-right w-full italic">
-					{track.artists[0].name
+					{recentTrack.artists[0].name
 						.toRespectfulLowerCase()
 						.replaceAll("’", "'")}
 				</p>
 			{/if}
+		{/key}
 			<!-- {#if now_playing}
 				<p
 					class="line-height-none w-max animate-pulse duration-100 text-lg lg:text-sm m-0 text-[--accent-bg-light]"
@@ -263,7 +277,7 @@ async function getAlbumArtColor() {
 			{/if} -->
 		</div>
 	</div>
-{/await}
+{/if}
 
 <style>
 	a {
