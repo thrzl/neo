@@ -53,6 +53,15 @@ import Footer from "../components/Footer.astro";
 				palette?.LightMuted?.bodyTextColor || "#ffffff",
 			);
         })
+		document.querySelectorAll('[class*="cover-"]').forEach(el => {
+				el.classList.forEach(cls => {
+					const match = cls.match(/^(text|bg|border)-cover-(.+)$/);
+					if (match) {
+						if (!(el.classList.contains("transition-colors") && el.classList.contains("duration-200")))
+						el.classList.add('transition-colors', 'duration-200');
+					}
+				});
+			});
     </script>
 
     <div class="grid grid-cols-[25%_50%_25%] justify-center text-white overflow-x-scroll min-w-screen">
