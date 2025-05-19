@@ -14,10 +14,10 @@ import Footer from "../components/Footer.astro";
 <Html backgroundColor={backgroundColor}>
     <script>
         document.addEventListener("astro:page-load", () => {
-            const textColors = sessionStorage.getItem(
+            const textColors = JSON.parse(sessionStorage.getItem(
 				"textColors"
-			);
-			const palette = JSON.parse(sessionStorage.getItem("palette"))
+			) || "");
+			const palette = JSON.parse(sessionStorage.getItem("palette") || "")
 			if (!palette || !textColors) {
 				return
 			}
