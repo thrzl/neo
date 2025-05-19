@@ -226,7 +226,7 @@ async function getAlbumArtColor() {
 			{#if recentTrack.matched}
 				<div
 					bind:this={trackTitle}
-					class="block text-nowrap overflow-clip marquee3k text-white text-4xl font-800 text-right w-max max-w-full"
+					class="block text-nowrap overflow-clip {trackTitleOverflowing() ? 'marquee3k': ''} text-white text-4xl font-800 text-right w-max max-w-full"
 					data-speed="0.75"
 				>
 					<div>
