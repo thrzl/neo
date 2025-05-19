@@ -63,7 +63,7 @@ import Footer from "../components/Footer.astro";
 					const match = cls.match(/^(text|bg|border)-cover-(.+)$/);
 					if (match) {
 						if (!(el.classList.contains("transition-colors") && el.classList.contains("duration-200")))
-						el.classList.add('transition-colors', 'duration-200');
+						el.classList.add('transition-colors', 'duration-1000');
 					}
 				});
 			});
