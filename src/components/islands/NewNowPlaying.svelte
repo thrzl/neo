@@ -195,6 +195,7 @@ async function getAlbumArtColor() {
 	<div
 		class="block w-full"
 	>
+	{#key recentTrack.mbid}
 		<img
 			src="https://wsrv.nl/?url=coverartarchive.org/release/{recentTrack.release
 				.mbid}/front-250"
@@ -220,7 +221,6 @@ async function getAlbumArtColor() {
 		<div
 			class="bottom-0 op-0 op-100 transition-delay-150 transition-200 w-full h-full z-2 flex justify-end items-end flex-col"
 		>
-		{#key recentTrack.mbid}
 			{#if recentTrack.matched}
 				<div
 					bind:this={trackTitle}
@@ -228,7 +228,7 @@ async function getAlbumArtColor() {
 					data-speed="0.75"
 				>
 					<div>
-						<a href="https://musicbrainz.org/recording/{recentTrack.mbid}" class="font-bold inline mr-16">
+						<a href="https://musicbrainz.org/recording/{recentTrack.mbid}" class="font-bold inline {trackTitleOverflowing ? 'mr-16': ''}">
 							{recentTrack.name
 								.toRespectfulLowerCase()
 								.replaceAll("’", "'")}
@@ -265,21 +265,21 @@ async function getAlbumArtColor() {
 						.replaceAll("’", "'")}
 				</p>
 			{/if}
-		{/key}
 			<!-- {#if now_playing}
-				<p
-					class="line-height-none w-max animate-pulse duration-100 text-lg lg:text-sm m-0 text-[--accent-bg-light]"
-				>
-					now playing!
-				</p>
+			<p
+			class="line-height-none w-max animate-pulse duration-100 text-lg lg:text-sm m-0 text-[--accent-bg-light]"
+			>
+			now playing!
+			</p>
 			{:else}
-				<p
-					class="line-height-none w-max duration-100 text-lg lg:text-sm m-0 text-[--accent-bg-light]"
-				>
-					recent track
-				</p>
+			<p
+			class="line-height-none w-max duration-100 text-lg lg:text-sm m-0 text-[--accent-bg-light]"
+			>
+			recent track
+			</p>
 			{/if} -->
 		</div>
+		{/key}
 	</div>
 {/if}
 
