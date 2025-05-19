@@ -11,16 +11,19 @@ let trackTitleOverflowing = false;
 let marqueeElement: HTMLElement | null = null;
 
 String.prototype.toRespectfulLowerCase = function () {
-    if (this === this.toUpperCase() || this === this.toLowerCase()) {
-        return this.toString();
-    }
-    // if text is titlecase or first letter of the entire string is uppercase,
-    // convert it to lowercase
-    if (this.toTitleCase() === this || this.charAt(0) === this.charAt(0).toUpperCase()) {
-        return this.toLowerCase();
-    }
-    return this.toString();
-}
+	if (this === this.toUpperCase() || this === this.toLowerCase()) {
+		return this.toString();
+	}
+	// if text is titlecase or first letter of the entire string is uppercase,
+	// convert it to lowercase
+	if (
+		this.toTitleCase() === this ||
+		this.charAt(0) === this.charAt(0).toUpperCase()
+	) {
+		return this.toLowerCase();
+	}
+	return this.toString();
+};
 
 $: if (marqueeElement) {
 	window.Marquee3k.refreshAll();
@@ -38,18 +41,18 @@ async function getRecentTrack(): Promise<Track> {
 	const res = await fetch("https://lstnbrnz.thrzl.xyz/?user=thrizzle");
 	return await res.json();
 }
-let recentTrack: Track | null = null
+let recentTrack: Track | null = null;
 
 async function updateRecentTrack() {
-	recentTrack = await getRecentTrack()
+	recentTrack = await getRecentTrack();
 }
 
 onMount(() => {
-	updateRecentTrack()
+	updateRecentTrack();
 
 	const interval = setInterval(updateRecentTrack, 15000);
 	return () => clearInterval(interval);
-})
+});
 
 // biome-ignore lint/style/useConst: needed by svelte
 let coverArt: HTMLImageElement | null = null;
@@ -61,7 +64,9 @@ async function getAlbumArtColor() {
 	}
 	if (sessionStorage.getItem("previousImg") === coverArt.src) {
 		console.info("hey, i know this one!");
-		const textColors = JSON.parse(sessionStorage.getItem("textColors") as string);
+		const textColors = JSON.parse(
+			sessionStorage.getItem("textColors") as string,
+		);
 		const palette = JSON.parse(sessionStorage.getItem("palette") as string);
 		if (!palette || !textColors) {
 			console.log("whoops..");
@@ -157,7 +162,6 @@ async function getAlbumArtColor() {
 	// window.palette = palette;
 	return;
 }
-
 </script>
 
 {#if recentTrack === null}
@@ -224,7 +228,7 @@ async function getAlbumArtColor() {
 					data-speed="0.75"
 				>
 					<div>
-						<a href="https://musicbrainz.org/recording/{recentTrack.mbid}" class="font-bold inline" style={trackTitleOverflowing ? `margin-right: 4rem`: ""}>
+						<a href="https://musicbrainz.org/recording/{recentTrack.mbid}" class="font-bold inline mr-16">
 							{recentTrack.name
 								.toRespectfulLowerCase()
 								.replaceAll("’", "'")}

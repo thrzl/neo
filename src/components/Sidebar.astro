@@ -6,21 +6,21 @@ import NowPlayingText from "../components/islands/NewNowPlaying.svelte";
 let commit: { message: string; hash: string; date: string };
 
 if (import.meta.env.PROD) {
-  const commitRes = await (
-    await fetch("https://api.github.com/repos/thrzl/neo/commits?per_page=1")
-  ).json();
+	const commitRes = await (
+		await fetch("https://api.github.com/repos/thrzl/neo/commits?per_page=1")
+	).json();
 
-  commit = {
-    message: commitRes[0].commit.message,
-    hash: commitRes[0].sha.slice(0, 7),
-    date: commitRes[0].commit.committer.date,
-  };
+	commit = {
+		message: commitRes[0].commit.message,
+		hash: commitRes[0].sha.slice(0, 7),
+		date: commitRes[0].commit.committer.date,
+	};
 } else {
-  commit = {
-    message: "now working!",
-    hash: "1234567",
-    date: "2025-04-25T16:28:32Z",
-  };
+	commit = {
+		message: "now working!",
+		hash: "1234567",
+		date: "2025-04-25T16:28:32Z",
+	};
 }
 ---
 
@@ -104,7 +104,7 @@ if (import.meta.env.PROD) {
   >
     recent track
   </h2>
-  <NowPlayingText client:only="svelte" />
+  <NowPlayingText client:only="svelte" transition:persist/>
 
   <!-- buttons -->
 
