@@ -6,11 +6,11 @@ import type { CollectionEntry } from "astro:content";
 import WebmentionComments from "../../components/islands/WebmentionComments.svelte";
 
 export async function getStaticPaths() {
-    const posts: CollectionEntry<"blog">[] = await getCollection("blog");
+	const posts: CollectionEntry<"blog">[] = await getCollection("blog");
 
-    return posts.map((post) => {
-        return { params: { slug: post.id } };
-    });
+	return posts.map((post) => {
+		return { params: { slug: post.id } };
+	});
 }
 const { slug } = Astro.params;
 

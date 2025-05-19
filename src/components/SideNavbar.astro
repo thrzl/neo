@@ -1,13 +1,13 @@
 ---
 import { navBarLinks } from "../lib/data";
-const links = navBarLinks
+const links = navBarLinks;
 const currentPath = Astro.url.pathname;
 
 function selectedSlug(slug: string) {
-    if (slug === "/" && currentPath === "/") {
-        return true
-    }
-    return slug !== "/" ? currentPath.startsWith(slug) : false
+	if (slug === "/" && currentPath === "/") {
+		return true;
+	}
+	return slug !== "/" ? currentPath.startsWith(slug) : false;
 }
 ---
 

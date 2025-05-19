@@ -2,42 +2,46 @@ import type Marquee3k from "marquee3000";
 import "@gouch/to-title-case";
 
 declare global {
-    interface Window { Marquee3k: Marquee3k; }
+	interface Window {
+		Marquee3k: Marquee3k;
+	}
 
-    interface String {
-      toRespectfulLowerCase(): string;
-      toTitleCase(): string;
-    }
-  }
-  
+	interface String {
+		toRespectfulLowerCase(): string;
+		toTitleCase(): string;
+	}
+}
 
 // only lowercase if the text is in grammatical title case
 String.prototype.toRespectfulLowerCase = function () {
-    if (this === this.toUpperCase() || this === this.toLowerCase()) {
-        return this.toString();
-    }
-    // if text is titlecase or first letter of the entire string is uppercase,
-    // convert it to lowercase
-    if (this.toTitleCase() === this || this.charAt(0) === this.charAt(0).toUpperCase()) {
-        return this.toLowerCase();
-    }
-    return this.toString();
-}
+	if (this === this.toUpperCase() || this === this.toLowerCase()) {
+		return this.toString();
+	}
+	// if text is titlecase or first letter of the entire string is uppercase,
+	// convert it to lowercase
+	if (
+		this.toTitleCase() === this ||
+		this.charAt(0) === this.charAt(0).toUpperCase()
+	) {
+		return this.toLowerCase();
+	}
+	return this.toString();
+};
 
 export type Track = {
-    release: {
-        mbid: string,
-        name: string,
-    },
-    artists: {
-        name: string,
-        join_phrase: string,
-        mbid: string
-    }[],
-    name: string,
-    mbid: string,
-    matched: boolean
-}
+	release: {
+		mbid: string;
+		name: string;
+	};
+	artists: {
+		name: string;
+		join_phrase: string;
+		mbid: string;
+	}[];
+	name: string;
+	mbid: string;
+	matched: boolean;
+};
 
 export type ListenBrainzRes = {
 	latest_listen_ts: number | undefined;

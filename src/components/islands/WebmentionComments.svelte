@@ -1,22 +1,22 @@
 <script lang="ts">
-  import type { WebMention } from "../../env";
-  export let baseUrl: string;
-  export let slug: string;
+import type { WebMention } from "../../env";
+export let baseUrl: string;
+export let slug: string;
 
-  async function getComments() {
-    const targets = [
-      new URL(`garden/${slug}`, baseUrl).href,
-      new URL(`garden/${slug}`, baseUrl).href.concat("/"),
-    ];
-    const params = `?${targets.map((url) => "target[]=".concat(url)).join("&")}`;
-    const webMentionsRes = await fetch(
-      "https://webmention.io/api/mentions.jf2".concat(params),
-    );
-    const webMentionsComments: WebMention = await webMentionsRes.json();
-    return webMentionsComments;
-  }
+async function getComments() {
+	const targets = [
+		new URL(`garden/${slug}`, baseUrl).href,
+		new URL(`garden/${slug}`, baseUrl).href.concat("/"),
+	];
+	const params = `?${targets.map((url) => "target[]=".concat(url)).join("&")}`;
+	const webMentionsRes = await fetch(
+		"https://webmention.io/api/mentions.jf2".concat(params),
+	);
+	const webMentionsComments: WebMention = await webMentionsRes.json();
+	return webMentionsComments;
+}
 
-  const commentsPromise = getComments();
+const commentsPromise = getComments();
 </script>
 
 {#await commentsPromise}

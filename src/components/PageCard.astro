@@ -1,5 +1,5 @@
 ---
-const { title, href, noPadding = false, class: customStyles } = Astro.props
+const { title, href, noPadding = false, class: customStyles } = Astro.props;
 ---
 
 <a href={href || title} class=`${customStyles || "block w-full h-auto"} b-1 b-neutral b-dotted`>

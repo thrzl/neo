@@ -1,5 +1,12 @@
 <script>
-const { margin, class: _class, speed = "1", reverse = true, wrapperStyle, children } = $props();
+const {
+	margin,
+	class: _class,
+	speed = "1",
+	reverse = true,
+	wrapperStyle,
+	children,
+} = $props();
 const trueMargin = margin !== undefined ? margin : "2";
 </script>
 

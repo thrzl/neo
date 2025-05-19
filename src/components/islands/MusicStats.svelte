@@ -1,41 +1,41 @@
 <script lang="ts">
-    export let range: string;
-    type Stats = {
-        count: number;
-        from_ts: number;
-        last_updated: number;
-        offset: number;
-        range: string;
-        releases: Array<{
-            artist_mbids: Array<string>;
-            artist_name: string;
-            artists: Array<{
-                artist_credit_name: string;
-                artist_mbid: string;
-                join_phrase: string;
-            }>;
-            caa_id: number;
-            caa_release_mbid: string;
-            listen_count: number;
-            release_mbid: string;
-            release_name: string;
-        }>;
-        to_ts: number;
-        total_release_count: number;
-        user_id: string;
-    };
+export let range: string;
+type Stats = {
+	count: number;
+	from_ts: number;
+	last_updated: number;
+	offset: number;
+	range: string;
+	releases: Array<{
+		artist_mbids: Array<string>;
+		artist_name: string;
+		artists: Array<{
+			artist_credit_name: string;
+			artist_mbid: string;
+			join_phrase: string;
+		}>;
+		caa_id: number;
+		caa_release_mbid: string;
+		listen_count: number;
+		release_mbid: string;
+		release_name: string;
+	}>;
+	to_ts: number;
+	total_release_count: number;
+	user_id: string;
+};
 
-    async function getStats() {
-        const res = await fetch(
-            `https://api.listenbrainz.org/1/stats/user/thrizzle/releases?range=${range}`,
-        );
-        if (!res.ok) {
-            throw new Error("Network response was not ok");
-        }
-        const raw_data: { payload: Stats } = await res.json();
-        return raw_data.payload;
-    }
-    const stats: Promise<Stats> = getStats();
+async function getStats() {
+	const res = await fetch(
+		`https://api.listenbrainz.org/1/stats/user/thrizzle/releases?range=${range}`,
+	);
+	if (!res.ok) {
+		throw new Error("Network response was not ok");
+	}
+	const raw_data: { payload: Stats } = await res.json();
+	return raw_data.payload;
+}
+const stats: Promise<Stats> = getStats();
 </script>
 
 {#await stats}
