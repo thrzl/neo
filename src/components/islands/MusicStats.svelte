@@ -1,6 +1,5 @@
 <script lang="ts">
     export let range: string;
-    import "../../lib/helpers";
     type Stats = {
         count: number;
         from_ts: number;
@@ -56,7 +55,7 @@
                             ? 1200
                             : 500}"
                         alt="{release.release_name} cover art"
-                        on:error={(e) => (e.target.src = "/music.avif")}
+                        on:error={(e) => {const img = e.target as HTMLImageElement; img? img.src = "/music.avif": ""}}
                         class="w-full h-auto group-hover:m-0 scale-95 group-hover:scale-100 group-hover:blur-none transition duration-300"
                         loading={i === stats.releases.length - 1 &&
                         stats.releases.length % 2 !== 0

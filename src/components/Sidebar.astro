@@ -2,23 +2,8 @@
 import Navbar from "../components/SideNavbar.astro";
 import { personalLinks } from "../lib/data";
 import MastodonRecent from "../components/islands/MastodonRecent.svelte";
-import TimeAgo from "javascript-time-ago";
-import en from "javascript-time-ago/locale/en";
 import NowPlayingText from "../components/islands/NewNowPlaying.svelte";
-TimeAgo.addDefaultLocale(en);
-const timeAgo = new TimeAgo("en-US");
 let commit: { message: string; hash: string; date: string };
-let websiteCarbon: {
-  cleanerThan: number;
-  rating: string;
-  statistics: {
-    co2: {
-      renewable: {
-        grams: number;
-      };
-    };
-  };
-};
 
 if (import.meta.env.PROD) {
   const commitRes = await (
@@ -30,25 +15,7 @@ if (import.meta.env.PROD) {
     hash: commitRes[0].sha.slice(0, 7),
     date: commitRes[0].commit.committer.date,
   };
-
-  // website carbon
-  websiteCarbon = await (
-    await fetch(
-      "https://api.websitecarbon.com/site?url=https://thrizzle.nekoweb.org",
-    )
-  ).json();
 } else {
-  websiteCarbon = {
-    cleanerThan: Math.random(),
-    rating: "Z-",
-    statistics: {
-      co2: {
-        renewable: {
-          grams: Math.random()/10,
-        },
-      },
-    },
-  };
   commit = {
     message: "now working!",
     hash: "1234567",
@@ -142,28 +109,21 @@ if (import.meta.env.PROD) {
   <!-- buttons -->
 
   <section class="text-right mt-4 block w-full flex flex-col items-end" id="buttons">
-    <img
-      height="31"
-      width="88"
-      sizes="88x31"
-      src="/buttons/indiewebcamp.svg"
-    />
-    <img height="31" width="88" sizes="88x31" src="/buttons/webmention.svg"/>
-    <img height="31" width="88" sizes="88x31" src="/buttons/microformats.svg"/>
+    <a href="https://indieweb.org/">
+      <img
+        height="31"
+        width="88"
+        sizes="88x31"
+        src="/buttons/indiewebcamp.svg"
+      />
+    </a>
+    <a href="https://webmention.net/"><img height="31" width="88" sizes="88x31" src="/buttons/webmention.svg"/></a>
+    <a href="http://microformats.org/wiki/microformats2"><img height="31" width="88" sizes="88x31" src="/buttons/microformats.svg"/></a>
     <a href="https://no-www.org/">
       <img height="31" width="88" sizes="88x31" src="https://no-www.org/images/blog-button.gif"/>
     </a>
-    <img height="31" width="88" sizes="88x31" src="/buttons/notbyai.svg"/>
+    <a href="https://notbyai.fyi/"><img height="31" width="88" sizes="88x31" src="/buttons/notbyai.svg"/></a>
   </section>
-
-  <!-- carbon stats -->
-  <p class="mt-6 italic text-cover-bright hover:text-white">
-    this website uses about {
-      websiteCarbon.statistics.co2.renewable.grams.toPrecision(3)
-    } grams of CO2 per load. that's in the top {
-      (1-websiteCarbon.cleanerThan).toPrecision(2) * 100
-    }% of all websites!
-  </p>
 
   <style>
     section#buttons > img {

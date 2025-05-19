@@ -1,94 +1,59 @@
 <script lang="ts">
-	import type { ListenBrainzRes } from "../../lib/types";
-	import { getDominantColor } from "../../lib/colors";
-	import "../../lib/helpers";
-    import type { Track } from "../../lib/listenbrainz";
+import { getDominantColor } from "../../lib/colors";
+import type { Track } from "../../env";
+import "@gouch/to-title-case";
 
-	let trackTitle: HTMLDivElement;
-	let trackTitleOverflowing = false;
-	let marqueeElement: HTMLElement;
+let trackTitle: HTMLDivElement;
+let trackTitleOverflowing = false;
 
-	$: if (marqueeElement) {
-		window.Marquee3k.refreshAll();
+// biome-ignore lint/style/useConst: svelte needs this
+let marqueeElement: HTMLElement | null = null;
+
+String.prototype.toRespectfulLowerCase = function () {
+    if (this === this.toUpperCase() || this === this.toLowerCase()) {
+        return this.toString();
+    }
+    // if text is titlecase or first letter of the entire string is uppercase,
+    // convert it to lowercase
+    if (this.toTitleCase() === this || this.charAt(0) === this.charAt(0).toUpperCase()) {
+        return this.toLowerCase();
+    }
+    return this.toString();
+}
+
+$: if (marqueeElement) {
+	window.Marquee3k.refreshAll();
+}
+
+$: if (trackTitle) {
+	console.log(trackTitle.scrollWidth, trackTitle.clientWidth);
+	if (trackTitle && trackTitle.scrollWidth > trackTitle.clientWidth) {
+		trackTitleOverflowing = true;
+		setTimeout(window.Marquee3k.init, 150);
 	}
+}
 
-	$: if (trackTitle) {
-		console.log(trackTitle.scrollWidth, trackTitle.clientWidth)
-		if (trackTitle && trackTitle.scrollWidth > trackTitle.clientWidth) {
-			trackTitleOverflowing = true;
-			setTimeout(window.Marquee3k.init, 150);
-		}
+async function getRecentTrack(): Promise<Track> {
+	const res = await fetch("https://lstnbrnz.thrzl.xyz/?user=thrizzle");
+	return await res.json();
+}
+const recentTrack = getRecentTrack();
+
+// biome-ignore lint/style/useConst: needed by svelte
+let coverArt: HTMLImageElement | null = null;
+
+async function getAlbumArtColor() {
+	if (!coverArt || coverArt.src.includes("/music.avif")) {
+		console.log("cancelling cover art");
+		return; // make the linter happy
 	}
-
-	async function getRecentTrack(): Promise<Track> {
-		const res = await fetch("https://lstnbrnz.thrzl.xyz/?user=thrizzle")
-		return await res.json()
-	}
-	const recentTrack = getRecentTrack();
-	let coverArt: HTMLImageElement | null = null;
-
-	async function getAlbumArtColor() {
-		if (!coverArt || coverArt.src.includes("/music.avif")) {
-			console.log("cancelling cover art");
-			return; // make the linter happy
+	if (sessionStorage.getItem("previousImg") === coverArt.src) {
+		console.info("hey, i know this one!");
+		const textColors = JSON.parse(sessionStorage.getItem("textColors") as string);
+		const palette = JSON.parse(sessionStorage.getItem("palette") as string);
+		if (!palette || !textColors) {
+			console.log("whoops..");
 		}
-		if (sessionStorage.getItem("previousImg") === coverArt.src) {
-			console.info("hey, i know this one!");
-			const textColors = sessionStorage.getItem("textColors");
-			const palette = JSON.parse(sessionStorage.getItem("palette"));
-			if (!palette || !textColors) {
-				console.log("whoops..");
-			}
-			document.documentElement.style.setProperty(
-				"--accent-bg-dark",
-				`rgb(${palette?.DarkVibrant?.rgb.join(", ")})` || "#000000",
-			);
-			document.documentElement.style.setProperty(
-				"--accent-bg",
-				`rgb(${palette?.Vibrant?.rgb.join(", ")})` || "#fff",
-			);
-			document.documentElement.style.setProperty(
-				"--accent-bg-light",
-				`rgb(${palette?.LightVibrant?.rgb.join(", ")})` || "#fff",
-			);
-			document.documentElement.style.setProperty(
-				"--accent-muted-light",
-				`rgb(${palette?.LightMuted?.rgb.join(", ")})` || "#fff",
-			);
-			document.documentElement.style.setProperty(
-				"--accent-muted-dark",
-				`rgb(${palette?.DarkMuted?.rgb.join(", ")})` || "#fff",
-			);
-			document.documentElement.style.setProperty(
-				"--accent-muted",
-				`rgb(${palette?.Muted?.rgb.join(", ")})` || "#fff",
-			);
-			document.documentElement.style.setProperty(
-				"--accent-text-dark",
-				textColors.dark || "#ffffff",
-			);
-			document.documentElement.style.setProperty(
-				"--accent-text-light",
-				textColors.light || "#ffffff",
-			);
-			document.documentElement.style.setProperty(
-				"--accent-text",
-				palette?.LightMuted?.bodyTextColor || "#ffffff",
-			);
-			return;
-		}
-		const palette = await getDominantColor(coverArt.src);
-
-		!coverArt.src.includes("/music.avif") &&
-			sessionStorage.setItem("previousImg", coverArt.src);
-		sessionStorage.setItem("palette", JSON.stringify(palette));
-		sessionStorage.setItem(
-			"textColors",
-			JSON.stringify({
-				light: palette?.LightVibrant?.bodyTextColor,
-				dark: palette?.DarkVibrant?.bodyTextColor,
-			}),
-		);
 		document.documentElement.style.setProperty(
 			"--accent-bg-dark",
 			`rgb(${palette?.DarkVibrant?.rgb.join(", ")})` || "#000000",
@@ -113,35 +78,74 @@
 			"--accent-muted",
 			`rgb(${palette?.Muted?.rgb.join(", ")})` || "#fff",
 		);
-		document.documentElement.style.setProperty(
-			"--accent-text-dark",
-			palette?.DarkVibrant?.bodyTextColor || "#ffffff",
-		);
-		document.documentElement.style.setProperty(
-			"--accent-text-light",
-			palette?.LightVibrant?.bodyTextColor || "#ffffff",
-		);
+		if (textColors) {
+			document.documentElement.style.setProperty(
+				"--accent-text-dark",
+				textColors.dark || "#ffffff",
+			);
+			document.documentElement.style.setProperty(
+				"--accent-text-light",
+				textColors.light || "#ffffff",
+			);
+		}
 		document.documentElement.style.setProperty(
 			"--accent-text",
 			palette?.LightMuted?.bodyTextColor || "#ffffff",
 		);
-		// window.palette = palette;
 		return;
 	}
+	const palette = await getDominantColor(coverArt.src);
 
-	function stitchArtistCredits(
-		artists: ListenBrainzRes["listens"][0]["track_metadata"]["mbid_mapping"]["artists"],
-	) {
-		return artists
-			? artists
-					.map(
-						(artist) =>
-							artist.artist_credit_name.toRespectfulLowerCase() +
-							(artist.join_phrase || ""),
-					)
-					.join("")
-			: null;
-	}
+	!coverArt.src.includes("/music.avif") &&
+		sessionStorage.setItem("previousImg", coverArt.src);
+	sessionStorage.setItem("palette", JSON.stringify(palette));
+	sessionStorage.setItem(
+		"textColors",
+		JSON.stringify({
+			light: palette?.LightVibrant?.bodyTextColor,
+			dark: palette?.DarkVibrant?.bodyTextColor,
+		}),
+	);
+	document.documentElement.style.setProperty(
+		"--accent-bg-dark",
+		`rgb(${palette?.DarkVibrant?.rgb.join(", ")})` || "#000000",
+	);
+	document.documentElement.style.setProperty(
+		"--accent-bg",
+		`rgb(${palette?.Vibrant?.rgb.join(", ")})` || "#fff",
+	);
+	document.documentElement.style.setProperty(
+		"--accent-bg-light",
+		`rgb(${palette?.LightVibrant?.rgb.join(", ")})` || "#fff",
+	);
+	document.documentElement.style.setProperty(
+		"--accent-muted-light",
+		`rgb(${palette?.LightMuted?.rgb.join(", ")})` || "#fff",
+	);
+	document.documentElement.style.setProperty(
+		"--accent-muted-dark",
+		`rgb(${palette?.DarkMuted?.rgb.join(", ")})` || "#fff",
+	);
+	document.documentElement.style.setProperty(
+		"--accent-muted",
+		`rgb(${palette?.Muted?.rgb.join(", ")})` || "#fff",
+	);
+	document.documentElement.style.setProperty(
+		"--accent-text-dark",
+		palette?.DarkVibrant?.bodyTextColor || "#ffffff",
+	);
+	document.documentElement.style.setProperty(
+		"--accent-text-light",
+		palette?.LightVibrant?.bodyTextColor || "#ffffff",
+	);
+	document.documentElement.style.setProperty(
+		"--accent-text",
+		palette?.LightMuted?.bodyTextColor || "#ffffff",
+	);
+	// window.palette = palette;
+	return;
+}
+
 </script>
 
 {#await recentTrack}
@@ -173,20 +177,19 @@
 	</div>
 {:then track}
 	<div
-		href={track.matched &&
-			`https://listenbrainz.org/release/${track.release.mbid}`}
 		class="block w-full"
 	>
-		<!-- <strong>{release.release_name}</strong> by {release.artist_name} 
-	(Listens: {release.listen_count}) -->
 		<img
 			src="https://wsrv.nl/?url=coverartarchive.org/release/{track.release
 				.mbid}/front-250"
 			alt="{track.release.name} cover art"
-			on:error={(e) => (e.target.src = "/music.avif")}
+			on:error={(e) => {
+				const img = e.target as HTMLImageElement;
+				img.src = "/music.avif"}}
 			bind:this={coverArt}
 			on:load={(e) => {
-				if (e.target.src.includes("/music.avif")) {
+				const img = e.target as HTMLImageElement;
+				if (img.src.includes("/music.avif")) {
 					return;
 				}
 				getAlbumArtColor();
