@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { WebMention } from "../../lib/types";
+  import type { WebMention } from "../../env";
   export let baseUrl: string;
   export let slug: string;
 
