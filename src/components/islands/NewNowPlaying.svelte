@@ -40,7 +40,7 @@ function trackTitleOverflowing() {
 }
 
 async function getRecentTrack(): Promise<Track> {
-	const res = await fetch("https://lstnbrnz.thrzl.xyz/?user=thrizzle");
+	const res = await fetch("https://nowplaying.thrzl.xyz/now_playing");
 	return await res.json();
 }
 let recentTrack: Track | null = null;
@@ -52,7 +52,7 @@ async function updateRecentTrack() {
 onMount(() => {
 	updateRecentTrack();
 
-	const interval = setInterval(updateRecentTrack, 15000);
+	const interval = setInterval(updateRecentTrack, 5000);
 	return () => clearInterval(interval);
 });
 
@@ -168,29 +168,29 @@ async function getAlbumArtColor() {
 
 {#if recentTrack === null}
 	<div
-		class="relative overflow-hidden w-full grow group aspect-ratio-square p-2 hover:p-0 duration-300 cursor-help"
+		class="block w-full"
 	>
 		<img
-			src="/music.avif"
+			src="music.avif"
 			alt="placeholder cover art"
-			class="w-full h-auto mb-2"
+			class="w-full aspect-ratio-square mb-2 b-cover-accent bg-cover-accent b-4 b-solid"
 			loading="lazy"
 		/>
 		<!-- show title and artist in center on hover, and darken background -->
 		<div
-			class="absolute bg-[--accent-muted-dark] bottom-0 op-0 op-80 transition-delay-150 transition-200 w-full h-full z-1"
+			class="bg-[--accent-muted-dark] bottom-0 op-0 op-80 transition-delay-150 transition-200 w-full h-full z-1"
 		></div>
 		<div
-			class="absolute bottom-0 op-0 op-100 transition-delay-150 transition-200 w-full h-full z-2 flex justify-center items-center flex-col"
+			class="bottom-0 op-0 op-100 transition-delay-150 transition-200 w-full h-full z-2 flex justify-end items-end flex-col"
 		>
-			<p class="text-sm text-neutral-300 text-center w-full italic">
-				please wait
-			</p>
-			<p
-				class="text-white text-4xl !line-height-none font-800 text-center w-4/5"
-			>
-				loading data...
-			</p>
+				<div
+					class="block font-bold text-nowrap overflow-clip text-white text-4xl !line-height-none font-bold text-right w-max max-w-full"
+				>
+						loading
+				</div>
+				<p class="text-sm text-neutral-300 text-right w-full italic">
+					fetching data
+				</p>
 		</div>
 	</div>
 {:else}
@@ -200,7 +200,7 @@ async function getAlbumArtColor() {
 	{#key recentTrack.mbid}
 		<img
 			src="https://wsrv.nl/?url=coverartarchive.org/release/{recentTrack.release
-				.mbid}/front-250"
+				.mbid}/front-500"
 			alt="{recentTrack.release.name} cover art"
 			on:error={(e) => {
 				const img = e.target as HTMLImageElement;
@@ -213,7 +213,7 @@ async function getAlbumArtColor() {
 				}
 				getAlbumArtColor();
 			}}
-			class="w-full aspect-ratio-square mb-2 b-cover-accent bg-cover-accent b-4 b-solid"
+			class="w-full max-w-250px aspect-ratio-square mb-2 b-cover-accent bg-cover-accent b-4 b-solid"
 			loading="lazy"
 		/>
 		<!-- show title and artist in center on hover, and darken background -->
@@ -226,7 +226,7 @@ async function getAlbumArtColor() {
 			{#if recentTrack.matched}
 				<div
 					bind:this={trackTitle}
-					class="block text-nowrap overflow-clip {trackTitleOverflowing() ? 'marquee3k': ''} text-white text-4xl font-800 text-right w-max max-w-full"
+					class="block text-nowrap overflow-clip {trackTitleOverflowing() ? 'marquee3k': ''} text-white text-4xl font-bold text-right w-max max-w-full"
 					data-speed="0.75"
 				>
 					<div>
@@ -252,7 +252,7 @@ async function getAlbumArtColor() {
 			{:else}
 				<div
 					bind:this={trackTitle}
-					class="block text-nowrap overflow-clip marquee3k text-white text-4xl !line-height-none font-800 text-right w-max max-w-full"
+					class="block text-nowrap overflow-clip marquee3k text-white text-4xl !line-height-none font-bold text-right w-max max-w-full"
 				>
 					<span class="font-bold pr-16">
 						{recentTrack.name
