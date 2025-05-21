@@ -19,7 +19,7 @@ const aniListData = await fetchAniListData();
         and melankorin (u should check their websites out!)
     </p>
     <div>
-        <h2 class="text-2xl font-bold b-b-dotted b-b-1 b-b-cover-accent w-max mb-2">
+        <h2 class="text-2xl font-bold hunderline w-max mb-2">
             about myself
         </h2>
         <h3 class="font-bold text-xl">interests</h3>
@@ -48,7 +48,7 @@ const aniListData = await fetchAniListData();
             im not really super into anime (or much other tv/film), but i have
             been getting more into it to help me learn japanese:
         </p>
-        <ul>
+        <ul class="lowercase">
             <li>
                 right now, i'm watching {
                     aniListData.MediaListCollection.lists
@@ -193,6 +193,6 @@ const aniListData = await fetchAniListData();
     }
 
     a {
-        @apply inline b-b-2 b-b-dotted hover:b-b-1 italic lowercase;
+        @apply link;
     }
 </style>

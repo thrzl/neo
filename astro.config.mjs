@@ -26,10 +26,10 @@ export default defineConfig({
 							"text-decoration": "none",
 							"font-style": "italic",
 							"border-bottom": "2px dotted var(--accent-bg, rgb(74 222 128))",
-							// b-b-dotted b-b-1 b-b-green
 						},
 						"a:hover": {
-							"border-bottom": "1px dotted var(--accent-bg, rgb(74 222 128))",
+							"text-shadow": "0 0 0.125rem white",
+							"border-bottom": "2px dotted var(--accent-muted-light, rgb(22 101 52))",
 						},
 						"h1, h2, h3, h4, h5, h6": {
 							"border-bottom": "1px dotted var(--accent-bg, rgb(74 222 128))",

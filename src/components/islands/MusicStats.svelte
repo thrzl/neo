@@ -78,7 +78,7 @@ const stats: Promise<Stats> = getStats();
                                 .replaceAll("’", "'")}
                         </p>
                         <p
-                            class="text-white text-lg lg:text-4xl !line-height-none font-800 text-center w-4/5"
+                            class="text-white text-lg lg:text-4xl !line-height-none font-bold text-center w-4/5"
                         >
                             {release.release_name
                                 .toRespectfulLowerCase()

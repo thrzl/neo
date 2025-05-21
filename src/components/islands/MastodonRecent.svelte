@@ -42,24 +42,24 @@ const emoji_map = {
 	"☀️": "star",
 	"🥱": "yawning_face",
 };
+function swapEmojis(text: string) {
+	for (const [emoji, img] of Object.entries(emoji_map)) {
+		text.replace(emoji, img)
+	}
+	return text
+}
 </script>
 
 {#await status}
-<span class="font-800 pr-1 mr-1 b-r-1 b-r-solid">loading &nbsp;</span>
-<p class="inline">
-    please wait...
-    <img
-    class="h-4 inline align-middle"
-    height="16px"
-    src="/skype/mantelpiece_clock.png"
-    alt="clock emoji"
-    />
+<span class="italic op-75 text-sm">right now &nbsp;</span>
+<p class="text-base line-height-tight">
+    fetching latest post...
 </p>
 {:then status}
 <span class="italic op-75 text-sm">{timeAgo.format(new Date(status.created_at))}&nbsp;</span>
 <p class="text-base line-height-tight">
-    {htmlDecode(status.content)}
+    {swapEmojis(htmlDecode(status.content))}
 </p>
 {:catch error}
-    <div class="text-red-500">Error: {error.message}</div>
+    <div class="text-red-500">error: {error.message}</div>
 {/await}

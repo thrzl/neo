@@ -46,7 +46,7 @@ function formatDate(date: string): string {
 </script>
 
 <Layout title="garden" description="my thoughts and ruminations">
-    <a href="/rss.xml" class="b-b-dotted b-b-2 b-b-cover-accent hover:b-b-1">
+    <a href="/rss.xml" class="link">
         <svg
             class="text-orange inline"
             xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +73,7 @@ function formatDate(date: string): string {
                         <article class="h-entry mb-4" id={post.id}>
                             <a
                                 href={`/garden/${post.id}`}
-                                class="w-max block b-b-dotted b-b-1 b-b-cover-bright hover:text-glow hover:b-b-2 relative"
+                                class="w-max link block relative"
                             >
                                 <span class="absolute -top-2 -right-5 lg:top-0 lg:-right-3">{chooseFlower(post.data.title)}</span>
                                 <h1 class="text-2xl font-bold w-max inline-block cursor-pointer p-name">

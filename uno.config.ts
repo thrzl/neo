@@ -3,11 +3,10 @@ import { defineConfig } from "unocss";
 export default defineConfig({
 	safelist: ["transition-colors", "duration-500"],
 	shortcuts: [
-		{
-			link: "b-b-dotted b-b-1 b-b-cover-accent hover:text-glow hover:b-b-2",
-			divider: "b-muted-8 b-dotted b-8 b-b-0 h-0 p-0 my-8 w-1/4 mx-auto",
-			"text-glow": "text-shadow-[0_0_0.125rem_white]",
-		},
+			{"text-glow": "text-shadow-[0_0_0.125rem_white]"},
+			{link: "b-b-2 b-cover-accent b-dotted hover:text-glow !hover:b-cover-bright transition-colors duration-250 animate-linear"},
+			{divider: "b-muted-8 b-dotted b-8 b-b-0 h-0 p-0 my-8 w-1/4 mx-auto"},
+			{hunderline: "b-b-dotted b-b-1 b-b-cover-accent"}
 	],
 	theme: {
 		colors: {

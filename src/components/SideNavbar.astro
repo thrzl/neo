@@ -17,7 +17,7 @@ function selectedSlug(slug: string) {
             links.map((link: {name: string, slug: string}) => (
                 <a
                     href={link.slug}
-                    class={`${selectedSlug(link.slug) ? "selected": ""} block b-b-2 b-cover-accent b-dotted hover:text-glow hover:b-cover-bright`}
+                    class={`${selectedSlug(link.slug) ? "selected": ""} block link`}
                 >
                     {link.name}
                 </a>

@@ -31,18 +31,16 @@ if (import.meta.env.PROD) {
   <h2 class="font-bold text-lg">navigation</h2>
   <Navbar />
   <h2 class="font-bold text-lg mt-4">links</h2>
-  <ul class="justify-items-end text-right">
+  <div class="justify-items-end text-right">
     {
       personalLinks.map((link) => (
-        <li>
           <a
             href={link.url}
-            class="block b-b-2 b-cover-accent b-dotted hover:text-glow hover:b-cover-bright"
+            class="block link w-full"
             rel={link.rel || "me"}
           >
             {link.title}
           </a>
-        </li>
       ))
     }
   </ul>
@@ -53,7 +51,7 @@ if (import.meta.env.PROD) {
     class="text-blue h-4 text-right inline"
     viewBox="0 0 24 24"
     ><path
-      fill="currentColor"
+      class="fill-blue"
       d="M22 7V4h-1V3h-1V2h-1V1H5v1H4v1H3v1H2v3H1v9h1v3h1v1h1v1h1v1h2v1h7v-1h2v-2H9v-1H8v-2h1v1h9v-1h2v-1h1v-1h1v-2h1V7zm-3 7h-3V7h-2v1h-1v4h-2V8h-1V7H8v7H5V6h1V5h1V4h3v1h1v1h2V5h1V4h3v1h1v1h1z"
     ></path></svg
   ><a href="https://wetdry.world/@thrizzle">
@@ -63,7 +61,12 @@ if (import.meta.env.PROD) {
       status
     </h2>
   </a>
-  <MastodonRecent client:visible="svelte" transition:persist />
+  <MastodonRecent client:visible="svelte" transition:persist>
+    <span class="italic op-75 text-sm">right now &nbsp;</span>
+<p class="text-base line-height-tight">
+    fetching latest post...
+</p>
+  </MastodonRecent>
 
   <!-- github commit -->
   <svg
@@ -71,22 +74,22 @@ if (import.meta.env.PROD) {
     class="h-4 text-right inline"
     viewBox="0 0 24 24"
     ><path
-      fill="currentColor"
+    class="fill-white"
       d="M23 9v6h-1v2h-1v2h-1v1h-1v1h-1v1h-2v1h-1v-5h-1v-1h1v-1h2v-1h1v-1h1V9h-1V6h-2v1h-1v1h-1V7h-4v1H9V7H8V6H6v3H5v5h1v1h1v1h2v2H7v-1H6v-1H4v1h1v2h1v1h3v3H8v-1H6v-1H5v-1H4v-1H3v-2H2v-2H1V9h1V7h1V5h1V4h1V3h2V2h2V1h6v1h2v1h2v1h1v1h1v2h1v2z"
     ></path></svg
-  ><a href=`https://github.com/thrzl/neo/commit/${commit.hash}`
-    ><h2
+  >
+  <a href=`https://github.com/thrzl/neo/commit/${commit.hash}`>
+    <h2
       class="font-bold text-lg ml-1 mt-4 inline-block link b-b-white line-height-none"
     >
       changelog
     </h2>
   </a>
-  <span class="italic op-75 text-sm">{commit.hash}</span>
 
-  <section>
-    <p class="inline">{commit.message}</p>
-  </section>
-
+    <span class="italic op-75 text-sm">{commit.hash} &nbsp;</span>
+<p class="text-base line-height-tight">
+    {commit.message}
+</p>
   <!-- now playing -->
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -100,11 +103,38 @@ if (import.meta.env.PROD) {
     ></path></svg
   >
   <h2
-    class="font-bold text-lg mt-4 inline-block link b-b-blue line-height-none"
+    class="font-bold text-lg mt-4 inline-block link line-height-none mb-1"
   >
     recent track
   </h2>
-  <NowPlayingText client:only="svelte" transition:persist/>
+  <NowPlayingText client:only="svelte" transition:persist>
+    <div
+		class="block w-full"
+	>
+		<img
+			src="music.avif"
+			alt="placeholder cover art"
+			class="w-full aspect-ratio-square mb-2 b-cover-accent bg-cover-accent b-4 b-solid"
+			loading="lazy"
+		/>
+		<!-- show title and artist in center on hover, and darken background -->
+		<div
+			class="bg-[--accent-muted-dark] bottom-0 op-0 op-80 transition-delay-150 transition-200 w-full h-full z-1"
+		></div>
+		<div
+			class="bottom-0 op-0 op-100 transition-delay-150 transition-200 w-full h-full z-2 flex justify-end items-end flex-col"
+		>
+				<div
+					class="block text-nowrap overflow-clip text-white text-4xl !line-height-none font-bold text-right w-max max-w-full"
+				>
+        loading
+				</div>
+				<p class="text-sm text-neutral-300 text-right w-full italic">
+					fetching data
+				</p>
+		</div>
+	</div>
+  </NowPlayingText>
 
   <!-- buttons -->
 

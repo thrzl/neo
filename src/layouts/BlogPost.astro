@@ -4,7 +4,7 @@ const { frontmatter } = Astro.props;
 ---
 
 <Layout>
-    <h1 class="italic text-2xl font-800 text-[--accent-text-dark]">{frontmatter.title}</h1>
+    <h1 class="italic text-2xl font-bold text-[--accent-text-dark]">{frontmatter.title}</h1>
     <p class="text-sm text-[--accent-muted-light] italic lowercase">
         {new Date(frontmatter.date).toLocaleDateString("en-US", {
             year: "numeric",
