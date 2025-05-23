@@ -19,9 +19,7 @@ const aniListData = await fetchAniListData();
         and melankorin (u should check their websites out!)
     </p>
     <div>
-        <h2 class="text-2xl font-bold hunderline w-max mb-2">
-            about myself
-        </h2>
+        <h2 class="text-2xl font-bold hunderline w-max mb-2">about myself</h2>
         <h3 class="font-bold text-xl">interests</h3>
         <ul>
             <li>
@@ -63,8 +61,7 @@ const aniListData = await fetchAniListData();
                                         /(?=.+)\sSeason\s\d/g,
                                         "",
                                     )}
-                                </a>
-                                {i < entries.length - 2
+                                </a>{i < entries.length - 2
                                     ? ", "
                                     : i === entries.length - 2
                                       ? " and "
@@ -87,9 +84,7 @@ const aniListData = await fetchAniListData();
                                     {entry.media.title.english.replace(
                                         /(?=.+)\sSeason\s\d/g,
                                         "",
-                                    )}
-                                </a>
-                                {i < entries.length - 2
+                                    )}</a>{i < entries.length - 2
                                     ? ", "
                                     : i === entries.length - 2
                                       ? " and "
@@ -123,9 +118,7 @@ const aniListData = await fetchAniListData();
                                     {entry.title.english.replace(
                                         /(?=.+)\sSeason\s\d/g,
                                         "",
-                                    )}
-                                </a>
-                                {index < filtered.length - 2
+                                    )}</a>{index < filtered.length - 2
                                     ? ", "
                                     : index === filtered.length - 2
                                       ? " and "
@@ -175,7 +168,7 @@ const aniListData = await fetchAniListData();
         >
     </div>
     <div class="mx-auto w-max mt-2">
-        <IndieWebRing/>
+        <IndieWebRing />
     </div>
 </NewLayout>
 
