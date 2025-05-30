@@ -1,9 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import LinkCard from "../components/LinkCard.astro";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
-import truncate from "html-truncate";
 let blogPosts: CollectionEntry<"blog">[] = await getCollection("blog");
 const plants =
     "💐 🌸 🪷 🏵️ 🌹 🥀 🌺 🌻 🌼 🌷 🪻 🌱 🪴 🌵 🌾 🌿 ☘️ 🍀 🍁 🍂 🍃".split(" ");
@@ -37,8 +35,10 @@ function formatDate(date: string): string {
     document.addEventListener("astro:page-load", () => {
         document.querySelectorAll("[copyValue]").forEach((section) => {
             section.addEventListener("click", () => {
-                navigator.clipboard.writeText(
-                    section.getAttribute("copyValue"),
+              const copyValue = section.getAttribute("copyValue")
+              if (!copyValue) return;
+              navigator.clipboard.writeText(
+                    copyValue,
                 );
             });
         });
@@ -78,7 +78,7 @@ function formatDate(date: string): string {
                                 <span class="absolute -top-2 -right-5 lg:top-0 lg:-right-3">
                                     {chooseFlower(post.data.title)}
                                 </span>
-                                <h1 class="text-2xl font-bold w-max inline-block cursor-pointer p-name">
+                                <h1 class="text-6xl font-bold w-max inline-block cursor-pointer p-name">
                                     {post.data.title}
                                 </h1>
                             </a>
@@ -89,29 +89,36 @@ function formatDate(date: string): string {
                             >
                                 thrizzle
                             </a>
-                            <time
+                            <p class="text-xl"><time
                                 datetime={post.data.date.toISOString()}
-                                class="dt-published italic text-base font-normal lowercase op-70"
+                                class="dt-published italic text-base font-bold lowercase op-70"
                             >
-                                written on {post.data.date.toDateString()}
-                            </time>
-                            <div
+                                {post.data.date.toDateString()}
+                            </time> {post.data.description}</p>
+                            <!-- <div
                                 class="prose text-2xl lg:text-lg mt-4 px-4 min-w-full b-4 b-dashed b-cover-bright e-content inline-block"
                                 set:html={truncate(post.rendered.html, 250)}
                             >
                                 {/* oooooo xss.... */}
-                            </div>
+                            </div> -->
                         </article>
                     </Fragment>
                 ))
         }
         {
-            blogPosts.length < 2 && (
-                <LinkCard
-                    title="more posts coming soon"
-                    description="check back later!"
-                    disabled
-                />
+            blogPosts.length < 10 && (
+            <article class="h-entry mb-4 op-50">
+                <a
+                    class="w-max link block relative"
+                >
+                    <span class="absolute -top-2 -right-5 lg:top-0 lg:-right-3">
+                        🔭
+                    </span>
+                    <h1 class="text-6xl font-bold w-max pointer-events-none inline-block p-name">
+                        more posts coming soon!
+                    </h1>
+                </>
+            </article>
             )
         }
     </section>
