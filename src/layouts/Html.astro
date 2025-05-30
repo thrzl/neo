@@ -28,9 +28,7 @@ const { neko, backgroundColor } = Astro.props;
         />
         <ClientRouter />
     </head>
-    <body
-        class=`bg-cover-base text-150% lg:text-100%`
-    >
+    <body class=`bg-cover-base`>
         {neko && <script src="../assets/oneko.js" />}
         <slot />
     </body>
@@ -87,5 +85,11 @@ const { neko, backgroundColor } = Astro.props;
         color: var(--accent-text-dark, #fff);
         font-family: "Apple Garamond", serif;
         margin: 0;
+    }
+</style>
+
+<style is:global>
+    * {
+        @apply text-150% lg:text-100% xl:text-105%;
     }
 </style>
