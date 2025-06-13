@@ -1,32 +1,47 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import MusicStats from "../components/islands/MusicStats.svelte";
-import Marquee from "../components/Marquee.astro";
+import MusicStats from "../components/islands/MusicStats.astro";
+// import Marquee from "../components/Marquee.astro";
 const ranges = ["this_week", "this_month", "this_year", "all_time"];
 ---
 
 <Layout title="tunes" description="my recent top albums">
     <div>
         <ul class="flex justify-center py-1.5 m-0 list-none px-2" data-tabs>
-            {ranges.map((range) => (
-                <li><a {...(range === "this_week" ? {"data-tabby-default": true} : {})} href={`#${range}`}>{range.replace("this_", "").replace("_", " ")}</a></li>
-            ))}
+            {
+                ranges.map((range) => (
+                    <li>
+                        <a
+                            {...(range === "this_week"
+                                ? { "data-tabby-default": true }
+                                : {})}
+                            href={`#${range}`}
+                        >
+                            {range.replace("this_", "").replace("_", " ")}
+                        </a>
+                    </li>
+                ))
+            }
         </ul>
     </div>
-    {ranges.map((range) => (
-        <div class="p-4" id={range}><MusicStats range={range} client:only="svelte"/></div>
-    ))}
+    {
+        ranges.map((range) => (
+            <div class="p-4" id={range}>
+                <MusicStats range={range} />
+            </div>
+        ))
+    }
     <script>
         import Tabby from "tabbyjs";
         window.Tabby = Tabby; // Make sure Tabby is available globally
         document.addEventListener("astro:page-load", () => {
-            const tabs = new Tabby("[data-tabs]")
-        })
-    </script>    
+            const tabs = new Tabby("[data-tabs]");
+        });
+    </script>
 </Layout>
 
 <style>
-    ul{
+    ul {
         background: rgb(22 101 52 / var(--un-bg-opacity));
     }
     ul > li > a {
@@ -40,17 +55,18 @@ const ranges = ["this_week", "this_month", "this_year", "all_time"];
         border: transparent 2px solid; /* prevents shifting when selected */
         border-top: none;
     }
-    ul > li > a[aria-selected="true"], ul > li > a:hover {
+    ul > li > a[aria-selected="true"],
+    ul > li > a:hover {
         color: var(--accent-text-dark);
         background-color: rgb(20 83 45 / var(--un-bg-opacity));
         border: var(--accent-bg-light) 2px solid;
         border-top: none;
-        text-shadow: #fff 0px 0px 0.125rem
+        text-shadow: #fff 0px 0px 0.125rem;
     }
 
     :root {
         --accent-muted-dark: #000; /* compat for old variable */
         --accent-bg-light: rgb(22 101 52 / var(--un-bg-opacity));
-        --accent-bg-dark: rgb(20 83 45 / var(--un-bg-opacity))
+        --accent-bg-dark: rgb(20 83 45 / var(--un-bg-opacity));
     }
 </style>
