@@ -68,7 +68,7 @@ document.addEventListener("astro:page-load", async () => {
 })
 
 onMount(() => {
-	const socket = io("http://localhost:3210");
+	const socket = io("https://nowplaying.thrzl.xyz");
 	socket.on("recent_track", updateRecentTrack);
 });
 
