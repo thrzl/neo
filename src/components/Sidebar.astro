@@ -6,159 +6,183 @@ import NowPlayingText from "../components/islands/NewNowPlaying.svelte";
 let commit: { message: string; hash: string; date: string };
 
 if (import.meta.env.PROD) {
-	const commitRes = await (
-		await fetch("https://api.github.com/repos/thrzl/neo/commits?per_page=1")
-	).json();
+    const commitRes = await (
+        await fetch("https://api.github.com/repos/thrzl/neo/commits?per_page=1")
+    ).json();
 
-	commit = {
-		message: commitRes[0].commit.message,
-		hash: commitRes[0].sha.slice(0, 7),
-		date: commitRes[0].commit.committer.date,
-	};
+    commit = {
+        message: commitRes[0].commit.message,
+        hash: commitRes[0].sha.slice(0, 7),
+        date: commitRes[0].commit.committer.date,
+    };
 } else {
-	commit = {
-		message: "now working!",
-		hash: "1234567",
-		date: "2025-04-25T16:28:32Z",
-	};
+    commit = {
+        message: "now working!",
+        hash: "1234567",
+        date: "2025-04-25T16:28:32Z",
+    };
 }
 ---
 
 <div
-  class="justify-self-end w-full inline-block max-w-64 align-top mt-76 px-8 text-right b-r-cover-bright b-solid b-r-1 mb-6"
+    class="justify-self-end w-full inline-block max-w-64 align-top mt-76 px-8 text-right b-r-cover-bright b-solid b-r-1 mb-6"
 >
-  <!-- navigation links -->
-  <h2 class="font-bold text-lg">navigation</h2>
-  <Navbar />
-  <h2 class="font-bold text-lg mt-4">links</h2>
-  <div class="justify-items-end text-right">
-    {
-      personalLinks.map((link) => (
-          <a
-            href={link.url}
-            class="block link w-full"
-            rel={link.rel || "me"}
-          >
-            {link.title}
-          </a>
-      ))
-    }
-  </ul>
+    <!-- navigation links -->
+    <h2 class="font-bold text-lg">navigation</h2>
+    <Navbar />
+    <h2 class="font-bold text-lg mt-4">links</h2>
+    <div class="justify-items-end text-right">
+        {
+            personalLinks.map((link) => (
+                <a
+                    href={link.url}
+                    class="block link w-full"
+                    rel={link.rel || "me"}
+                >
+                    {link.title}
+                </a>
+            ))
+        }
+    </div>
 
-  <!-- mastodon status -->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    class="text-blue h-4 text-right inline"
-    viewBox="0 0 24 24"
-    ><path
-      class="fill-blue"
-      d="M22 7V4h-1V3h-1V2h-1V1H5v1H4v1H3v1H2v3H1v9h1v3h1v1h1v1h1v1h2v1h7v-1h2v-2H9v-1H8v-2h1v1h9v-1h2v-1h1v-1h1v-2h1V7zm-3 7h-3V7h-2v1h-1v4h-2V8h-1V7H8v7H5V6h1V5h1V4h3v1h1v1h2V5h1V4h3v1h1v1h1z"
-    ></path></svg
-  ><a href="https://wetdry.world/@thrizzle">
-    <h2
-      class="font-bold text-lg ml-1 mt-4 inline-block link b-b-blue line-height-none"
-    >
-      status
-    </h2>
-  </a>
-  <MastodonRecent client:visible="svelte" transition:persist>
-    <span class="italic op-75 text-sm">right now &nbsp;</span>
-<p class="text-base line-height-tight">
-    fetching latest post...
-</p>
-  </MastodonRecent>
+    <!-- mastodon status -->
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="text-blue h-4 text-right inline"
+        viewBox="0 0 24 24"
+        ><path
+            class="fill-blue"
+            d="M22 7V4h-1V3h-1V2h-1V1H5v1H4v1H3v1H2v3H1v9h1v3h1v1h1v1h1v1h2v1h7v-1h2v-2H9v-1H8v-2h1v1h9v-1h2v-1h1v-1h1v-2h1V7zm-3 7h-3V7h-2v1h-1v4h-2V8h-1V7H8v7H5V6h1V5h1V4h3v1h1v1h2V5h1V4h3v1h1v1h1z"
+        ></path></svg
+    ><a href="https://wetdry.world/@thrizzle">
+        <h2
+            class="font-bold text-lg ml-1 mt-4 inline-block link b-b-blue line-height-none"
+        >
+            status
+        </h2>
+    </a>
+    <MastodonRecent client:visible="svelte" transition:persist>
+        <span class="italic op-75 text-sm">right now &nbsp;</span>
+        <p class="text-base line-height-tight">fetching latest post...</p>
+    </MastodonRecent>
 
-  <!-- github commit -->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    class="h-4 text-right inline"
-    viewBox="0 0 24 24"
-    ><path
-    class="fill-white"
-      d="M23 9v6h-1v2h-1v2h-1v1h-1v1h-1v1h-2v1h-1v-5h-1v-1h1v-1h2v-1h1v-1h1V9h-1V6h-2v1h-1v1h-1V7h-4v1H9V7H8V6H6v3H5v5h1v1h1v1h2v2H7v-1H6v-1H4v1h1v2h1v1h3v3H8v-1H6v-1H5v-1H4v-1H3v-2H2v-2H1V9h1V7h1V5h1V4h1V3h2V2h2V1h6v1h2v1h2v1h1v1h1v2h1v2z"
-    ></path></svg
-  >
-  <a href=`https://github.com/thrzl/neo/commit/${commit.hash}`>
-    <h2
-      class="font-bold text-lg ml-1 mt-4 inline-block link b-b-white line-height-none"
+    <!-- github commit -->
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-4 text-right inline"
+        viewBox="0 0 24 24"
+        ><path
+            class="fill-white"
+            d="M23 9v6h-1v2h-1v2h-1v1h-1v1h-1v1h-2v1h-1v-5h-1v-1h1v-1h2v-1h1v-1h1V9h-1V6h-2v1h-1v1h-1V7h-4v1H9V7H8V6H6v3H5v5h1v1h1v1h2v2H7v-1H6v-1H4v1h1v2h1v1h3v3H8v-1H6v-1H5v-1H4v-1H3v-2H2v-2H1V9h1V7h1V5h1V4h1V3h2V2h2V1h6v1h2v1h2v1h1v1h1v2h1v2z"
+        ></path></svg
     >
-      changelog
-    </h2>
-  </a>
+    <a href=`https://github.com/thrzl/neo/commit/${commit.hash}`>
+        <h2
+            class="font-bold text-lg ml-1 mt-4 inline-block link b-b-white line-height-none"
+        >
+            changelog
+        </h2>
+    </a>
 
     <span class="italic op-75 text-sm">{commit.hash} &nbsp;</span>
-<p class="text-base line-height-tight">
-    {commit.message}
-</p>
-  <!-- now playing -->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    height="1rem"
-    class="inline"
-    viewBox="0 0 24 24"
-    ><path fill="currentColor" d="M1 3h12v3H1zm0 6h12v3H1zm0 6h6v3H1z"
-    ></path><path
-      fill="currentColor"
-      d="M23 1v6h-2v1h-2v13h-1v1h-1v1h-5v-1h-2v-1H9v-3h1v-1h2v-1h4V4h1V3h2V2h2V1z"
-    ></path></svg
-  >
-  <h2
-    class="font-bold text-lg mt-4 inline-block link line-height-none mb-1"
-  >
-    recent track
-  </h2>
-  <NowPlayingText client:only="svelte" transition:persist>
-    <div
-		class="block w-full"
-	>
-		<img
-			src="music.avif"
-			alt="placeholder cover art"
-			class="w-full aspect-ratio-square mb-2 b-cover-accent bg-cover-accent b-4 b-solid"
-			loading="lazy"
-		/>
-		<!-- show title and artist in center on hover, and darken background -->
-		<div
-			class="bg-[--accent-muted-dark] bottom-0 op-0 op-80 transition-delay-150 transition-200 w-full h-full z-1"
-		></div>
-		<div
-			class="bottom-0 op-0 op-100 transition-delay-150 transition-200 w-full h-full z-2 flex justify-end items-end flex-col"
-		>
-				<div
-					class="block text-nowrap overflow-clip text-white text-4xl !line-height-none font-bold text-right w-max max-w-full"
-				>
-        loading
-				</div>
-				<p class="text-sm text-neutral-300 text-right w-full italic">
-					fetching data
-				</p>
-		</div>
-	</div>
-  </NowPlayingText>
+    <p class="text-base line-height-tight">
+        {commit.message}
+    </p>
+    <!-- now playing -->
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="1rem"
+        class="inline"
+        viewBox="0 0 24 24"
+        ><path fill="currentColor" d="M1 3h12v3H1zm0 6h12v3H1zm0 6h6v3H1z"
+        ></path><path
+            fill="currentColor"
+            d="M23 1v6h-2v1h-2v13h-1v1h-1v1h-5v-1h-2v-1H9v-3h1v-1h2v-1h4V4h1V3h2V2h2V1z"
+        ></path></svg
+    >
+    <h2 class="font-bold text-lg mt-4 inline-block link line-height-none mb-1">
+        recent track
+    </h2>
+    <NowPlayingText client:only="svelte" transition:persist="now-playing">
+        <div class="block w-full">
+            <img
+                src="music.avif"
+                alt="placeholder cover art"
+                class="w-full aspect-ratio-square mb-2 b-cover-accent bg-cover-accent b-4 b-solid"
+                loading="lazy"
+            />
+            <!-- show title and artist in center on hover, and darken background -->
+            <div
+                class="bg-[--accent-muted-dark] bottom-0 op-0 op-80 transition-delay-150 transition-200 w-full h-full z-1"
+            >
+            </div>
+            <div
+                class="bottom-0 op-0 op-100 transition-delay-150 transition-200 w-full h-full z-2 flex justify-end items-end flex-col"
+            >
+                <div
+                    class="block text-nowrap overflow-clip text-white text-4xl !line-height-none font-bold text-right w-max max-w-full"
+                >
+                    loading
+                </div>
+                <p class="text-sm text-neutral-300 text-right w-full italic">
+                    fetching data
+                </p>
+            </div>
+        </div>
+    </NowPlayingText>
 
-  <!-- buttons -->
+    <!-- buttons -->
 
-  <section class="text-right mt-4 block w-full flex flex-col items-end" id="buttons">
-    <a href="https://indieweb.org/">
-      <img
-        height="31"
-        width="88"
-        sizes="88x31"
-        src="/buttons/indiewebcamp.svg"
-      />
-    </a>
-    <a href="https://webmention.net/"><img height="31" width="88" sizes="88x31" src="/buttons/webmention.svg"/></a>
-    <a href="http://microformats.org/wiki/microformats2"><img height="31" width="88" sizes="88x31" src="/buttons/microformats.svg"/></a>
-    <a href="https://no-www.org/">
-      <img height="31" width="88" sizes="88x31" src="https://no-www.org/images/blog-button.gif"/>
-    </a>
-    <a href="https://notbyai.fyi/"><img height="31" width="88" sizes="88x31" src="/buttons/notbyai.svg"/></a>
-  </section>
+    <section
+        class="text-right mt-4 block w-full flex flex-col items-end"
+        id="buttons"
+    >
+        <a href="https://indieweb.org/">
+            <img
+                height="31"
+                width="88"
+                sizes="88x31"
+                src="/buttons/indiewebcamp.svg"
+            />
+        </a>
+        <a href="https://webmention.net/"
+            ><img
+                height="31"
+                width="88"
+                sizes="88x31"
+                src="/buttons/webmention.svg"
+            /></a
+        >
+        <a href="http://microformats.org/wiki/microformats2"
+            ><img
+                height="31"
+                width="88"
+                sizes="88x31"
+                src="/buttons/microformats.svg"
+            /></a
+        >
+        <a href="https://no-www.org/">
+            <img
+                height="31"
+                width="88"
+                sizes="88x31"
+                src="https://no-www.org/images/blog-button.gif"
+            />
+        </a>
+        <a href="https://notbyai.fyi/"
+            ><img
+                height="31"
+                width="88"
+                sizes="88x31"
+                src="/buttons/notbyai.svg"
+            /></a
+        >
+    </section>
 
-  <style>
-    section#buttons > img {
-      float: right;
-      display: block
-    }
-  </style>
+    <style>
+        section#buttons > img {
+            float: right;
+            display: block;
+        }
+    </style>
 </div>

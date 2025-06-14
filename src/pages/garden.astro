@@ -4,30 +4,30 @@ import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 let blogPosts: CollectionEntry<"blog">[] = await getCollection("blog");
 const plants =
-    "💐 🌸 🪷 🏵️ 🌹 🥀 🌺 🌻 🌼 🌷 🪻 🌱 🪴 🌵 🌾 🌿 ☘️ 🍀 🍁 🍂 🍃".split(" ");
+	"💐 🌸 🪷 🏵️ 🌹 🥀 🌺 🌻 🌼 🌷 🪻 🌱 🪴 🌵 🌾 🌿 ☘️ 🍀 🍁 🍂 🍃".split(" ");
 
 function chooseFlower(text: string) {
-    let hash = 0;
-    for (let i = 0; i < text.length; i++) {
-        hash = text.charCodeAt(i) + ((hash << 5) - hash);
-        hash = hash & hash; // Convert to 32bit integer
-    }
-    const hashNumber = Math.abs(hash);
+	let hash = 0;
+	for (let i = 0; i < text.length; i++) {
+		hash = text.charCodeAt(i) + ((hash << 5) - hash);
+		hash = hash & hash; // Convert to 32bit integer
+	}
+	const hashNumber = Math.abs(hash);
 
-    const range = plants.length;
-    return plants[hashNumber % range];
+	const range = plants.length;
+	return plants[hashNumber % range];
 }
 
 if (import.meta.env.PROD) {
-    blogPosts = blogPosts.filter((post) => !post.data.draft);
+	blogPosts = blogPosts.filter((post) => !post.data.draft);
 }
 
 function formatDate(date: string): string {
-    return new Date(date).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    });
+	return new Date(date).toLocaleDateString("en-US", {
+		year: "numeric",
+		month: "long",
+		day: "numeric",
+	});
 }
 ---
 

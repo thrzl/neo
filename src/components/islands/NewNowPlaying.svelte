@@ -1,14 +1,13 @@
 <script lang="ts">
+import { io } from "socket.io-client";
 import { getDominantColor } from "../../lib/colors";
 import type { Track } from "../../env";
 import "@gouch/to-title-case";
 import { onMount } from "svelte";
+import marquee from "vanilla-marquee";
 
 let trackTitle: HTMLDivElement;
-// let trackTitleOverflowing = false;
-
-// biome-ignore lint/style/useConst: svelte needs this
-let marqueeElement: HTMLElement | null = null;
+let trackTitleMarquee: marquee;
 
 String.prototype.toRespectfulLowerCase = function () {
 	if (this === this.toUpperCase() || this === this.toLowerCase()) {
@@ -25,18 +24,30 @@ String.prototype.toRespectfulLowerCase = function () {
 	return this.toString();
 };
 
-$: if (marqueeElement) {
-	window.Marquee3k.refreshAll();
+$: if (trackTitle) {
+  console.log("track title update")
+	trackTitleOverflowing();
 }
 
 function trackTitleOverflowing() {
-	if (!trackTitle) {return false}
+	if (!trackTitle) {
+		return false;
+	}
 	console.log(trackTitle.scrollWidth, trackTitle.clientWidth);
 	if (trackTitle && trackTitle.scrollWidth > trackTitle.clientWidth) {
-		setTimeout(window.Marquee3k.init, 150);
-		return true
+		if (trackTitleMarquee) {
+			trackTitleMarquee.destroy();
+		}
+		trackTitleMarquee = new marquee(trackTitle, {
+			duplicated: true,
+			recalcResize: true,
+			startVisible: true,
+			gap: 50,
+		});
+		return true;
 	}
-	return false
+	trackTitleMarquee?.destroy();
+	return false;
 }
 
 async function getRecentTrack(): Promise<Track> {
@@ -45,15 +56,20 @@ async function getRecentTrack(): Promise<Track> {
 }
 let recentTrack: Track | null = null;
 
-async function updateRecentTrack() {
-	recentTrack = await getRecentTrack();
+async function updateRecentTrack(data: string) {
+	console.log(data);
+	recentTrack = data;
 }
 
-onMount(() => {
-	updateRecentTrack();
+document.addEventListener("astro:page-load", async () => {
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  console.log(trackTitleMarquee)
+  trackTitleMarquee?.refresh();
+})
 
-	const interval = setInterval(updateRecentTrack, 5000);
-	return () => clearInterval(interval);
+onMount(() => {
+	const socket = io("http://localhost:3210");
+	socket.on("recent_track", updateRecentTrack);
 });
 
 // biome-ignore lint/style/useConst: needed by svelte
@@ -226,16 +242,16 @@ async function getAlbumArtColor() {
 			{#if recentTrack.matched}
 				<div
 					bind:this={trackTitle}
-					class="block text-nowrap overflow-clip {trackTitleOverflowing() ? 'marquee3k': ''} text-white text-4xl font-bold text-right w-max max-w-full"
+					class="block text-nowrap overflow-clip text-white text-4xl font-bold text-right w-max max-w-full"
 					data-speed="0.75"
 				>
-					<div>
-						<a href="https://musicbrainz.org/recording/{recentTrack.mbid}" class="font-bold inline {trackTitleOverflowing() ? 'mr-16': ''}">
+					<!-- <div> -->
+						<a href="https://musicbrainz.org/recording/{recentTrack.mbid}" class="font-bold inline">
 							{recentTrack.name
 								.toRespectfulLowerCase()
 								.replaceAll("’", "'")}
 						</a>
-					</div>
+					<!-- </div> -->
 				</div>
 				<p class="text-sm text-neutral-300 text-right w-4/5 italic">
 					{#each recentTrack.artists as artist, i}
@@ -252,7 +268,8 @@ async function getAlbumArtColor() {
 			{:else}
 				<div
 					bind:this={trackTitle}
-					class="block text-nowrap overflow-clip marquee3k text-white text-4xl !line-height-none font-bold text-right w-max max-w-full"
+					class="block text-nowrap overflow-clip text-white text-4xl !line-height-none font-bold text-right w-max max-w-full"
+					id="track-title"
 				>
 					<span class="font-bold pr-16">
 						{recentTrack.name

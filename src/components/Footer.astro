@@ -1,6 +1,4 @@
 ---
-import Marquee from "./Marquee.astro";
-
 const quotes = [
 	"the love of beauty is the beginning of wisdom",
 
@@ -32,6 +30,9 @@ const quotes = [
 	"sense it, cumulonimbus whisper",
 	"brush myself off, cursing gravity",
 	"let the sun talk",
+
+	// dotsong - ayowitty ft. bunii
+	"was my hypothesis untrue, or did i hit the spot?",
 ];
 
 function shuffle(list: Array<string>): Array<string> {
@@ -48,9 +49,33 @@ function shuffle(list: Array<string>): Array<string> {
 }
 ---
 
+<div
+    class="w-full text-white op-25 cursor-default overflow-x-clip text-lg font-bold font-italic"
+    id="quotes-marquee"
+>
+    {
+        shuffle(quotes).map((quote) => (
+            <>
+                <span class="px-8 z-99 b-t-2 b-t-white py-1">
+                    {`${quote}`}
+                    <span class="pl-16 pr-0 z-99">//</span>
+                </span>
+            </>
+        ))
+    }
+</div>
 
-<Marquee margin="0" class="font-bold italic m-0 text-lg" speed="0.25" reverse={false}>
-{shuffle(quotes).map((quote) => 
-    (<span class="px-8">{`${quote}`}</span><span class="px-8">//</span>)
-)}
-</Marquee>
+<script>
+    import marquee from "vanilla-marquee";
+
+    document.addEventListener("astro:page-load", () => {
+        new marquee(
+            document.getElementById("quotes-marquee") as HTMLDivElement,
+            {
+                speed: 25,
+                pauseOnHover: true,
+                startVisible: true,
+            },
+        );
+    });
+</script>

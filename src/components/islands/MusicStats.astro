@@ -1,7 +1,7 @@
 ---
-import "../../lib/helpers"
-import {Image} from "astro:assets"
-const {range} = Astro.props
+import "../../lib/helpers";
+import { Image } from "astro:assets";
+const { range } = Astro.props;
 type Stats = {
 	count: number;
 	from_ts: number;
@@ -38,10 +38,15 @@ async function getStats() {
 	return raw_data.payload;
 }
 
-async function processCoverArt(release: { release_mbid: string }, size: string = "250"): Promise<string> {
-	const res = await fetch(`https://coverartarchive.org/release/${release.release_mbid}/`);
+async function processCoverArt(
+	release: { release_mbid: string },
+	size: string = "250",
+): Promise<string> {
+	const res = await fetch(
+		`https://coverartarchive.org/release/${release.release_mbid}/`,
+	);
 	if (!res.ok) {
-	  return "/music.avif"
+		return "/music.avif";
 	}
 	return `https://coverartarchive.org/release/${release.release_mbid}/front-${size}`;
 }

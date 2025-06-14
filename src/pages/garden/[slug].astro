@@ -14,7 +14,7 @@ export async function getStaticPaths() {
 }
 const { slug } = Astro.params;
 
-const post = await getEntry("blog", slug) as CollectionEntry<"blog">;
+const post = (await getEntry("blog", slug)) as CollectionEntry<"blog">;
 const { Content } = await render(post);
 ---
 

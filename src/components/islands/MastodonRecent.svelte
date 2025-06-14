@@ -44,9 +44,9 @@ const emoji_map = {
 };
 function swapEmojis(text: string) {
 	for (const [emoji, img] of Object.entries(emoji_map)) {
-		text.replace(emoji, img)
+		text.replace(emoji, img);
 	}
-	return text
+	return text;
 }
 </script>
 
