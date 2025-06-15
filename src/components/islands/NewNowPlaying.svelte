@@ -56,8 +56,7 @@ async function getRecentTrack(): Promise<Track> {
 }
 let recentTrack: Track | null = null;
 
-async function updateRecentTrack(data: string) {
-	console.log(data);
+async function updateRecentTrack(data: Track) {
 	recentTrack = data;
 }
 
@@ -242,7 +241,7 @@ async function getAlbumArtColor() {
 			{#if recentTrack.matched}
 				<div
 					bind:this={trackTitle}
-					class="block text-nowrap overflow-clip text-white text-4xl font-bold text-right w-max max-w-full"
+					class="block text-nowrap overflow-x-clip mb-2 text-white text-4xl font-bold text-right w-max max-w-full"
 					data-speed="0.75"
 				>
 					<!-- <div> -->
@@ -255,7 +254,7 @@ async function getAlbumArtColor() {
 				</div>
 				<p class="text-sm text-neutral-300 text-right w-4/5 italic">
 					{#each recentTrack.artists as artist, i}
-						<a href="https://listenbrainz.org/artist/{artist.mbid}"
+						<a href="https://listenbrainz.org/artist/{artist.mbid}" class="link"
 							>{artist.name
 								.toRespectfulLowerCase()
 								.replaceAll("’", "'")}</a
@@ -301,13 +300,3 @@ async function getAlbumArtColor() {
 		{/key}
 	</div>
 {/if}
-
-<style>
-	a {
-		border-bottom: 1px dotted var(--accent-bg);
-		/* b-b-dotted b-b-cover-accent */
-	}
-	a:hover {
-		text-shadow: 0 0 0.125rem white;
-	}
-</style>
