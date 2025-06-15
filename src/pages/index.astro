@@ -61,7 +61,8 @@ const aniListData = await fetchAniListData();
                                         /(?=.+)\sSeason\s\d/g,
                                         "",
                                     )}
-                                </a>{i < entries.length - 2
+                                </a>
+                                {i < entries.length - 2
                                     ? ", "
                                     : i === entries.length - 2
                                       ? " and "
@@ -84,7 +85,9 @@ const aniListData = await fetchAniListData();
                                     {entry.media.title.english.replace(
                                         /(?=.+)\sSeason\s\d/g,
                                         "",
-                                    )}</a>{i < entries.length - 2
+                                    )}
+                                </a>
+                                {i < entries.length - 2
                                     ? ", "
                                     : i === entries.length - 2
                                       ? " and "
@@ -118,7 +121,9 @@ const aniListData = await fetchAniListData();
                                     {entry.title.english.replace(
                                         /(?=.+)\sSeason\s\d/g,
                                         "",
-                                    )}</a>{index < filtered.length - 2
+                                    )}
+                                </a>
+                                {index < filtered.length - 2
                                     ? ", "
                                     : index === filtered.length - 2
                                       ? " and "
@@ -158,7 +163,10 @@ const aniListData = await fetchAniListData();
             /></a
         >
         <a href="https://nekoweb.org/"
-            ><img src="https://nekoweb.org/assets/buttons/button5.gif" /></a
+            ><img
+                src="https://nekoweb.org/assets/buttons/button5.gif"
+                alt="nekoweb.org button"
+            /></a
         ><!-- button by max.nekoweb.org -->
         <a target="_blank" href="https://byemc.xyz"
             ><img
