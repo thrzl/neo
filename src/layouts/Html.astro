@@ -1,16 +1,19 @@
 ---
 import ClientRouter from "astro/components/ClientRouter.astro";
-const { neko, backgroundColor } = Astro.props;
+const { neko, backgroundColor, title } = Astro.props;
 ---
 
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
         <title>
-            /thrizzle{
-                Astro.url.pathname.endsWith("/")
-                    ? Astro.url.pathname.slice(0, -1)
-                    : Astro.url.pathname
+            {
+                title ||
+                    `thrizzle's ${
+                        (Astro.url.pathname.endsWith("/")
+                            ? Astro.url.pathname.slice(0, -1)
+                            : Astro.url.pathname.slice(1)) || "home"
+                    }`
             }
         </title>
         <link rel="icon" type="image/png" href="/skype/mantelpiece_clock.png" />

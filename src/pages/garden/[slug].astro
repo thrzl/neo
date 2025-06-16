@@ -6,11 +6,11 @@ import type { CollectionEntry } from "astro:content";
 import WebmentionComments from "../../components/islands/WebmentionComments.svelte";
 
 export async function getStaticPaths() {
-	const posts: CollectionEntry<"blog">[] = await getCollection("blog");
+    const posts: CollectionEntry<"blog">[] = await getCollection("blog");
 
-	return posts.map((post) => {
-		return { params: { slug: post.id } };
-	});
+    return posts.map((post) => {
+        return { params: { slug: post.id } };
+    });
 }
 const { slug } = Astro.params;
 
@@ -29,18 +29,24 @@ const { Content } = await render(post);
         });
     });
 </script>
-<Layout title="garden" description="my thoughts and ruminations">
+<Layout
+    title="garden"
+    pageTitle={post.data.title}
+    description="my thoughts and ruminations"
+>
     <div class="w-full text-center">
         <a
             href="/garden"
             class="mx-auto italic b-b-2 b-muted b-dotted b-b-cover-accent hover:text-glow"
-            >see other posts...</a>
+            >see other posts...</a
+        >
     </div>
     <hr class="divider" />
     <article class="h-entry w-full">
         <header class="mb-4">
             <h1 class="group w-max block" copy-value={Astro.url.toString()}>
-                <a href={Astro.url}
+                <a
+                    href={Astro.url}
                     class="text-2xl font-bold b-b-dotted b-b-1 b-b-cover-accent w-max inline-block cursor-pointer p-name u-url"
                 >
                     {post.data.title}
@@ -64,11 +70,17 @@ const { Content } = await render(post);
                 >written on {post.data.date.toDateString()}</time
             >
         </header>
-        <div class="prose text-2xl lg:text-lg max-w-full text-justify  e-content"><Content /></div>
+        <div
+            class="prose text-2xl lg:text-lg max-w-full text-justify e-content"
+        >
+            <Content />
+        </div>
     </article>
     <hr class="divider" />
     <section class="mt-2">
-        <h2 class="text-xl mb-2 font-bold b-b-dotted b-b-1 b-b-cover-accent w-max">
+        <h2
+            class="text-xl mb-2 font-bold b-b-dotted b-b-1 b-b-cover-accent w-max"
+        >
             comments
         </h2>
         <form
@@ -104,12 +116,21 @@ const { Content } = await render(post);
             />
         </form>
         <p class="op-50 text-2xl italic text-center w-full">or...</p>
-        <form class="my-4" method="get" action="https://quill.p3k.io/" target="_blank">
-            <input type="hidden" name="dontask" value="1">
-            <input type="hidden" name="me" value="https://commentpara.de/">
+        <form
+            class="my-4"
+            method="get"
+            action="https://quill.p3k.io/"
+            target="_blank"
+        >
+            <input type="hidden" name="dontask" value="1" />
+            <input type="hidden" name="me" value="https://commentpara.de/" />
             <label class="mt-4" for="">(no sign-up!) add a comment via </label>
-            <input class="inline px-2 py-1 b-1 b-dotted b-cover-accent" type="submit" value="commentpara.de">
-            <input type="hidden" name="reply" value={Astro.url.href}>
+            <input
+                class="inline px-2 py-1 b-1 b-dotted b-cover-accent"
+                type="submit"
+                value="commentpara.de"
+            />
+            <input type="hidden" name="reply" value={Astro.url.href} />
         </form>
         <WebmentionComments
             client:visible="svelte"

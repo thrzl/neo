@@ -4,6 +4,7 @@ const {
 	title = "planet",
 	description = "a home for all my hopes, dreams, thoughts and schemes",
 	showHeader = true,
+	pageTitle = ""
 } = Astro.props;
 import Html from "./Html.astro";
 import Sidebar from "../components/Sidebar.astro";
@@ -11,7 +12,7 @@ import Footer from "../components/Footer.astro";
 ---
 
 
-<Html backgroundColor={backgroundColor}>
+<Html backgroundColor={backgroundColor} title={pageTitle}>
     <script>
         document.addEventListener("astro:page-load", () => {
             const textColors = JSON.parse(sessionStorage.getItem(
