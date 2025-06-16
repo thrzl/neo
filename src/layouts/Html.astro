@@ -11,7 +11,7 @@ const { neko, backgroundColor, title } = Astro.props;
                 title ||
                     `thrizzle's ${
                         (Astro.url.pathname.endsWith("/")
-                            ? Astro.url.pathname.slice(0, -1)
+                            ? Astro.url.pathname.slice(1, -1)
                             : Astro.url.pathname.slice(1)) || "home"
                     }`
             }
