@@ -12,7 +12,7 @@ const aniListData = await fetchAniListData();
         about this place
     </h2>
     <p class="text-lg mb-2">welcome / ようこそ！</p>
-    <p class="text-base mb-2">
+    <p class="mb-2">
         this site will act as my output to the rest of the world. i need to
         express my thoughts somehow and this seems like an effective way to do
         so. i first was inspired to get into neocities/the new web1.0 by 4star
@@ -20,25 +20,36 @@ const aniListData = await fetchAniListData();
     </p>
     <div>
         <h2 class="text-2xl font-bold hunderline w-max mb-2">about myself</h2>
-        <h3 class="font-bold text-xl">interests</h3>
-        <ul>
+        <ul id="interests-list">
             <li>
-                <span class="list-header">language</span>
-                <br />
+                <h3 class="list-header">language</h3>
                 i've recently gotten into it. i'm by no means an expert, but i'm
                 currently learning japanese and looking more into the field of linguistics
                 itself
+                <br />
+                im also moderately skilled at toki pona
+                <br />
+                <b class="italic op-50">update</b> j'apprends le français (im learning
+                french)
             </li>
             <li>
-                <span class="list-header">computers</span>
-                <br />
+                <h3 class="list-header">computers</h3>
                 i've long been interested in computers, especially hardware. i built
-                my own computer, and love tinkering with older computers
+                my own computer, and love tinkering with older computers. im currently
+                working on a modern hardware music player that incorporates some
+                of the features that other options lack (i.e. bluetooth and good
+                design)
             </li>
             <li>
-                <span class="list-header">underground alt hip-hop</span>
-                <br />
-                specific, i know
+                <h3 class="list-header">underground alt hip-hop</h3>
+                top 5:
+                <ol class="list-decimal-inside">
+                    <li>ayowitty</li>
+                    <li>bunii</li>
+                    <li>MIKE</li>
+                    <li>MAVI</li>
+                    <li>colin!</li>
+                </ol>
             </li>
         </ul>
         <h3 class="font-bold text-xl mt-2">anime</h3>
@@ -181,7 +192,8 @@ const aniListData = await fetchAniListData();
 </NewLayout>
 
 <style>
-    ul {
+    ul,
+    ol {
         @apply ml-4;
     }
 
@@ -189,11 +201,19 @@ const aniListData = await fetchAniListData();
         @apply mb-2 list-disc;
     }
 
-    span.list-header {
+    ol li {
+        @apply mb-2 list-decimal;
+    }
+
+    h3.list-header {
         @apply italic font-bold;
     }
 
     a {
         @apply link;
+    }
+
+    ul#interests-list > li {
+        @apply mb-4;
     }
 </style>
