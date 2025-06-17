@@ -1,43 +1,80 @@
 ---
 import LinkCard from "../components/LinkCard.astro";
 import Layout from "../layouts/Layout.astro";
-import { linksPage } from "../lib/data";
+import { links } from "../lib/data";
 ---
 
-<Layout title="links" description="an assortion of some of my favorite places on the net">
+<Layout
+    title="links"
+    description="an assortion of some of my favorite places on the net"
+>
     <div class="p-2">
-        <h1 class="text-5xl lg:text-3xl font-bold pb-0.5 mb-4 w-max b-b-1 b-solid b-[--accent-bg-light]">design & font</h1>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 mb-10 grid-rows-[masonry]">
-            {linksPage.design_stuff.map((link) => (
-                <LinkCard
-                    url={link.url}
-                    title={link.title}
-                    description={link.description}
-                    marginY="0"
-                />
-            ))}
+        <h1
+            class="text-5xl lg:text-3xl font-bold pb-0.5 mb-4 w-max b-b-1 b-solid b-[--accent-bg-light]"
+        >
+            design & font
+        </h1>
+        <div
+            class="grid grid-cols-1 lg:grid-cols-2 gap-2 mb-10 grid-rows-[masonry]"
+        >
+            {
+                links.map(
+                    (link) =>
+                        (link.categories.includes("design") ||
+                            link.categories.includes("fonts")) && (
+                            <LinkCard
+                                url={link.url}
+                                title={link.title}
+                                description={link.description}
+                                marginY="0"
+                            />
+                        ),
+                )
+            }
         </div>
-        <h1 class="text-5xl lg:text-3xl font-bold pb-0.5 mb-4 w-max b-b-1 b-solid b-[--accent-bg-light]">apps & services</h1>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 mb-10 grid-rows-[masonry]">
-            {linksPage.apps_services.map((link) => (
-                <LinkCard
-                    url={link.url}
-                    title={link.title}
-                    description={link.description}
-                    marginY="0"
-                />
-            ))}
+        <h1
+            class="text-5xl lg:text-3xl font-bold pb-0.5 mb-4 w-max b-b-1 b-solid b-[--accent-bg-light]"
+        >
+            apps & services
+        </h1>
+        <div
+            class="grid grid-cols-1 lg:grid-cols-2 gap-2 mb-10 grid-rows-[masonry]"
+        >
+            {
+                links.map(
+                    (link) =>
+                        link.categories.includes("apps") && (
+                            <LinkCard
+                                url={link.url}
+                                title={link.title}
+                                description={link.description}
+                                marginY="0"
+                            />
+                        ),
+                )
+            }
         </div>
-        <h1 class="text-5xl lg:text-3xl font-bold pb-0.5 mb-4 w-max b-b-1 b-solid b-[--accent-bg-light]">web stuff</h1>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 mb-10 grid-rows-[masonry]">
-            {linksPage.web_dev.map((link) => (
-                <LinkCard
-                    url={link.url}
-                    title={link.title}
-                    description={link.description}
-                    marginY="0"
-                />
-            ))}
+        <h1
+            class="text-5xl lg:text-3xl font-bold pb-0.5 mb-4 w-max b-b-1 b-solid b-[--accent-bg-light]"
+        >
+            dev stuff
+        </h1>
+        <div
+            class="grid grid-cols-1 lg:grid-cols-2 gap-2 mb-10 grid-rows-[masonry]"
+        >
+            {
+                links.map(
+                    (link) =>
+                        link.categories.includes("dev") && (
+                            <LinkCard
+                                url={link.url}
+                                title={link.title}
+                                description={link.description}
+                                marginY="0"
+                            />
+                        ),
+                )
+            }
         </div>
     </div>
 </Layout>
