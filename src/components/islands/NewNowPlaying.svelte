@@ -246,7 +246,7 @@
                         <!-- <div> -->
                         <a
                             href="https://musicbrainz.org/recording/{recentTrack.mbid}"
-                            class="font-bold inline"
+                            class="font-bold inline link b-b-0"
                         >
                             {recentTrack.name
                                 .toRespectfulLowerCase()
