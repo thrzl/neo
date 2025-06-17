@@ -1,7 +1,33 @@
 ---
-import LinkCard from "../components/LinkCard.astro";
 import Layout from "../layouts/Layout.astro";
 import { links } from "../lib/data";
+
+const processedLinks: Record<string, (typeof links)[0][]> = {};
+for (const link of links) {
+    for (const category of link.categories) {
+        if (!processedLinks[category]) {
+            processedLinks[category] = [];
+        }
+        processedLinks[category].push(link);
+    }
+}
+
+const displayNames: Record<string, string> = {
+    design: "design & font",
+    fonts: "design & font",
+    apps: "apps & services",
+    dev: "dev stuff",
+};
+
+const seen = new Set<string>();
+const sections: { key: string; title: string; links: typeof links }[] = [];
+for (const [key, items] of Object.entries(processedLinks)) {
+    const title = displayNames[key] ?? key;
+    if (!seen.has(title)) {
+        sections.push({ key, title, links: items });
+        seen.add(title);
+    }
+}
 ---
 
 <Layout
@@ -9,72 +35,61 @@ import { links } from "../lib/data";
     description="an assortion of some of my favorite places on the net"
 >
     <div class="p-2">
-        <h1
-            class="text-5xl lg:text-3xl font-bold pb-0.5 mb-4 w-max b-b-1 b-solid b-[--accent-bg-light]"
-        >
-            design & font
-        </h1>
-        <div
-            class="grid grid-cols-1 lg:grid-cols-2 gap-2 mb-10 grid-rows-[masonry]"
-        >
-            {
-                links.map(
-                    (link) =>
-                        (link.categories.includes("design") ||
-                            link.categories.includes("fonts")) && (
-                            <LinkCard
-                                url={link.url}
-                                title={link.title}
-                                description={link.description}
-                                marginY="0"
-                            />
-                        ),
-                )
-            }
-        </div>
-        <h1
-            class="text-5xl lg:text-3xl font-bold pb-0.5 mb-4 w-max b-b-1 b-solid b-[--accent-bg-light]"
-        >
-            apps & services
-        </h1>
-        <div
-            class="grid grid-cols-1 lg:grid-cols-2 gap-2 mb-10 grid-rows-[masonry]"
-        >
-            {
-                links.map(
-                    (link) =>
-                        link.categories.includes("apps") && (
-                            <LinkCard
-                                url={link.url}
-                                title={link.title}
-                                description={link.description}
-                                marginY="0"
-                            />
-                        ),
-                )
-            }
-        </div>
-        <h1
-            class="text-5xl lg:text-3xl font-bold pb-0.5 mb-4 w-max b-b-1 b-solid b-[--accent-bg-light]"
-        >
-            dev stuff
-        </h1>
-        <div
-            class="grid grid-cols-1 lg:grid-cols-2 gap-2 mb-10 grid-rows-[masonry]"
-        >
-            {
-                links.map(
-                    (link) =>
-                        link.categories.includes("dev") && (
-                            <LinkCard
-                                url={link.url}
-                                title={link.title}
-                                description={link.description}
-                                marginY="0"
-                            />
-                        ),
-                )
-            }
-        </div>
+        <i class="op-50">jump to...</i>
+        {
+            sections
+                .filter(({ links }) => links.length > 0)
+                .map(({ title, key }) => (
+                    <a
+                        class="mx-2 py-1 px-2 b-1 b-dashed text-center inline-block b-cover-accent hover:b-cover-bright hover:text-glow"
+                        href={`#${key}`}
+                    >
+                        {title.trim()}
+                    </a>
+                ))
+        }
+    </div>
+    <div class="p-2">
+        {
+            sections
+                .filter(({ links }) => links.length > 0)
+                .map(({ title, links, key }) => (
+                    <>
+                        <h1
+                            class="text-5xl lg:text-3xl font-bold pb-0.5 mb-4 w-max b-b-1 b-solid b-[--accent-bg-light]"
+                            id={key}
+                        >
+                            {title}
+                        </h1>
+                        <div class="gap-2 mb-10 grid-rows-[masonry]">
+                            {links.map((link) => (
+                                <Fragment>
+                                    <article
+                                        class="h-entry mb-4"
+                                        id={
+                                            link.categories.join("-") + link.url
+                                        }
+                                    >
+                                        <a
+                                            href={link.url}
+                                            class="w-max link block relative"
+                                        >
+                                            <h1 class="text-6xl font-bold w-max inline-block cursor-pointer p-name">
+                                                {link.title}
+                                            </h1>
+                                        </a>
+                                        <p class="text-xl">
+                                            <span class="op-50 italic mr-1">
+                                                {link.categories.join(" / ")}
+                                            </span>
+                                            {link.description}
+                                        </p>
+                                    </article>
+                                </Fragment>
+                            ))}
+                        </div>
+                    </>
+                ))
+        }
     </div>
 </Layout>
