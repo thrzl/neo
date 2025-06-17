@@ -2,7 +2,7 @@
 // This is an Astro component file
 import Layout from "../layouts/Layout.astro";
 import MusicStats from "../components/islands/MusicStats.astro";
-const ranges = process.env.PROD
+const ranges = import.meta.env.PROD
     ? ["this_week", "this_month", "this_year", "all_time"]
     : ["this_week", "this_month"];
 ---
