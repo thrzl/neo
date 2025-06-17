@@ -29,6 +29,7 @@ const { neko, backgroundColor, title } = Astro.props;
             title="thrizzle's garden"
             href={new URL("rss.xml", Astro.site)}
         />
+        <meta name="viewport" content="width=device-width" />
         <ClientRouter />
     </head>
     <body class=`bg-cover-base`>
@@ -93,6 +94,6 @@ const { neko, backgroundColor, title } = Astro.props;
 
 <style is:global>
     * {
-        @apply text-100% xl:text-105%;
+        @apply !text-110% lg:!text-100% xl:!text-105%;
     }
 </style>
