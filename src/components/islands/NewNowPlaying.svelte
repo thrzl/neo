@@ -213,7 +213,7 @@
         {#key recentTrack.mbid}
             <img
                 src="https://wsrv.nl/?url=coverartarchive.org/release/{recentTrack
-                    .release.mbid}/front-500"
+                    .release.mbid}/front-500&output=webp"
                 alt="{recentTrack.release.name} cover art"
                 on:error={(e) => {
                     const img = e.target as HTMLImageElement;
