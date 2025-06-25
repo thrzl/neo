@@ -67,8 +67,11 @@
     });
 
     onMount(() => {
-        const socket = io("https://nowplaying.thrzl.xyz");
-        socket.on("recent_track", updateRecentTrack);
+        const socket = new WebSocket("wss://spot-ws.thrzl.xyz/ws");
+        socket.onmessage = async (event) => {
+            const data = JSON.parse(event.data);
+            await updateRecentTrack(data);
+        };
     });
 
     // biome-ignore lint/style/useConst: needed by svelte
@@ -210,10 +213,9 @@
     </div>
 {:else}
     <div class="block w-full">
-        {#key recentTrack.mbid}
+        {#key recentTrack.url}
             <img
-                src="https://wsrv.nl/?url=coverartarchive.org/release/{recentTrack
-                    .release.mbid}/front-500&output=webp"
+                src="https://wsrv.nl/?url={recentTrack.release.image_url}&output=webp"
                 alt="{recentTrack.release.name} cover art"
                 on:error={(e) => {
                     const img = e.target as HTMLImageElement;
@@ -237,7 +239,6 @@
             <div
                 class="bottom-0 op-0 op-100 transition-delay-150 transition-200 w-full h-full z-2 flex justify-end items-end flex-col"
             >
-                {#if recentTrack.matched}
                     <div
                         bind:this={trackTitle}
                         class="block text-nowrap overflow-x-clip my-0.5 text-white text-4xl font-bold text-right w-max max-w-full"
@@ -245,7 +246,7 @@
                     >
                         <!-- <div> -->
                         <a
-                            href="https://musicbrainz.org/recording/{recentTrack.mbid}"
+                            href={recentTrack.url}
                             class="font-bold inline link b-b-0"
                         >
                             {recentTrack.name
@@ -257,7 +258,7 @@
                     <p class="text-sm text-neutral-300 text-right w-4/5 italic">
                         {#each recentTrack.artists as artist, i}
                             <a
-                                href="https://listenbrainz.org/artist/{artist.mbid}"
+                                href={artist.url}
                                 class="link"
                                 >{artist.name
                                     .toRespectfulLowerCase()
@@ -268,27 +269,6 @@
                                 : ""}
                         {/each}
                     </p>
-                {:else}
-                    <div
-                        bind:this={trackTitle}
-                        class="block text-nowrap overflow-clip text-white text-4xl !line-height-none font-bold text-right w-max max-w-full"
-                        id="track-title"
-                    >
-                        <span class="font-bold pr-16">
-                            {recentTrack.name
-                                .replace(/\s*\(feat\. [^)]+\)/i, "")
-                                .toRespectfulLowerCase()
-                                .replaceAll("’", "'")}
-                        </span>
-                    </div>
-                    <p
-                        class="text-sm text-neutral-300 text-right w-full italic"
-                    >
-                        {recentTrack.artists[0].name
-                            .toRespectfulLowerCase()
-                            .replaceAll("’", "'")}
-                    </p>
-                {/if}
                 <!-- {#if now_playing}
 			<p
 			class="line-height-none w-max animate-pulse duration-100 text-lg lg:text-sm m-0 text-[--accent-bg-light]"
