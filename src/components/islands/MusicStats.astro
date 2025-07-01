@@ -51,7 +51,7 @@ async function processCoverArt(
 	if (!release.caa_id) {
 		return musicPlaceholder;
 	}
-	return `https://coverartarchive.org/release/${release.release_mbid}/front-${size}`;
+	return `https://wsrv.nl/?url=https://coverartarchive.org/release/${release.release_mbid}/front-${size}`;
 }
 
 const stats = await getStats();
