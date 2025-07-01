@@ -82,7 +82,6 @@
             console.log("cancelling cover art");
             return; // make the linter happy
         }
-        console.log("palette ^")
         if (sessionStorage.getItem("previousImg") === coverArt.src) {
             return;
         }
@@ -93,6 +92,7 @@
         }
         const palette = getColor(coverArt);
         console.log(palette)
+        console.log("palette ^")
 
         !coverArt.src.includes("/music.avif") &&
             sessionStorage.setItem("previousImg", coverArt.src);
