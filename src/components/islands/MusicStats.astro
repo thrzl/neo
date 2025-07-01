@@ -2,6 +2,7 @@
 import "../../lib/helpers";
 import { Image } from "astro:assets";
 const { range } = Astro.props;
+import {defaultListenBrainzResponse} from "../../lib/build-time-data";
 type Stats = {
 	count: number;
 	from_ts: number;
@@ -28,6 +29,9 @@ type Stats = {
 };
 
 async function getStats() {
+  if (!import.meta.env.PROD) {
+    return defaultListenBrainzResponse;
+  }
 	const res = await fetch(
 		`https://api.listenbrainz.org/1/stats/user/thrizzle/releases?range=${range}`,
 	);
@@ -39,13 +43,10 @@ async function getStats() {
 }
 
 async function processCoverArt(
-	release: { release_mbid: string },
-	size: string = "250",
+	release: { release_mbid: string, caa_id: number | null },
+	size = "250",
 ): Promise<string> {
-	const res = await fetch(
-		`https://coverartarchive.org/release/${release.release_mbid}/`,
-	);
-	if (!res.ok) {
+	if (!release.caa_id) {
 		return "/music.avif";
 	}
 	return `https://coverartarchive.org/release/${release.release_mbid}/front-${size}`;
@@ -62,7 +63,8 @@ const stats = await getStats();
                     href={`https://listenbrainz.org/release/${release.release_mbid}`}
                     class={`order-${i} relative overflow-hidden inline-block min-w-64 grow basis-64 group aspect-ratio-square duration-300 cursor-help`}
                 >
-                    <img
+                    <Image
+                    inferSize
                         src={await processCoverArt(release, i ===
                             stats.releases.length - 1 &&
                         stats.releases.length % 2 !== 0

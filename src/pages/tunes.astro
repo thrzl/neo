@@ -35,16 +35,20 @@ const ranges = import.meta.env.PROD
     </div>
 
     <script>
-        const labels = document.querySelectorAll(".tab-label");
-        const panels = document.querySelectorAll(".tab-panel");
+        document.addEventListener("astro:page-load", () => {
+            const labels: NodeListOf<HTMLButtonElement> =
+                document.querySelectorAll(".tab-label");
+            const panels: NodeListOf<HTMLDivElement> =
+                document.querySelectorAll(".tab-panel");
 
-        labels.forEach((label, i) => {
-            label.addEventListener("click", () => {
-                labels.forEach((l) => l.classList.remove("active"));
-                panels.forEach((p) => (p.hidden = true));
+            labels.forEach((label, i) => {
+                label.addEventListener("click", () => {
+                    labels.forEach((l) => l.classList.remove("active"));
+                    panels.forEach((p) => (p.hidden = true));
 
-                label.classList.add("active");
-                panels[i].hidden = false;
+                    label.classList.add("active");
+                    panels[i].hidden = false;
+                });
             });
         });
     </script>
