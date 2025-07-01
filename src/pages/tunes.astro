@@ -34,7 +34,7 @@ const ranges = import.meta.env.PROD
         }
     </div>
 
-    <script>
+    <script type="module">
         let alreadyInitialized = false;
         function init_tabs() {
             if (alreadyInitialized) return;
@@ -55,8 +55,7 @@ const ranges = import.meta.env.PROD
             });
             alreadyInitialized = true;
         }
-        document.addEventListener("astro:page-load", init_tabs);
-        document.addEventListener("DOMContentLoaded", init_tabs);
+
         init_tabs();
     </script>
 </Layout>
