@@ -35,7 +35,8 @@ export function getColor(img: HTMLImageElement): CompletePalette {
     .map((color) => `rgb(${color.rgb().join(", ")})`);
 
   // calculate text color from dominant color luminance
-  const textColor = rawDominant.luminance() > 0.5 ? "black" : "white";
+  const textColor = rawDominant.luminance() > 0.3 ? "black" : "white";
+  console.log(rawDominant.luminance());
   if (getContrast(rawDominant.rgb(), rawPalette[0].rgb()) < 0.2) {
     palette[0] = textColor;
   }
