@@ -3,6 +3,8 @@ import "../../lib/helpers";
 import { Image } from "astro:assets";
 const { range } = Astro.props;
 import {defaultListenBrainzResponse} from "../../lib/build-time-data";
+import musicPlaceholder from "../../assets/music.avif"
+import type { ImageMetadata } from "astro";
 type Stats = {
 	count: number;
 	from_ts: number;
@@ -45,9 +47,9 @@ async function getStats() {
 async function processCoverArt(
 	release: { release_mbid: string, caa_id: number | null },
 	size = "250",
-): Promise<string> {
+): Promise<string | ImageMetadata> {
 	if (!release.caa_id) {
-		return "/music.avif";
+		return musicPlaceholder;
 	}
 	return `https://coverartarchive.org/release/${release.release_mbid}/front-${size}`;
 }
@@ -64,7 +66,16 @@ const stats = await getStats();
                     class={`order-${i} relative overflow-hidden inline-block min-w-64 grow basis-64 group aspect-ratio-square duration-300 cursor-help`}
                 >
                     <Image
-                    inferSize
+                    width={i ===
+                        stats.releases.length - 1 &&
+                    stats.releases.length % 2 !== 0
+                        ? "1200"
+                        : "500"}
+                    height={i ===
+                        stats.releases.length - 1 &&
+                    stats.releases.length % 2 !== 0
+                        ? "1200"
+                        : "500"}
                         src={await processCoverArt(release, i ===
                             stats.releases.length - 1 &&
                         stats.releases.length % 2 !== 0
@@ -80,7 +91,7 @@ const stats = await getStats();
 
                     <!-- show title and artist in center on hover, and darken background -->
                     <div
-                        class="absolute bg-[--accent-muted-dark] top-0 op-0 group-hover:op-80 scale-95 group-hover:scale-100 duration-200 w-full h-full z-1"
+                        class="absolute bg-cover-base top-0 op-0 group-hover:op-80 scale-95 group-hover:scale-100 duration-200 w-full h-full z-1"
                     ></div>
                     <div
                         class="absolute bottom-0 op-0 group-hover:op-100 transition-delay-150 transition-200 w-full h-full z-2 flex justify-center items-center flex-col"
@@ -93,7 +104,7 @@ const stats = await getStats();
                                 .replaceAll("’", "'")}
                         </p>
                         <p
-                            class="text-white text-lg lg:text-4xl !line-height-none font-bold text-center w-4/5"
+                            class="text-white text-4xl !line-height-none font-bold text-center w-4/5"
                         >
                             {release.release_name
                                 .toRespectfulLowerCase()

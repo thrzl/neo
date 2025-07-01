@@ -65,7 +65,7 @@ export const defaultListenBrainzResponse = {
           join_phrase: "",
         },
       ],
-      caa_id: 39566202781,
+      caa_id: null,
       caa_release_mbid: "adac7e45-ae34-41d4-bf5f-918dc9cdd60d",
       listen_count: 7,
       release_mbid: "adac7e45-ae34-41d4-bf5f-918dc9cdd60d",
