@@ -3,7 +3,7 @@ import { defineConfig } from "unocss";
 export default defineConfig({
   safelist: ["transition-colors", "duration-500"],
   shortcuts: [
-    { "text-glow": "text-shadow-[0_0_0.125rem_white]" },
+    { "text-glow": "text-shadow-[0_0_0.125rem_var(--accent-text,#fff)]" },
     {
       link: "b-b-2 b-cover-accent b-dotted hover:text-glow !hover:b-cover-bright",
     },
@@ -13,10 +13,10 @@ export default defineConfig({
   theme: {
     colors: {
       cover: {
-        base: "var(--accent-muted-dark, rgb(20 83 45))",
-        muted: "var(--accent-bg-dark, rgb(22 101 52))",
-        mutedlight: "var(--accent-muted, rgb(22 101 52))",
-        bright: "var(--accent-muted-light, rgb(22 101 52))",
+        base: "var(--dominant, rgb(20 83 45))",
+        muted: "var(--accent-bg, rgb(22 101 52))",
+        mutedlight: "var(--accent-muted-light, rgb(22 101 52))",
+        bright: "var(--accent-bg-light, rgb(22 101 52))",
         accent: "var(--accent-bg, rgb(74 222 128))",
       },
     },

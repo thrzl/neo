@@ -198,6 +198,12 @@ export const links = [
     categories: ["apps"],
   },
   {
+    title: "blank.page",
+    description: "just write, no distractions. optional sync feature",
+    url: "https://blank.page/",
+    categories: ["apps"],
+  },
+  {
     title: "squoosh",
     description: "compresses images super well to a ton of different formats",
     url: "https://squoosh.app/",

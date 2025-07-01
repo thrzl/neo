@@ -1,6 +1,5 @@
 <script lang="ts">
-    import { io } from "socket.io-client";
-    import { getDominantColor } from "../../lib/colors";
+    import { getColor } from "../../lib/colors";
     import type { Track } from "../../env";
     import "@gouch/to-title-case";
     import { onMount } from "svelte";
@@ -77,109 +76,50 @@
     // biome-ignore lint/style/useConst: needed by svelte
     let coverArt: HTMLImageElement | null = null;
 
-    async function getAlbumArtColor() {
+    function getAlbumArtColor() {
+      console.log("getting colors")
         if (!coverArt || coverArt.src.includes("/music.avif")) {
             console.log("cancelling cover art");
             return; // make the linter happy
         }
+        console.log("palette ^")
         if (sessionStorage.getItem("previousImg") === coverArt.src) {
-            console.info("hey, i know this one!");
-            const textColors = JSON.parse(
-                sessionStorage.getItem("textColors") as string,
-            );
-            const palette = JSON.parse(
-                sessionStorage.getItem("palette") as string,
-            );
-            if (!palette || !textColors) {
-                console.log("whoops..");
-            }
-            document.documentElement.style.setProperty(
-                "--accent-bg-dark",
-                `rgb(${palette?.DarkVibrant?.rgb.join(", ")})` || "#000000",
-            );
-            document.documentElement.style.setProperty(
-                "--accent-bg",
-                `rgb(${palette?.Vibrant?.rgb.join(", ")})` || "#fff",
-            );
-            document.documentElement.style.setProperty(
-                "--accent-bg-light",
-                `rgb(${palette?.LightVibrant?.rgb.join(", ")})` || "#fff",
-            );
-            document.documentElement.style.setProperty(
-                "--accent-muted-light",
-                `rgb(${palette?.LightMuted?.rgb.join(", ")})` || "#fff",
-            );
-            document.documentElement.style.setProperty(
-                "--accent-muted-dark",
-                `rgb(${palette?.DarkMuted?.rgb.join(", ")})` || "#fff",
-            );
-            document.documentElement.style.setProperty(
-                "--accent-muted",
-                `rgb(${palette?.Muted?.rgb.join(", ")})` || "#fff",
-            );
-            if (textColors) {
-                document.documentElement.style.setProperty(
-                    "--accent-text-dark",
-                    textColors.dark || "#ffffff",
-                );
-                document.documentElement.style.setProperty(
-                    "--accent-text-light",
-                    textColors.light || "#ffffff",
-                );
-            }
-            document.documentElement.style.setProperty(
-                "--accent-text",
-                palette?.LightMuted?.bodyTextColor || "#ffffff",
-            );
             return;
         }
-        const palette = await getDominantColor(coverArt.src);
+
+        if (!coverArt.complete) {
+          console.log("waiting for cover to load")
+            coverArt.addEventListener("load", getAlbumArtColor);
+        }
+        const palette = getColor(coverArt);
+        console.log(palette)
 
         !coverArt.src.includes("/music.avif") &&
             sessionStorage.setItem("previousImg", coverArt.src);
         sessionStorage.setItem("palette", JSON.stringify(palette));
         sessionStorage.setItem(
-            "textColors",
-            JSON.stringify({
-                light: palette?.LightVibrant?.bodyTextColor,
-                dark: palette?.DarkVibrant?.bodyTextColor,
-            }),
+            "textColor",
+            palette.textColor,
         );
         document.documentElement.style.setProperty(
-            "--accent-bg-dark",
-            `rgb(${palette?.DarkVibrant?.rgb.join(", ")})` || "#000000",
+            "--dominant",
+            palette.dominant || "#000000",
         );
         document.documentElement.style.setProperty(
             "--accent-bg",
-            `rgb(${palette?.Vibrant?.rgb.join(", ")})` || "#fff",
+            palette.palette[0] || "#fff",
         );
         document.documentElement.style.setProperty(
             "--accent-bg-light",
-            `rgb(${palette?.LightVibrant?.rgb.join(", ")})` || "#fff",
+            palette.palette[1] || "#fff",
         );
         document.documentElement.style.setProperty(
             "--accent-muted-light",
-            `rgb(${palette?.LightMuted?.rgb.join(", ")})` || "#fff",
-        );
-        document.documentElement.style.setProperty(
-            "--accent-muted-dark",
-            `rgb(${palette?.DarkMuted?.rgb.join(", ")})` || "#fff",
-        );
-        document.documentElement.style.setProperty(
-            "--accent-muted",
-            `rgb(${palette?.Muted?.rgb.join(", ")})` || "#fff",
-        );
-        document.documentElement.style.setProperty(
-            "--accent-text-dark",
-            palette?.DarkVibrant?.bodyTextColor || "#ffffff",
-        );
-        document.documentElement.style.setProperty(
-            "--accent-text-light",
-            palette?.LightVibrant?.bodyTextColor || "#ffffff",
+            palette.palette[3] || "#fff",
         );
         document.documentElement.style.setProperty(
             "--accent-text",
-            palette?.LightMuted?.bodyTextColor || "#ffffff",
+            palette.textColor || "#ffffff",
         );
         // window.palette = palette;
         return;
@@ -227,10 +167,13 @@
                     if (img.src.includes("/music.avif")) {
                         return;
                     }
+                    console.log("image loaded")
                     getAlbumArtColor();
+                    console.log("set colors")
                 }}
                 class="w-full max-w-250px aspect-ratio-square mb-0.5 b-cover-accent bg-cover-accent b-4 b-solid"
                 loading="lazy"
+                crossorigin="anonymous"
             />
             <!-- show title and artist in center on hover, and darken background -->
             <div
@@ -241,7 +184,7 @@
             >
                     <div
                         bind:this={trackTitle}
-                        class="block text-nowrap overflow-x-clip my-0.5 text-white text-4xl font-bold text-right w-max max-w-full"
+                        class="block text-nowrap overflow-x-clip my-0.5 text-4xl font-bold text-right w-max max-w-full"
                         data-speed="0.75"
                     >
                         <!-- <div> -->
@@ -255,7 +198,7 @@
                         </a>
                         <!-- </div> -->
                     </div>
-                    <p class="text-sm text-neutral-300 text-right w-4/5 italic">
+                    <p class="text-sm text-right w-4/5 italic">
                         {#each recentTrack.artists as artist, i}
                             <a
                                 href={artist.url}

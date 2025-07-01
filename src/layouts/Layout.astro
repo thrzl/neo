@@ -13,49 +13,35 @@ import Footer from "../components/Footer.astro";
 
 <Html backgroundColor={backgroundColor} title={pageTitle}>
     <script>
+        import type { CompletePalette } from "../lib/colors";
+
         document.addEventListener("astro:page-load", () => {
-            const textColors = JSON.parse(
-                sessionStorage.getItem("textColors") || "",
+            const palette: CompletePalette = JSON.parse(
+                sessionStorage.getItem("palette") || "",
             );
-            const palette = JSON.parse(sessionStorage.getItem("palette") || "");
-            if (!palette || !textColors) {
+            if (!palette) {
                 return;
             }
+
             document.documentElement.style.setProperty(
-                "--accent-bg-dark",
-                `rgb(${palette?.DarkVibrant?.rgb.join(", ")})` || "#000000",
+                "--dominant",
+                palette.dominant || "#000000",
             );
             document.documentElement.style.setProperty(
                 "--accent-bg",
-                `rgb(${palette?.Vibrant?.rgb.join(", ")})` || "#fff",
+                palette.palette[0] || "#fff",
             );
             document.documentElement.style.setProperty(
                 "--accent-bg-light",
-                `rgb(${palette?.LightVibrant?.rgb.join(", ")})` || "#fff",
+                palette.palette[1] || "#fff",
             );
             document.documentElement.style.setProperty(
                 "--accent-muted-light",
-                `rgb(${palette?.LightMuted?.rgb.join(", ")})` || "#fff",
-            );
-            document.documentElement.style.setProperty(
-                "--accent-muted-dark",
-                `rgb(${palette?.DarkMuted?.rgb.join(", ")})` || "#fff",
-            );
-            document.documentElement.style.setProperty(
-                "--accent-muted",
-                `rgb(${palette?.Muted?.rgb.join(", ")})` || "#fff",
-            );
-            document.documentElement.style.setProperty(
-                "--accent-text-dark",
-                textColors.dark || "#ffffff",
-            );
-            document.documentElement.style.setProperty(
-                "--accent-text-light",
-                textColors.light || "#ffffff",
+                palette.palette[3] || "#fff",
             );
             document.documentElement.style.setProperty(
                 "--accent-text",
-                palette?.LightMuted?.bodyTextColor || "#ffffff",
+                palette.textColor || "#ffffff",
             );
         });
         document.querySelectorAll('[class*="cover-"]').forEach((el) => {
@@ -75,11 +61,12 @@ import Footer from "../components/Footer.astro";
     </script>
 
     <div
-        class="grid grid-cols-[100vw_100vw_0] lg:grid-cols-[25%_50%_25%] justify-center text-white overflow-x-auto snap-x snap-mandatory lg:overflow-x-visible lg:snap-none min-w-screen"
+        class="grid grid-cols-[100vw_100vw_0] lg:grid-cols-[25%_50%_25%] justify-center overflow-x-auto snap-x snap-mandatory lg:overflow-x-visible lg:snap-none min-w-screen"
+        style="color: var(--accent-text, #fff)"
     >
         <Sidebar transition:persist class="snap-start min-w-full lg:min-w-0" />
         <main
-            class="relative self-start text-center inline-block bg-cover-base w-full min-h-screen px-8 pt-16 lg:mt-16 mb-16 text-white snap-start min-w-full lg:min-w-0"
+            class="relative self-start text-center inline-block bg-cover-base w-full min-h-screen px-8 pt-16 lg:mt-16 mb-16 snap-start min-w-full lg:min-w-0"
         >
             {
                 showHeader && (
@@ -87,7 +74,7 @@ import Footer from "../components/Footer.astro";
                         <h1 class="text-5xl font-bold z-1">
                             thrizzle's <span class="italic">{title}</span>
                         </h1>
-                        <p class="b-t-dotted b-t-1 b-t-accent w-max mx-auto mb-2 print-hidden">
+                        <p class="b-t-dotted b-t-1 b-t-cover-muted w-max mx-auto mb-2 print-hidden">
                             {description}
                         </p>
                     </div>

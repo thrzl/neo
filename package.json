@@ -17,6 +17,8 @@
 		"@gouch/to-title-case": "^2.2.1",
 		"@unocss/reset": "^66.2.1",
 		"astro": "^5.9.3",
+		"chroma-js": "^3.1.2",
+		"colorthief": "^2.6.0",
 		"dynamic-marquee": "^2.6.5",
 		"html-truncate": "^1.2.2",
 		"javascript-time-ago": "^2.5.11",
@@ -30,6 +32,7 @@
 		"vanilla-marquee": "^1.1.2"
 	},
 	"devDependencies": {
+		"@types/chroma-js": "^3.1.1",
 		"@vibrant/color": "^4.0.0"
 	}
 }
