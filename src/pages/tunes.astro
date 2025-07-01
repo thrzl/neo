@@ -35,7 +35,9 @@ const ranges = import.meta.env.PROD
     </div>
 
     <script>
-        document.addEventListener("astro:page-load", () => {
+        let alreadyInitialized = false;
+        function init_tabs() {
+            if (alreadyInitialized) return;
             const labels: NodeListOf<HTMLButtonElement> =
                 document.querySelectorAll(".tab-label");
             const panels: NodeListOf<HTMLDivElement> =
@@ -51,7 +53,10 @@ const ranges = import.meta.env.PROD
                     panels[i].hidden = false;
                 });
             });
-        });
+            alreadyInitialized = true;
+        }
+        document.addEventListener("astro:page-load", init_tabs);
+        document.addEventListener("astro:after-swap", init_tabs);
     </script>
 </Layout>
 
