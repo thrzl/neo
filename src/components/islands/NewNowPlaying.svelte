@@ -190,7 +190,7 @@
                         <!-- <div> -->
                         <a
                             href={recentTrack.url}
-                            class="font-bold inline link b-b-0"
+                            class="font-bold inline hover:underline decoration-2 decoration-dotted hover:text-glow hover:decoration-wavy hover:decoration-1 b-b-0"
                         >
                             {recentTrack.name
                                 .toRespectfulLowerCase()

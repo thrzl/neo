@@ -73,12 +73,12 @@ function formatDate(date: string): string {
                         <article class="h-entry mb-4" id={post.id}>
                             <a
                                 href={`/garden/${post.id}`}
-                                class="lg:w-max link block relative"
+                                class="lg:w-max block relative"
                             >
                                 <span class="absolute -top-2 -right-5 lg:top-0 lg:-right-3">
                                     {chooseFlower(post.data.title)}
                                 </span>
-                                <h1 class="text-6xl font-bold inline-block cursor-pointer p-name">
+                                <h1 class="text-6xl font-bold inline-block cursor-pointer p-name link">
                                     {post.data.title}
                                 </h1>
                             </a>
