@@ -39,7 +39,9 @@ export function getColor(img: HTMLImageElement): CompletePalette {
   if (getContrast(rawDominant.rgb(), rawPalette[0].rgb()) < 0.2) {
     palette[0] = textColor;
   }
-  return { palette, textColor, dominant };
+  const result = { palette, textColor, dominant };
+  console.log(result);
+  return result;
 }
 
 function getContrast(
