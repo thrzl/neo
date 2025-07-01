@@ -34,14 +34,12 @@ const ranges = import.meta.env.PROD
         }
     </div>
 
-    <script type="module">
-        let alreadyInitialized = false;
+    <script is:inline async="false">
+        // let alreadyInitialized = false;
         function init_tabs() {
             if (alreadyInitialized) return;
-            const labels: NodeListOf<HTMLButtonElement> =
-                document.querySelectorAll(".tab-label");
-            const panels: NodeListOf<HTMLDivElement> =
-                document.querySelectorAll(".tab-panel");
+            const labels = document.querySelectorAll(".tab-label");
+            const panels = document.querySelectorAll(".tab-panel");
 
             console.log(labels, panels);
             labels.forEach((label, i) => {
@@ -53,7 +51,7 @@ const ranges = import.meta.env.PROD
                     panels[i].hidden = false;
                 });
             });
-            alreadyInitialized = true;
+            // alreadyInitialized = true;
         }
 
         init_tabs();
