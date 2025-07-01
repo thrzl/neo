@@ -40,6 +40,7 @@ const ranges = import.meta.env.PROD
             const labels = document.querySelectorAll(".tab-label");
             const panels = document.querySelectorAll(".tab-panel");
 
+            console.log(labels, panels);
             labels.forEach((label, i) => {
                 label.addEventListener("click", () => {
                     labels.forEach((l) => l.classList.remove("active"));
