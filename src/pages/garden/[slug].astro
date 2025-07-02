@@ -145,12 +145,16 @@ const { Content } = await render(post);
         />
     </section>
     <script>
-        const textJustifyToggle = document.getElementById(
-            "text-justify-toggle",
-        ) as HTMLAnchorElement;
-        const content = document.querySelector(".e-content") as HTMLDivElement;
-        textJustifyToggle.addEventListener("click", () => {
-            content.classList.toggle("text-justify");
+        document.addEventListener("astro:page-load", () => {
+            const textJustifyToggle = document.getElementById(
+                "text-justify-toggle",
+            ) as HTMLAnchorElement;
+            const content = document.querySelector(
+                ".e-content",
+            ) as HTMLDivElement;
+            textJustifyToggle.addEventListener("click", () => {
+                content.classList.toggle("text-justify");
+            });
         });
     </script>
 </Layout>
