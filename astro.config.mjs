@@ -25,21 +25,45 @@ export default defineConfig({
               "margin-right": "auto",
             },
             a: {
-              "text-decoration": "none",
+              "text-decoration":
+                "underline dotted 2px var(--accent-bg, rgb(74 222 128))",
               "font-style": "italic",
-              "border-bottom": "2px dotted var(--accent-bg, rgb(74 222 128))",
             },
             "a:hover": {
-              "text-shadow": "0 0 0.125rem var(--accent-text, #fff)",
-              "border-bottom":
-                "2px dotted var(--accent-muted-light, rgb(22 101 52))",
+              // "text-shadow": "0 0 0.125rem var(--accent-text, #fff)",
+              "text-decoration":
+                "underline wavy 1px var(--accent-bg-light, rgb(22 101 52))",
+            },
+            'input[type="checkbox"]:checked': {
+              "background-color": "var(--accent-bg-light, rgb(22 101 52))",
+              /* Add checkmark if desired */
+            },
+            'input[type="checkbox"]': {
+              appearance: "none",
+              width: "1.25rem",
+              height: "1.25rem",
+              "margin-right": "0.1rem",
+              border: "2px solid var(--accent-bg-light, rgb(22 101 52))",
+              "background-color": "transparent",
+              "border-radius": "0.25rem",
+              cursor: "pointer",
+              display: "inline-block",
+              "vertical-align": "middle",
             },
             "h1, h2, h3, h4, h5, h6": {
-              "border-bottom": "1px dotted var(--accent-bg, rgb(74 222 128))",
+              "text-decoration":
+                "underline wavy 1px var(--accent-bg, rgb(74 222 128))",
               width: "max-content",
             },
             "#footnote-label": {
               "text-transform": "lowercase",
+            },
+            ins: {
+              "text-decoration": "underline wavy 1px",
+              "font-style": "italic",
+            },
+            "li.task-list-item": {
+              "list-style-type": "none",
             },
           },
         }),
