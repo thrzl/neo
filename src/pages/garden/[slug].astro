@@ -18,17 +18,6 @@ const post = (await getEntry("blog", slug)) as CollectionEntry<"blog">;
 const { Content } = await render(post);
 ---
 
-<script>
-    document.addEventListener("astro:page-load", () => {
-        document.querySelectorAll("[copy-value]").forEach((element) => {
-            element.addEventListener("click", () => {
-                navigator.clipboard.writeText(
-                    element.getAttribute("copy-value") as string,
-                );
-            });
-        });
-    });
-</script>
 <Layout
     title="garden"
     pageTitle={post.data.title}
@@ -144,17 +133,25 @@ const { Content } = await render(post);
             slug={slug}
         />
     </section>
-    <script>
-        document.addEventListener("astro:page-load", () => {
-            const textJustifyToggle = document.getElementById(
-                "text-justify-toggle",
-            ) as HTMLAnchorElement;
-            const content = document.querySelector(
-                ".e-content",
-            ) as HTMLDivElement;
-            textJustifyToggle.addEventListener("click", () => {
-                content.classList.toggle("text-justify");
+</Layout>
+<script>
+    document.addEventListener("astro:page-load", () => {
+        // add title click listener
+        document.querySelectorAll("[copy-value]").forEach((element) => {
+            element.addEventListener("click", () => {
+                navigator.clipboard.writeText(
+                    element.getAttribute("copy-value") as string,
+                );
             });
         });
-    </script>
-</Layout>
+
+        // add text justify toggle listener
+        const textJustifyToggle = document.getElementById(
+            "text-justify-toggle",
+        ) as HTMLButtonElement;
+        const content = document.querySelector(".e-content") as HTMLDivElement;
+        textJustifyToggle.addEventListener("click", () => {
+            content.classList.toggle("text-justify");
+        });
+    });
+</script>

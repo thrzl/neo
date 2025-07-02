@@ -33,32 +33,31 @@ const ranges = import.meta.env.PROD
             ))
         }
     </div>
-
-    <script>
-        // let alreadyInitialized = false;
-        function init_tabs() {
-            const labels = document.querySelectorAll(".tab-label");
-            const panels = document.querySelectorAll(".tab-panel");
-
-            console.log(labels, panels);
-            labels.forEach((label, i) => {
-                label.addEventListener("click", () => {
-                    labels.forEach((l) => l.classList.remove("active"));
-                    panels.forEach((p) => (p.hidden = true));
-                    console.log("click seen");
-
-                    label.classList.add("active");
-                    panels[i].hidden = false;
-                });
-            });
-            // alreadyInitialized = true;
-        }
-
-        document.addEventListener("astro:page-load", () => {
-            init_tabs();
-        });
-    </script>
 </Layout>
+<script>
+    // let alreadyInitialized = false;
+    function init_tabs() {
+        const labels = document.querySelectorAll(".tab-label");
+        const panels = document.querySelectorAll(".tab-panel");
+
+        console.log(labels, panels);
+        labels.forEach((label, i) => {
+            label.addEventListener("click", () => {
+                labels.forEach((l) => l.classList.remove("active"));
+                panels.forEach((p) => (p.hidden = true));
+                console.log("click seen");
+
+                label.classList.add("active");
+                panels[i].hidden = false;
+            });
+        });
+        // alreadyInitialized = true;
+    }
+
+    document.addEventListener("astro:page-load", () => {
+        init_tabs();
+    });
+</script>
 
 <style>
     .tabs-container {
