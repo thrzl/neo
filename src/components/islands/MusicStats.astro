@@ -45,13 +45,13 @@ async function getStats() {
 }
 
 async function processCoverArt(
-	release: { release_mbid: string, caa_id: number | null },
+	release: { release_mbid: string, caa_release_mbid: string | null },
 	size = "250",
 ): Promise<string | ImageMetadata> {
-	if (!release.caa_id) {
+	if (!release.caa_release_mbid) {
 		return musicPlaceholder;
 	}
-	return `https://wsrv.nl/?url=https://coverartarchive.org/release/${release.release_mbid}/front-${size}`;
+	return `https://wsrv.nl/?url=https://coverartarchive.org/release/${release.caa_release_mbid}/front-${size}`;
 }
 
 const stats = await getStats();
