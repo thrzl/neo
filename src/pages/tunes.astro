@@ -45,6 +45,7 @@ const ranges = import.meta.env.PROD
                 label.addEventListener("click", () => {
                     labels.forEach((l) => l.classList.remove("active"));
                     panels.forEach((p) => (p.hidden = true));
+                    console.log("click seen");
 
                     label.classList.add("active");
                     panels[i].hidden = false;
