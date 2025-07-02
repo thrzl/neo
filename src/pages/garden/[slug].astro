@@ -44,24 +44,29 @@ const { Content } = await render(post);
     <hr class="divider" />
     <article class="h-entry w-full">
         <header class="mb-4">
-            <h1 class="group w-max block" copy-value={Astro.url.toString()}>
-                <a
-                    href={Astro.url}
-                    class="text-2xl font-bold link p-name u-url"
+            <div class="lg:flex lg:flex-row lg:justify-between">
+                <h1 class="group w-max block" copy-value={Astro.url.toString()}>
+                    <a
+                        href={Astro.url}
+                        class="text-2xl font-bold link p-name u-url"
+                    >
+                        {post.data.title}
+                    </a>
+                    <svg
+                        class="h-4 hidden transition-[color,transform] duration-1000 scale-100 group-active:transition-none group-hover:inline group-active:scale-125 ml-1 group-active:text-cover-accent"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            d="M4 6h7v2H4v8h7v2H2V6h2zm16 0h-7v2h7v8h-7v2h9V6h-2zm-3 5H7v2h10v-2z"
+                            fill="currentColor"></path>
+                    </svg>
+                </h1>
+                <button class="link text-sm" id="text-justify-toggle"
+                    >text justify toggle</button
                 >
-                    {post.data.title}
-                </a>
-                <svg
-                    class="h-4 hidden transition-[color,transform] duration-1000 scale-100 group-active:transition-none group-hover:inline group-active:scale-125 ml-1 group-active:text-cover-accent"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                        d="M4 6h7v2H4v8h7v2H2V6h2zm16 0h-7v2h7v8h-7v2h9V6h-2zm-3 5H7v2h10v-2z"
-                        fill="currentColor"></path>
-                </svg>
-            </h1>
+            </div>
             <p class="italic p-summary op-90">{post.data.description}</p>
             <a href={Astro.site} class="hidden p-author h-card">thrizzle</a>
             <time
@@ -139,4 +144,13 @@ const { Content } = await render(post);
             slug={slug}
         />
     </section>
+    <script>
+        const textJustifyToggle = document.getElementById(
+            "text-justify-toggle",
+        ) as HTMLAnchorElement;
+        const content = document.querySelector(".e-content") as HTMLDivElement;
+        textJustifyToggle.addEventListener("click", () => {
+            content.classList.toggle("text-justify");
+        });
+    </script>
 </Layout>
