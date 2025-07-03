@@ -14,9 +14,10 @@ something else is that not much brings me joy. the school i'm at is known for ha
 
 ## my action items
 
-1. [ ] **reorganize.** <br/>
+1. [x] **reorganize.** <br/>
  i'm setting up a PARA thing on notion to make sure that i can keep track of myself. what i can't see stresses me out a lot, so this should definitely help me stay on top of things so that i can have more time to do things i actually enjoy.<br/>
- if i come up with something good, i'll probably share it here. these people be getting on my nerves w/ everything being like $100 😭
+ if i come up with something good, i'll probably share it here. these people be getting on my nerves w/ everything being like $100 😭<br/>
+ **update! it is done, check out [/notion-para-template](/garden/notion-para-template)**
 
 2. [ ] **re-explore.** <br/>
 find the things that used to bring me joy, and stick with them. an issue i have with keeping up with hobbies sometimes is that i don't enjoy the process of things as often as i enjoy the outcomes, so taking my time and exhibiting patience is definitely key here. i need to find something to put a lot of time into.
