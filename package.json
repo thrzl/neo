@@ -1,33 +1,34 @@
 {
-	"name": "neotwo",
-	"type": "module",
-	"version": "0.0.1",
-	"scripts": {
-		"dev": "astro dev",
-		"build": "astro build",
-		"preview": "astro preview",
-		"astro": "astro"
-	},
-	"dependencies": {
-		"@astrojs/mdx": "^4.3.0",
-		"@astrojs/rss": "^4.0.12",
-		"@astrojs/sitemap": "^3.4.1",
-		"@astrojs/svelte": "^7.1.0",
-		"@biomejs/biome": "^1.9.4",
-		"@gouch/to-title-case": "^2.2.1",
-		"@unocss/reset": "^66.2.1",
-		"astro": "^5.9.3",
-		"chroma-js": "^3.1.2",
-		"colorthief": "^2.6.0",
-		"javascript-time-ago": "^2.5.11",
-		"jsdom": "^26.1.0",
-		"svelte": "^5.34.3",
-		"typescript": "^5.8.3",
-		"unocss": "^66.2.1",
-		"vanilla-marquee": "^1.1.2"
-	},
-	"devDependencies": {
-		"@inquirer/prompts": "^7.6.0",
-		"@types/chroma-js": "^3.1.1"
-	}
+  "name": "neotwo",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "new-post": "npm run scripts/new-post.ts"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.0",
+    "@astrojs/rss": "^4.0.12",
+    "@astrojs/sitemap": "^3.4.1",
+    "@astrojs/svelte": "^7.1.0",
+    "@biomejs/biome": "^1.9.4",
+    "@gouch/to-title-case": "^2.2.1",
+    "@unocss/reset": "^66.2.1",
+    "astro": "^5.9.3",
+    "chroma-js": "^3.1.2",
+    "colorthief": "^2.6.0",
+    "javascript-time-ago": "^2.5.11",
+    "jsdom": "^26.1.0",
+    "svelte": "^5.34.3",
+    "typescript": "^5.8.3",
+    "unocss": "^66.2.1",
+    "vanilla-marquee": "^1.1.2"
+  },
+  "devDependencies": {
+    "@inquirer/prompts": "^7.6.0",
+    "@types/chroma-js": "^3.1.1"
+  }
 }

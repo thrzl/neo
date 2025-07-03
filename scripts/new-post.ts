@@ -39,13 +39,7 @@ tags: ${JSON.stringify(tags.replace(" ", "").split(","))}
 
 `;
 
-  const postPath = path.join(
-    __dirname,
-    "..",
-    "src",
-    "posts",
-    `${slug.replace("-", "_")}.md`,
-  );
+  const postPath = path.join(__dirname, "..", "src", "posts", `${slug}.md`);
   fs.writeFileSync(postPath, post);
 
   console.log(`post created at ${postPath}`);
