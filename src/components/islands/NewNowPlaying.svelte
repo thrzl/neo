@@ -13,8 +13,7 @@
         }
         // if text is titlecase or first letter of the entire string is uppercase,
         // convert it to lowercase
-        this.toLowerCase()
-        return this.toString();
+        return this.toLowerCase()
     };
 
     $: if (trackTitle) {

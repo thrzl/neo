@@ -1,6 +1,8 @@
 import { rgb } from "chroma-js/src/io/rgb/index.js";
 import "chroma-js/src/ops/luminance.js";
-import "chroma-js/src/utils/contrast.js";
+import contrast from "chroma-js/src/utils/contrast.js";
+// import "chroma-js/src/interpolator/rgb.js";
+// import "chroma-js/src/interpolator/hsl.js";
 
 export type RGBColor = [number, number, number];
 export type CompletePalette = {
@@ -30,12 +32,11 @@ export function getPalette(ct_palette: RGBColor[]) {
     );
   }
   const palette = rawPalette
-    .sort((color) => -chroma.contrast(rawDominant, color))
+    .sort((color) => -contrast(rawDominant, color))
     .map((color) => `rgb(${color.rgb().join(", ")})`);
 
   // calculate text color from dominant color luminance
   const textColor = rawDominant.luminance() > 0.4 ? "black" : "white";
-  console.log(rawDominant.luminance());
   if (getContrast(rawDominant, rawPalette[0]) < 0.2) {
     palette[0] = textColor;
   }
