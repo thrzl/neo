@@ -250,4 +250,11 @@ export const links = [
     url: "https://railway.com?referralCode=yZnYgd",
     categories: ["dev"],
   },
+  {
+    title: "bundle.js",
+    description:
+      "bundle analyzer that analyzes actually used code. good for tree-shakeable modules",
+    url: "https://bundlejs.com/",
+    categories: ["dev"],
+  },
 ];
