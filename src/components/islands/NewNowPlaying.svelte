@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getColor } from "../../lib/colors";
+    import { getPalette } from "../../lib/colors";
     import type { Track } from "../../env";
     import "@gouch/to-title-case";
     import { onMount } from "svelte";
@@ -49,10 +49,6 @@
         return false;
     }
 
-    async function getRecentTrack(): Promise<Track> {
-        const res = await fetch("https://nowplaying.thrzl.xyz/now_playing");
-        return await res.json();
-    }
     let recentTrack: Track | null = null;
 
     async function updateRecentTrack(data: Track) {
@@ -77,7 +73,7 @@
     let coverArt: HTMLImageElement | null = null;
 
     function getAlbumArtColor() {
-      console.log("getting colors")
+      // console.log("getting colors")
         if (!coverArt || coverArt.src.includes("/music.avif")) {
             console.log("cancelling cover art");
             return; // make the linter happy
@@ -90,9 +86,9 @@
           console.log("waiting for cover to load")
             coverArt.addEventListener("load", getAlbumArtColor);
         }
-        const palette = getColor(coverArt);
-        console.log(palette)
-        console.log("palette ^")
+        const palette = getPalette(recentTrack?.release.image_palette);
+      //   console.log(palette)
+      //   console.log("palette ^")
 
         !coverArt.src.includes("/music.avif") &&
             sessionStorage.setItem("previousImg", coverArt.src);
