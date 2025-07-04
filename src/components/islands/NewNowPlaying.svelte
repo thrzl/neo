@@ -117,28 +117,35 @@
 
 {#if recentTrack === null}
     <div class="block w-full">
-        <img
-            src="music.avif"
-            alt="placeholder cover art"
-            class="w-full aspect-ratio-square mb-2 b-cover-accent bg-cover-accent b-4 b-solid"
-            loading="lazy"
-        />
-        <!-- show title and artist in center on hover, and darken background -->
-        <div
-            class="bg-[--accent-muted-dark] bottom-0 op-0 op-80 transition-delay-150 transition-200 w-full h-full z-1"
-        ></div>
-        <div
-            class="bottom-0 op-0 op-100 transition-delay-150 transition-200 w-full h-full z-2 flex justify-end items-end flex-col"
-        >
+            <img
+                src="/music.avif"
+                alt="placeholder cover art"
+                class="w-full max-w-250px aspect-ratio-square mb-0.5 b-cover-accent bg-cover-accent b-4 b-solid"
+                loading="lazy"
+                crossorigin="anonymous"
+            />
             <div
-                class="block font-bold text-nowrap overflow-clip text-white text-4xl !line-height-none font-bold text-right w-max max-w-full"
+                class="bg-[--accent-muted-dark] bottom-0 op-0 op-80 transition-delay-150 transition-200 w-full h-full z-1"
+            ></div>
+            <div
+                class="bottom-0 op-0 op-100 transition-delay-150 transition-200 w-full h-full z-2 flex justify-end items-end flex-col"
             >
-                loading
+                    <div
+                        bind:this={trackTitle}
+                        class="block text-nowrap overflow-x-clip my-0.5 text-4xl font-bold text-right w-max max-w-full"
+                        data-speed="0.75"
+                    >
+                        <!-- <div> -->
+                        <p
+                            class="font-bold inline hover:underline decoration-2 decoration-dotted hover:text-glow hover:decoration-wavy hover:decoration-1 b-b-0"
+                        >
+                            loading...
+                        </p>
+                    </div>
+                    <p class="text-sm text-right w-4/5 italic link">
+                        please wait
+                    </p>
             </div>
-            <p class="text-sm text-neutral-300 text-right w-full italic">
-                fetching data
-            </p>
-        </div>
     </div>
 {:else}
     <div class="block w-full">
