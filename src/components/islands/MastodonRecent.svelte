@@ -1,14 +1,11 @@
 <script lang="ts">
-    import TimeAgo from "javascript-time-ago";
-    import en from "javascript-time-ago/locale/en";
+    import { formatDistanceToNow } from "date-fns";
+
     type MastodonPost = {
         created_at: string;
         content: string;
         url: string;
     };
-
-    TimeAgo.addDefaultLocale(en);
-    const timeAgo = new TimeAgo("en-US");
 
     function htmlDecode(input: string) {
         const doc = new DOMParser().parseFromString(input, "text/html");
@@ -48,6 +45,7 @@
         }
         return text;
     }
+    // const timeAgo = new Intl.RelativeTimeFormat("en", { style: "short" });
 </script>
 
 {#await status}
@@ -55,7 +53,9 @@
     <p class="text-base line-height-tight">fetching latest post...</p>
 {:then status}
     <span class="italic op-75 text-sm"
-        >{timeAgo.format(new Date(status.created_at))}&nbsp;</span
+        >{formatDistanceToNow(new Date(status.created_at), {
+            addSuffix: true,
+        })}&nbsp;</span
     >
     <p class="text-base line-height-tight">
         {swapEmojis(htmlDecode(status.content))}
