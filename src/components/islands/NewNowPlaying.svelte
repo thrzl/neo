@@ -1,7 +1,6 @@
 <script lang="ts">
     import { getPalette } from "../../lib/colors";
     import type { Track } from "../../env";
-    import "@gouch/to-title-case";
     import { onMount } from "svelte";
     import marquee from "vanilla-marquee";
 
@@ -14,12 +13,7 @@
         }
         // if text is titlecase or first letter of the entire string is uppercase,
         // convert it to lowercase
-        if (
-            this.toTitleCase() === this ||
-            this.charAt(0) === this.charAt(0).toUpperCase()
-        ) {
-            return this.toLowerCase();
-        }
+        this.toLowerCase()
         return this.toString();
     };
 
