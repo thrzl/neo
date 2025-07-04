@@ -1,8 +1,9 @@
 import { rgb } from "chroma-js/src/io/rgb/index.js";
 import "chroma-js/src/ops/luminance.js";
 import contrast from "chroma-js/src/utils/contrast.js";
-// import "chroma-js/src/interpolator/rgb.js";
-// import "chroma-js/src/interpolator/hsl.js";
+import "chroma-js/src/interpolator/rgb.js";
+import "chroma-js/src/ops/mix.js";
+import "chroma-js/src/ops/alpha.js";
 
 export type RGBColor = [number, number, number];
 export type CompletePalette = {
