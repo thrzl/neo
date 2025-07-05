@@ -3,16 +3,14 @@ import { defineConfig } from "astro/config";
 import UnoCSS from "unocss/astro";
 import { transformerDirectives, presetWind3, presetTypography } from "unocss";
 
-import svelte from "@astrojs/svelte";
-
 import sitemap from "@astrojs/sitemap";
 
 import mdx from "@astrojs/mdx";
+import { visualizer } from "rollup-plugin-visualizer";
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [
-    svelte(),
     UnoCSS({
       injectReset: true,
       transformers: [transformerDirectives()],
@@ -73,4 +71,14 @@ export default defineConfig({
     mdx(),
   ],
   site: "https://thrizzle.nekoweb.org",
+  vite: {
+    plugins: [
+      visualizer({
+        emitFile: true,
+        filename: "stats.html",
+        gzipSize: true,
+        brotliSize: true,
+      }),
+    ],
+  },
 });

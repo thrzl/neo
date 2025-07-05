@@ -1,51 +1,51 @@
 ---
 const quotes = [
-	"the love of beauty is the beginning of wisdom",
+    "the love of beauty is the beginning of wisdom",
 
-	// aww (zaza) - MIKE
-	"stuck in the midst of it all",
-	"struggling? hmm, nah",
-	"if you was who you say that you are...",
+    // aww (zaza) - MIKE
+    "stuck in the midst of it all",
+    "struggling? hmm, nah",
+    "if you was who you say that you are...",
 
-	// solace - earl sweatshirt
-	"it's me and my nibbling conscience",
+    // solace - earl sweatshirt
+    "it's me and my nibbling conscience",
 
-	// terms & conditions - MAVI
-	"sun and moon were sad about this, and they went to talk to water...",
+    // terms & conditions - MAVI
+    "sun and moon were sad about this, and they went to talk to water...",
 
-	// self love - MAVI
-	"i self aggrandized in the past, but now the sun talking",
+    // self love - MAVI
+    "i self aggrandized in the past, but now the sun talking",
 
-	// sense - MAVI
-	"i'm clutch!",
-	"breathing out of love for respiration",
-	"i'm brown for pete's sake, crown me",
-	"i'm in and out of clauses",
-	"i weave the darkness you can hear, baby",
-	"i parse my garden on the real, daily",
-	"and you can sense it",
+    // sense - MAVI
+    "i'm clutch!",
+    "breathing out of love for respiration",
+    "i'm brown for pete's sake, crown me",
+    "i'm in and out of clauses",
+    "i weave the darkness you can hear, baby",
+    "i parse my garden on the real, daily",
+    "and you can sense it",
 
-	// moonfire - MAVI
-	"the sky is in my future",
-	"sense it, cumulonimbus whisper",
-	"brush myself off, cursing gravity",
-	"let the sun talk",
+    // moonfire - MAVI
+    "the sky is in my future",
+    "sense it, cumulonimbus whisper",
+    "brush myself off, cursing gravity",
+    "let the sun talk",
 
-	// dotsong - ayowitty ft. bunii
-	"was my hypothesis untrue, or did i hit the spot?",
+    // dotsong - ayowitty ft. bunii
+    "was my hypothesis untrue, or did i hit the spot?",
 ];
 
 function shuffle(list: Array<string>): Array<string> {
-	for (let i = list.length - 1; i > 0; i--) {
-		// Generate random index
-		const j = Math.floor(Math.random() * (i + 1));
+    for (let i = list.length - 1; i > 0; i--) {
+        // Generate random index
+        const j = Math.floor(Math.random() * (i + 1));
 
-		// Swap elements at indices i and j
-		const temp = list[i];
-		list[i] = list[j];
-		list[j] = temp;
-	}
-	return list;
+        // Swap elements at indices i and j
+        const temp = list[i];
+        list[i] = list[j];
+        list[j] = temp;
+    }
+    return list;
 }
 ---
 
@@ -68,7 +68,7 @@ function shuffle(list: Array<string>): Array<string> {
 <script>
     import marquee from "vanilla-marquee";
 
-    document.addEventListener("astro:page-load", () => {
+    document.addEventListener("DOMContentLoaded", () => {
         new marquee(
             document.getElementById("quotes-marquee") as HTMLDivElement,
             {

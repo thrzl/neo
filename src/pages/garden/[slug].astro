@@ -3,7 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import { render } from "astro:content";
 import { getEntry, getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
-import WebmentionComments from "../../components/islands/WebmentionComments.svelte";
+import WebmentionComments from "../../components/islands/WebmentionComments.astro";
 
 export async function getStaticPaths() {
     const posts: CollectionEntry<"blog">[] = await getCollection("blog");
@@ -127,15 +127,11 @@ const { Content } = await render(post);
             />
             <input type="hidden" name="reply" value={Astro.url.href} />
         </form>
-        <WebmentionComments
-            client:visible="svelte"
-            baseUrl={Astro.site}
-            slug={slug}
-        />
+        <WebmentionComments baseUrl={Astro.site} slug={slug} />
     </section>
 </Layout>
 <script>
-    document.addEventListener("astro:page-load", () => {
+    document.addEventListener("DOMContentLoaded", () => {
         // add title click listener
         document.querySelectorAll("[copy-value]").forEach((element) => {
             element.addEventListener("click", () => {

@@ -54,7 +54,7 @@ const ranges = import.meta.env.PROD
         // alreadyInitialized = true;
     }
 
-    document.addEventListener("astro:page-load", () => {
+    document.addEventListener("DOMContentLoaded", () => {
         init_tabs();
     });
 </script>

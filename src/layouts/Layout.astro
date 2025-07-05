@@ -15,7 +15,7 @@ import Footer from "../components/Footer.astro";
     <script>
         import type { CompletePalette } from "../lib/colors";
 
-        document.addEventListener("astro:page-load", () => {
+        document.addEventListener("DOMContentLoaded", () => {
             const palette: CompletePalette = JSON.parse(
                 sessionStorage.getItem("palette") || "",
             );
@@ -44,18 +44,49 @@ import Footer from "../components/Footer.astro";
                 palette.textColor || "#ffffff",
             );
         });
-        document.querySelectorAll('[class*="cover-"]').forEach((el) => {
-            el.classList.forEach((cls) => {
-                const match = cls.match(/^(text|bg|border)-cover-(.+)$/);
-                if (match) {
-                    if (
-                        !(
-                            el.classList.contains("transition-colors") &&
-                            el.classList.contains("duration-200")
+        const palette: CompletePalette = JSON.parse(
+            sessionStorage.getItem("palette") || "",
+        );
+        console.log(palette);
+        if (palette) {
+            document.documentElement.style.setProperty(
+                "--dominant",
+                palette.dominant || "#000000",
+            );
+            document.documentElement.style.setProperty(
+                "--accent-bg",
+                palette.palette[0] || "#fff",
+            );
+            document.documentElement.style.setProperty(
+                "--accent-bg-light",
+                palette.palette[1] || "#fff",
+            );
+            document.documentElement.style.setProperty(
+                "--accent-muted-light",
+                palette.palette[3] || "#fff",
+            );
+            document.documentElement.style.setProperty(
+                "--accent-text",
+                palette.textColor || "#ffffff",
+            );
+        }
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll('[class*="cover-"]').forEach((el) => {
+                el.classList.forEach((cls) => {
+                    const match = cls.match(/^(text|bg|border)-cover-(.+)$/);
+                    if (match) {
+                        if (
+                            !(
+                                el.classList.contains("transition-colors") &&
+                                el.classList.contains("duration-200")
+                            )
                         )
-                    )
-                        el.classList.add("transition-colors", "duration-1000");
-                }
+                            el.classList.add(
+                                "transition-colors",
+                                "duration-1000",
+                            );
+                    }
+                });
             });
         });
     </script>
@@ -64,7 +95,7 @@ import Footer from "../components/Footer.astro";
         class="grid grid-cols-[100vw_100vw_0] lg:grid-cols-[25%_50%_25%] justify-center overflow-x-auto snap-x snap-mandatory lg:overflow-x-visible lg:snap-none min-w-screen"
         style="color: var(--accent-text, #fff)"
     >
-        <Sidebar transition:persist class="snap-start min-w-full lg:min-w-0" />
+        <Sidebar class="snap-start min-w-full lg:min-w-0" />
         <main
             class="relative self-start text-center inline-block bg-cover-base w-full min-h-screen px-8 pt-16 lg:mt-16 mb-16 snap-start min-w-full lg:min-w-0"
         >
@@ -89,7 +120,7 @@ import Footer from "../components/Footer.astro";
     <Footer transition:persist />
 
     <script>
-        document.addEventListener("astro:page-load", () => {
+        document.addEventListener("DOMContentLoaded", () => {
             // scroll position
             const scrollPosition = sessionStorage.getItem("scrollPosition");
             if (scrollPosition) {

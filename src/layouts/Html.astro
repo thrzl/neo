@@ -1,5 +1,5 @@
 ---
-import ClientRouter from "astro/components/ClientRouter.astro";
+// import ClientRouter from "astro/components/ClientRouter.astro";
 const { neko, backgroundColor, title } = Astro.props;
 ---
 
@@ -30,7 +30,7 @@ const { neko, backgroundColor, title } = Astro.props;
             href={new URL("rss.xml", Astro.site)}
         />
         <meta name="viewport" content="width=device-width" />
-        <ClientRouter />
+        <!-- <ClientRouter /> -->
     </head>
     <body class="bg-cover-base">
         {neko && <script src="../assets/oneko.js" />}

@@ -136,30 +136,28 @@ export type AniListMedia = {
 export type WebMention = {
   type: string;
   name: string;
-  children: [
-    {
+  children: {
+    type: string;
+    author: {
       type: string;
-      author: {
-        type: string;
-        name: string;
-        photo: string;
-        url: string;
-      };
+      name: string;
+      photo: string;
       url: string;
-      published: string | null;
-      "wm-received": string | null;
-      "wm-id": number;
-      "wm-source": string;
-      "wm-target": string;
-      "wm-protocol": string;
-      content: {
-        text: string;
-      };
-      "in-reply-to": string;
-      "wm-property": string;
-      "wm-private": boolean;
-    },
-  ];
+    };
+    url: string;
+    published: string | null;
+    "wm-received": string | null;
+    "wm-id": number;
+    "wm-source": string;
+    "wm-target": string;
+    "wm-protocol": string;
+    content: {
+      text: string;
+    };
+    "in-reply-to": string;
+    "wm-property": string;
+    "wm-private": boolean;
+  }[];
 };
 
 export type MusicBrainzReleaseLookup = {

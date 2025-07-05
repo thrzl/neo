@@ -1,8 +1,9 @@
 ---
 import Navbar from "../components/SideNavbar.astro";
 import { personalLinks } from "../lib/data";
-import MastodonRecent from "../components/islands/MastodonRecent.svelte";
-import NowPlayingText from "../components/islands/NewNowPlaying.svelte";
+// import MastodonRecent from "../components/islands/MastodonRecent.svelte";
+import MastodonRecent from "../components/MastodonRecent.astro";
+import NowPlayingText from "../components/islands/NewNowPlaying.astro";
 let commit: { message: string; hash: string; date: string };
 
 if (import.meta.env.PROD) {
@@ -61,7 +62,7 @@ if (import.meta.env.PROD) {
             status
         </h2>
     </a>
-    <MastodonRecent client:visible="svelte" transition:persist>
+    <MastodonRecent>
         <span class="italic op-75 text-sm">right now &nbsp;</span>
         <p class="text-base line-height-tight">fetching latest post...</p>
     </MastodonRecent>
@@ -103,7 +104,7 @@ if (import.meta.env.PROD) {
     <h2 class="font-bold text-lg mt-4 inline-block link line-height-none mb-1">
         recent track
     </h2>
-    <NowPlayingText client:only="svelte" transition:persist="now-playing">
+    <NowPlayingText>
         <Fragment slot="fallback">
             <div class="block w-full">
                 <img

@@ -48,7 +48,7 @@
         recentTrack = data;
     }
 
-    document.addEventListener("astro:page-load", async () => {
+    document.addEventListener("DOMContentLoaded", async () => {
         await new Promise((resolve) => setTimeout(resolve, 100));
         console.log(trackTitleMarquee);
         trackTitleMarquee?.refresh();
