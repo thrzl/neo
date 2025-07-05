@@ -40,13 +40,21 @@
 
     async function getStatus() {
         try {
-            const res = await fetch(
-                "https://wetdry.world/api/v1/accounts/114383870712581026/statuses?exclude_replies=true&exclude_reblogs=true&limit=1",
-            );
-            if (!res.ok) throw new Error("Network response was not ok");
-            const status: { created_at: string; content: string } = (
-                await res.json()
-            )[0];
+            const savedStatus = sessionStorage.getItem("mastodonStatus");
+            let status;
+            if (savedStatus) {
+                status = JSON.parse(savedStatus);
+            } else {
+                const res = await fetch(
+                    "https://wetdry.world/api/v1/accounts/114383870712581026/statuses?exclude_replies=true&exclude_reblogs=true&limit=1",
+                );
+                if (!res.ok) throw new Error("Network response was not ok");
+                status = (await res.json())[0];
+                sessionStorage.setItem(
+                    "mastodonStatus",
+                    JSON.stringify(status),
+                );
+            }
 
             container.innerHTML = `
         <span class="italic op-75 text-sm">${dayjs(new Date(status.created_at)).fromNow()}&nbsp;</span>
