@@ -1,5 +1,8 @@
 <script lang="ts">
-    import { formatDistanceToNow } from "date-fns";
+    import dayjs from "dayjs";
+    import relativeTime from "dayjs/plugin/relativeTime";
+
+    dayjs.extend(relativeTime);
 
     type MastodonPost = {
         created_at: string;
@@ -53,9 +56,7 @@
     <p class="text-base line-height-tight">fetching latest post...</p>
 {:then status}
     <span class="italic op-75 text-sm"
-        >{formatDistanceToNow(new Date(status.created_at), {
-            addSuffix: true,
-        })}&nbsp;</span
+        >{dayjs(new Date(status.created_at)).fromNow()}&nbsp;</span
     >
     <p class="text-base line-height-tight">
         {swapEmojis(htmlDecode(status.content))}
