@@ -15,35 +15,6 @@ import Footer from "../components/Footer.astro";
     <script>
         import type { CompletePalette } from "../lib/colors";
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const palette: CompletePalette = JSON.parse(
-                sessionStorage.getItem("palette") || "",
-            );
-            if (!palette) {
-                return;
-            }
-
-            document.documentElement.style.setProperty(
-                "--dominant",
-                palette.dominant || "#000000",
-            );
-            document.documentElement.style.setProperty(
-                "--accent-bg",
-                palette.palette[0] || "#fff",
-            );
-            document.documentElement.style.setProperty(
-                "--accent-bg-light",
-                palette.palette[1] || "#fff",
-            );
-            document.documentElement.style.setProperty(
-                "--accent-muted-light",
-                palette.palette[3] || "#fff",
-            );
-            document.documentElement.style.setProperty(
-                "--accent-text",
-                palette.textColor || "#ffffff",
-            );
-        });
         const palette: CompletePalette = JSON.parse(
             sessionStorage.getItem("palette") || "",
         );
