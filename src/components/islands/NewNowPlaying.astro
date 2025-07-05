@@ -31,6 +31,7 @@
         const canvas = document.getElementById(
             "imgprocesscanvas",
         ) as HTMLCanvasElement;
+        let previousRelease: string | null = null;
 
         function trackTitleOverflowing() {
             if (!trackTitle) {
@@ -70,7 +71,7 @@
                 .join(", ");
 
             const albumImageData = sessionStorage.getItem("albumArt");
-            if (albumImageData) {
+            if (albumImageData && previousRelease === recentTrack.release.url) {
                 albumImage.src = albumImageData;
                 albumImage.width = 500;
                 albumImage.height = 500;
@@ -92,6 +93,7 @@
                     canvas.toDataURL("image/webp"),
                 ); // Uint8ClampedArray with RGBA pixel data
             });
+            previousRelease = recentTrack.release.url;
         }
 
         function getAlbumArtColor(rawPalette) {
@@ -149,9 +151,7 @@
             class="block text-nowrap overflow-x-clip my-0.5 text-4xl font-bold text-right w-max max-w-full"
             data-speed="0.75"
         >
-            <!-- <div> -->
-            <a href="#" id="track-title-inner"> loading... </a>
-            <!-- </div> -->
+            <a href="#" id="track-title-inner">loading...</a>
         </div>
         <div class="text-sm text-right w-4/5 italic inline" id="artist-names">
             <p class="link">please wait...</p>
