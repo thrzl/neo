@@ -4,6 +4,7 @@
 </div>
 
 <script>
+    import { isNode } from "astro/runtime/server/render/util.js";
     import dayjs from "dayjs";
     import relativeTime from "dayjs/plugin/relativeTime";
     dayjs.extend(relativeTime);
@@ -24,7 +25,20 @@
 
     function htmlDecode(input: string) {
         const doc = new DOMParser().parseFromString(input, "text/html");
-        return doc.documentElement.textContent as string;
+        console.log("hello??");
+        const body = doc.documentElement.childNodes[1];
+        console.log(body.childNodes);
+        body.childNodes.forEach((node) => {
+            console.log(node);
+            console.log(node.tagName);
+            if (node.tagName.toLowerCase() === "p") {
+                console.log("updating styles");
+                node.style.fontSize = "1rem";
+                node.style.lineHeight = "1.25";
+                node.style.marginBottom = "0.25rem";
+            }
+        });
+        return doc.documentElement.innerHTML as string;
     }
 
     function swapEmojis(text: string) {
