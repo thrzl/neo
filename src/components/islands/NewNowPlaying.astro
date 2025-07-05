@@ -1,0 +1,166 @@
+<script>
+    import { getPalette } from "../../lib/colors";
+    import type { Track } from "../../env";
+    import marquee from "vanilla-marquee";
+
+    let trackTitleMarquee: marquee;
+
+    String.prototype.toRespectfulLowerCase = function () {
+        if (this === this.toUpperCase() || this === this.toLowerCase()) {
+            return this.toString();
+        }
+        // if text is titlecase or first letter of the entire string is uppercase,
+        // convert it to lowercase
+        return this.toLowerCase();
+    };
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        const trackTitle = document.getElementById(
+            "track-title",
+        ) as HTMLDivElement;
+        const trackTitleInner = document.getElementById(
+            "track-title-inner",
+        ) as HTMLAnchorElement;
+        const artistName = document.getElementById(
+            "artist-names",
+        ) as HTMLDivElement;
+        // const albumName = document.getElementById("album-names") as HTMLDivElement;
+        const albumImage = document.getElementById(
+            "album-image",
+        ) as HTMLImageElement;
+        const canvas = document.getElementById(
+            "imgprocesscanvas",
+        ) as HTMLCanvasElement;
+
+        function trackTitleOverflowing() {
+            if (!trackTitle) {
+                console.log("trackTitle is null");
+                return false;
+            }
+            console.log(trackTitle.scrollWidth, trackTitle.clientWidth);
+            if (trackTitle.scrollWidth > trackTitle.clientWidth) {
+                if (trackTitleMarquee) {
+                    trackTitleMarquee.destroy();
+                }
+                trackTitleMarquee = new marquee(trackTitle, {
+                    duplicated: true,
+                    recalcResize: true,
+                    startVisible: true,
+                    gap: 50,
+                });
+                return true;
+            }
+            trackTitleMarquee?.destroy();
+            return false;
+        }
+
+        function updateDOM(recentTrack: Track | null) {
+            if (!recentTrack) return;
+
+            // update track title:
+            trackTitleInner.textContent = recentTrack.name.toLocaleLowerCase();
+            trackTitleInner.href = recentTrack.url;
+
+            // update artist name:
+            artistName.innerHTML = recentTrack.artists
+                .map(
+                    (artist) =>
+                        `<a class="link" href="${artist.url}">${artist.name.toRespectfulLowerCase()}</a>`,
+                )
+                .join(", ");
+
+            const albumImageData = sessionStorage.getItem("albumArt");
+            if (albumImageData) {
+                albumImage.src = albumImageData;
+                albumImage.width = 500;
+                albumImage.height = 500;
+                return;
+            }
+            albumImage.src = recentTrack.release.image_url;
+            albumImage.alt = recentTrack.release.name;
+            albumImage.addEventListener("load", () => {
+                const ctx = canvas.getContext("2d");
+                getAlbumArtColor(recentTrack.release.image_palette);
+                canvas.width = albumImage.naturalWidth;
+                canvas.height = albumImage.naturalHeight;
+
+                // Draw image onto canvas
+                ctx.drawImage(albumImage, 0, 0);
+
+                sessionStorage.setItem(
+                    "albumArt",
+                    canvas.toDataURL("image/webp"),
+                ); // Uint8ClampedArray with RGBA pixel data
+            });
+        }
+
+        function getAlbumArtColor(rawPalette) {
+            const palette = getPalette(rawPalette);
+
+            sessionStorage.setItem("previousImg", albumImage.src);
+            sessionStorage.setItem("palette", JSON.stringify(palette));
+            sessionStorage.setItem("textColor", palette.textColor);
+
+            const root = document.documentElement;
+            console.log(palette);
+            root.style.setProperty("--dominant", palette.dominant || "#000000");
+            root.style.setProperty("--accent-bg", palette.palette[0] || "#fff");
+            root.style.setProperty(
+                "--accent-bg-light",
+                palette.palette[1] || "#fff",
+            );
+            root.style.setProperty(
+                "--accent-muted-light",
+                palette.palette[3] || "#fff",
+            );
+            root.style.setProperty(
+                "--accent-text",
+                palette.textColor || "#ffffff",
+            );
+
+            return;
+        }
+        trackTitleMarquee?.refresh();
+
+        const socket = new WebSocket("wss://spot-ws.thrzl.xyz/ws");
+        socket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            updateDOM(data);
+            trackTitleOverflowing();
+        };
+    });
+</script>
+
+<canvas id="imgprocesscanvas" style="display:none;"></canvas>
+<div class="block w-full">
+    <img
+        src="/music.avif"
+        alt="placeholder cover art"
+        id="album-image"
+        class="w-full max-w-250px aspect-ratio-square mb-0.5 b-cover-accent bg-cover-accent b-4 b-solid"
+        loading="lazy"
+        crossorigin="anonymous"
+    />
+    <div
+        class="bottom-0 op-0 op-100 transition-delay-150 transition-200 w-full h-full z-2 flex justify-end items-end flex-col"
+    >
+        <div
+            id="track-title"
+            class="block text-nowrap overflow-x-clip my-0.5 text-4xl font-bold text-right w-max max-w-full"
+            data-speed="0.75"
+        >
+            <!-- <div> -->
+            <a href="#" id="track-title-inner"> loading... </a>
+            <!-- </div> -->
+        </div>
+        <div class="text-sm text-right w-4/5 italic inline" id="artist-names">
+            <p class="link">please wait...</p>
+        </div>
+    </div>
+</div>
+
+<style>
+    a#track-title-inner {
+        @apply font-bold inline hover:underline decoration-2 decoration-dotted hover:text-glow hover:decoration-wavy hover:decoration-1 b-b-0;
+    }
+</style>

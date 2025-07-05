@@ -1,0 +1,61 @@
+<div id="mastodon-post" class="inline">
+    <span class="italic op-75 text-sm">right now &nbsp;</span>
+    <p class="text-base line-height-tight">fetching latest post...</p>
+</div>
+
+<script>
+    import dayjs from "dayjs";
+    import relativeTime from "dayjs/plugin/relativeTime";
+    dayjs.extend(relativeTime);
+
+    const emoji_map = {
+        "🙂": "slightly_smiling_face",
+        "😐": "neutral_face",
+        "😎": "smiling_face_with_sunglasses",
+        "🥰": "smiling_face_with_hearts",
+        "😛": "face_savoring_food",
+        "😂": "rolling_on_the_floor_laughing",
+        "❤️": "red_heart",
+        "💔": "broken_heart",
+        "😇": "smiling_face_with_halo",
+        "☀️": "star",
+        "🥱": "yawning_face",
+    };
+
+    function htmlDecode(input: string) {
+        const doc = new DOMParser().parseFromString(input, "text/html");
+        return doc.documentElement.textContent as string;
+    }
+
+    function swapEmojis(text: string) {
+        for (const [emoji, img] of Object.entries(emoji_map)) {
+            text = text.replaceAll(emoji, img);
+        }
+        return text;
+    }
+
+    const container = document.getElementById(
+        "mastodon-post",
+    ) as HTMLDivElement;
+
+    async function getStatus() {
+        try {
+            const res = await fetch(
+                "https://wetdry.world/api/v1/accounts/114383870712581026/statuses?exclude_replies=true&exclude_reblogs=true&limit=1",
+            );
+            if (!res.ok) throw new Error("Network response was not ok");
+            const status: { created_at: string; content: string } = (
+                await res.json()
+            )[0];
+
+            container.innerHTML = `
+        <span class="italic op-75 text-sm">${dayjs(new Date(status.created_at)).fromNow()}&nbsp;</span>
+        <p class="text-base line-height-tight">${swapEmojis(htmlDecode(status.content))}</p>
+      `;
+        } catch (error) {
+            container.innerHTML = `<div class="text-red-500">error: ${error.message}</div>`;
+        }
+    }
+
+    getStatus();
+</script>
