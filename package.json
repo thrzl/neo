@@ -14,15 +14,15 @@
     "@astrojs/rss": "^4.0.12",
     "@astrojs/sitemap": "^3.4.1",
     "@biomejs/biome": "^1.9.4",
-    "@unocss/reset": "^66.2.1",
-    "astro": "^5.9.3",
+    "@unocss/reset": "^66.3.2",
+    "astro": "^5.11.0",
     "chroma-js": "^3.1.2",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "jsdom": "^26.1.0",
     "rollup-plugin-visualizer": "^6.0.3",
     "typescript": "^5.8.3",
-    "unocss": "^66.2.1",
+    "unocss": "^66.3.2",
     "vanilla-marquee": "^1.1.2"
   },
   "devDependencies": {
