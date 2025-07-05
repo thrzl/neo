@@ -59,8 +59,7 @@
             if (!recentTrack) return;
 
             // update track title:
-            trackTitleInner.textContent = recentTrack.name.toLocaleLowerCase();
-            trackTitleInner.href = recentTrack.url;
+            trackTitle.innerHTML = `<a href="${recentTrack.url}" class="font-bold inline hover:underline decoration-2 decoration-dotted hover:text-glow hover:decoration-wavy hover:decoration-1 b-b-0" id="track-title-inner">${recentTrack.name.toLocaleLowerCase()}</a>`;
 
             // update artist name:
             artistName.innerHTML = recentTrack.artists
@@ -151,7 +150,12 @@
             class="block text-nowrap overflow-x-clip my-0.5 text-4xl font-bold text-right w-max max-w-full"
             data-speed="0.75"
         >
-            <a href="#" id="track-title-inner">loading...</a>
+            <a
+                href="#"
+                id="track-title-inner"
+                class="font-bold inline hover:underline decoration-2 decoration-dotted hover:text-glow hover:decoration-wavy hover:decoration-1 b-b-0"
+                >loading...</a
+            >
         </div>
         <div class="text-sm text-right w-4/5 italic inline" id="artist-names">
             <p class="link">please wait...</p>
