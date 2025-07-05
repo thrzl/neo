@@ -60,19 +60,5 @@ import Footer from "../components/Footer.astro";
         </main>
         <div class="hidden lg:block w-full"></div>
     </div>
-    <Footer transition:persist />
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            // scroll position
-            const scrollPosition = sessionStorage.getItem("scrollPosition");
-            if (scrollPosition) {
-                window.scrollTo(0, parseInt(scrollPosition, 10));
-            }
-            document.documentElement.style.scrollBehavior = "smooth";
-        });
-        document.addEventListener("astro:before-preparation", () => {
-            sessionStorage.setItem("scrollPosition", window.scrollY.toString());
-        });
-    </script>
+    <Footer />
 </Html>
