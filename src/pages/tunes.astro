@@ -2,27 +2,33 @@
 // This is an Astro component file
 import Layout from "../layouts/Layout.astro";
 import MusicStats from "../components/islands/MusicStats.astro";
-const ranges = import.meta.env.PROD
-    ? ["this_week", "this_month", "this_year", "all_time"]
-    : ["this_week", "this_month"];
+const ranges = Object.entries({
+    short_term: "month",
+    medium_term: "six months",
+    long_term: "year",
+});
 ---
 
 <Layout title="tunes" description="my recent top albums">
     <div class="tabs-container">
         <div class="tab-labels">
             {
-                ranges.map((range, index) => (
+                ranges.map(([range, text], index) => (
                     <button
                         class={`tab-label ${index === 0 ? "active" : ""}`}
                         data-tab={index}
                     >
-                        {range.replace("this_", "").replace("_", " ")}
+                        {text}
                     </button>
                 ))
             }
         </div>
+        <p class="italic op-50 text-center">
+            *it's probably all the same right now-- i've just switched to
+            spotify
+        </p>
         {
-            ranges.map((range, index) => (
+            ranges.map(([range, _], index) => (
                 <div
                     class="tab-panel"
                     data-tab-panel={index}

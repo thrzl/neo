@@ -2,56 +2,32 @@
 import "../../lib/helpers";
 import { Image } from "astro:assets";
 const { range } = Astro.props;
-import {defaultListenBrainzResponse} from "../../lib/build-time-data";
 import musicPlaceholder from "../../assets/music.avif"
 import type { ImageMetadata } from "astro";
-type Stats = {
-	count: number;
-	from_ts: number;
-	last_updated: number;
-	offset: number;
-	range: string;
-	releases: Array<{
-		artist_mbids: Array<string>;
-		artist_name: string;
-		artists: Array<{
-			artist_credit_name: string;
-			artist_mbid: string;
-			join_phrase: string;
-		}>;
-		caa_id: number;
-		caa_release_mbid: string;
-		listen_count: number;
-		release_mbid: string;
-		release_name: string;
-	}>;
-	to_ts: number;
-	total_release_count: number;
-	user_id: string;
-};
+import { refreshSpotifyToken, fetchTopTracks } from "../../lib/spotify";
+import type {SimplifiedAlbum} from "spotify-types"
 
-async function getStats() {
-  if (!import.meta.env.PROD) {
-    return defaultListenBrainzResponse;
+async function getStats(): Promise<SimplifiedAlbum[]> {
+  const albums = new Map();
+  if (!process.env.SPOTIFY_CLIENT_ID || !process.env.SPOTIFY_CLIENT_SECRET || !process.env.SPOTIFY_REFRESH_TOKEN) throw Error("bra u aint put spotify creds")
+  const accessToken = await refreshSpotifyToken(process.env.SPOTIFY_CLIENT_ID, process.env.SPOTIFY_CLIENT_SECRET, process.env.SPOTIFY_REFRESH_TOKEN)
+  const topTracks = await fetchTopTracks(range, accessToken)
+  for (const track of topTracks) {
+    if (albums.has(track.album.href)) {
+      albums.get(track.album.href).count++
+    } else {
+      albums.set(track.album.href, {data: track.album, count: 1})
+    }
   }
-	const res = await fetch(
-		`https://api.listenbrainz.org/1/stats/user/thrizzle/releases?range=${range}`,
-	);
-	if (!res.ok) {
-		throw new Error("Network response was not ok");
-	}
-	const raw_data: { payload: Stats } = await res.json();
-	return raw_data.payload;
+  return [...albums.values()].sort((a, b) => b.count - a.count).map((album) => album.data);
+
 }
 
 async function processCoverArt(
-	release: { release_mbid: string, caa_release_mbid: string | null },
+	release: SimplifiedAlbum,
 	size = "250",
 ): Promise<string | ImageMetadata> {
-	if (!release.caa_release_mbid) {
-		return musicPlaceholder;
-	}
-	return `https://wsrv.nl/?url=https://coverartarchive.org/release/${release.caa_release_mbid}/front-${size}`;
+    return `https://wsrv.nl/?url=${release.images[0].url}&output=webp&size=${size}`;
 }
 
 const stats = await getStats();
@@ -60,31 +36,31 @@ const stats = await getStats();
 
     <div class="music-stats">
         <ul class="flex flex-wrap-reverse flex-row gap-0 w-full justify-center">
-            {[...stats.releases].reverse().map(async (release, i) => (
+            {[...stats].reverse().map(async (release, i) => (
                 <a
-                    href={`https://listenbrainz.org/release/${release.release_mbid}`}
+                    href={release.external_urls.spotify}
                     class={`order-${i} relative overflow-hidden inline-block min-w-64 grow basis-64 group aspect-ratio-square duration-300 cursor-help gap-4`}
                 >
                     <Image
                     width={i ===
-                        stats.releases.length - 1 &&
-                    stats.releases.length % 2 !== 0
+                        stats.length - 1 &&
+                    stats.length % 2 !== 0
                         ? "1200"
                         : "500"}
                     height={i ===
-                        stats.releases.length - 1 &&
-                    stats.releases.length % 2 !== 0
+                        stats.length - 1 &&
+                    stats.length % 2 !== 0
                         ? "1200"
                         : "500"}
                         src={await processCoverArt(release, i ===
-                            stats.releases.length - 1 &&
-                        stats.releases.length % 2 !== 0
+                            stats.length - 1 &&
+                        stats.length % 2 !== 0
                             ? "1200"
                             : "500")}
-                        alt={`${release.release_name} cover art`}
+                        alt={`${release.name} cover art`}
                         class="w-full h-auto group-hover:m-0 group-hover:blur-none transition duration-300"
-                        loading={i === stats.releases.length - 1 &&
-                        stats.releases.length % 2 !== 0
+                        loading={i === stats.length - 1 &&
+                        stats.length % 2 !== 0
                             ? "eager"
                             : "lazy"}
                     />
@@ -99,14 +75,14 @@ const stats = await getStats();
                         <p
                             class="text-sm op-50 text-center w-full italic"
                         >
-                            {release.artist_name
+                            {release.artists.map(artist => artist.name
                                 .toRespectfulLowerCase()
-                                .replaceAll("’", "'")}
+                                .replaceAll("’", "'")).join(", ")}
                         </p>
                         <p
                             class="text-4xl !line-height-none font-bold text-center w-4/5"
                         >
-                            {release.release_name
+                            {release.name
                                 .toRespectfulLowerCase()
                                 .replaceAll("’", "'")}
                         </p>
