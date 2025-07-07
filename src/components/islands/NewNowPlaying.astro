@@ -55,7 +55,7 @@
             if (!recentTrack) return;
 
             // update track title:
-            trackTitle.innerHTML = `<a href="${recentTrack.url}" class="font-bold inline hover:underline decoration-2 decoration-dotted hover:text-glow hover:decoration-wavy hover:decoration-1 b-b-0" id="track-title-inner">${recentTrack.name.toLocaleLowerCase()}</a>`;
+            trackTitle.innerHTML = `<a href="${recentTrack.url}" class="font-bold inline hover:underline decoration-2 decoration-dotted hover:text-glow hover:decoration-wavy hover:decoration-1 b-b-0" id="track-title-inner">${recentTrack.name.toRespectfulLowerCase()}</a>`;
 
             // update artist name:
             artistName.innerHTML = recentTrack.artists
