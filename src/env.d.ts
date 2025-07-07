@@ -2,13 +2,8 @@ import type Marquee3k from "marquee3000";
 import "@gouch/to-title-case";
 
 declare global {
-  interface Window {
-    Marquee3k: Marquee3k;
-  }
-
   interface String {
     toRespectfulLowerCase(): string;
-    toTitleCase(): string;
   }
 }
 
@@ -33,6 +28,7 @@ export type Track = {
     url: string;
     name: string;
     image_url: string;
+    image_palette: [number, number, number][];
   };
   artists: {
     name: string;
@@ -41,44 +37,6 @@ export type Track = {
   }[];
   name: string;
   url: string;
-};
-
-export type ListenBrainzRes = {
-  latest_listen_ts: number | undefined;
-  listens: Array<{
-    inserted_at: number;
-    listened_at: number | null;
-    recording_msid: string;
-    track_metadata: {
-      additional_info: {
-        duration_ms: number;
-        media_player: string;
-        music_service: string;
-        recording_msid: string;
-        submission_client: string;
-        isrc: string;
-      };
-      artist_name: string;
-      mbid_mapping: {
-        artist_mbids: Array<string>;
-        artists: Array<{
-          artist_credit_name: string;
-          artist_mbid: string;
-          join_phrase: string;
-        }>;
-        caa_id: number;
-        caa_release_mbid: string;
-        recording_mbid: string;
-        recording_name: string;
-        release_mbid: string;
-      };
-      track_name: string;
-      release_name: string;
-    };
-    user_name: string;
-  }>;
-  oldest_listen_ts: number;
-  user_id: string;
 };
 
 export type AniListMedia = {
@@ -158,98 +116,4 @@ export type WebMention = {
     "wm-property": string;
     "wm-private": boolean;
   }[];
-};
-
-export type MusicBrainzReleaseLookup = {
-  quality: string;
-  "packaging-id": string;
-  packaging: string;
-  title: string;
-  barcode: string;
-  "artist-credit": Array<{
-    artist: {
-      type: string;
-      name: string;
-      id: string;
-      "sort-name": string;
-      country: any;
-      "type-id": string;
-      disambiguation: string;
-    };
-    name: string;
-    joinphrase: string;
-  }>;
-  id: string;
-  "cover-art-archive": {
-    front: boolean;
-    back: boolean;
-    darkened: boolean;
-    count: number;
-    artwork: boolean;
-  };
-  asin: any;
-  status: string;
-  "status-id": string;
-  country: string;
-  "release-events": Array<{
-    area: {
-      "iso-3166-1-codes": Array<string>;
-      name: string;
-      id: string;
-      "sort-name": string;
-      disambiguation: string;
-      "type-id": any;
-      type: any;
-    };
-    date: string;
-  }>;
-  "text-representation": {
-    script: string;
-    language: string;
-  };
-  date: string;
-  disambiguation: string;
-  media: Array<{
-    tracks: Array<{
-      position: number;
-      title: string;
-      id: string;
-      number: string;
-      "artist-credit": Array<{
-        artist: {
-          name: string;
-          type?: string;
-          "sort-name": string;
-          "type-id"?: string;
-          country: any;
-          disambiguation: string;
-          id: string;
-        };
-        joinphrase: string;
-        name: string;
-      }>;
-      recording: {
-        title: string;
-        "first-release-date": string;
-        id: string;
-        disambiguation: string;
-        "artist-credit": Array<{
-          name: string;
-          joinphrase: string;
-          artist: {
-            "type-id"?: string;
-            country: any;
-            disambiguation: string;
-            id: string;
-            name: string;
-            type?: string;
-            "sort-name": string;
-          };
-        }>;
-        video: boolean;
-        length: number;
-      };
-      length: number;
-    }>;
-  }>;
 };
