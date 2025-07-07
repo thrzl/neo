@@ -65,13 +65,8 @@
                 )
                 .join(", ");
 
-            const albumImageData = sessionStorage.getItem("albumArt");
             const previousRelease = sessionStorage.getItem("previousRelease");
-            if (albumImageData && previousRelease === recentTrack.release.url) {
-                console.log("matched stored album data!");
-                albumImage.src = albumImageData;
-                albumImage.width = 500;
-                albumImage.height = 500;
+            if (previousRelease === recentTrack.release.url) {
                 return;
             }
             console.log("did not match album image data");
