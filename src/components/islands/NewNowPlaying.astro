@@ -28,9 +28,6 @@
         const albumImage = document.getElementById(
             "album-image",
         ) as HTMLImageElement;
-        const canvas = document.getElementById(
-            "imgprocesscanvas",
-        ) as HTMLCanvasElement;
 
         function trackTitleOverflowing() {
             if (!trackTitle) {
@@ -78,23 +75,14 @@
                 return;
             }
             console.log("did not match album image data");
-            albumImage.src = `https://wsrv.nl?url=${recentTrack.release.image_url}&w=350&output=webp&ll`;
+            albumImage.src = `https://wsrv.nl?url=${recentTrack.release.image_url}&w=350&output=webp`;
             albumImage.alt = recentTrack.release.name;
             albumImage.addEventListener("load", () => {
-                const ctx = canvas.getContext("2d");
-                getAlbumArtColor(recentTrack.release.image_palette);
-                canvas.width = albumImage.naturalWidth;
-                canvas.height = albumImage.naturalHeight;
-
-                // Draw image onto canvas
-                ctx.drawImage(albumImage, 0, 0);
-
                 sessionStorage.setItem(
-                    "albumArt",
-                    canvas.toDataURL("image/webp"),
-                ); // Uint8ClampedArray with RGBA pixel data
+                    "previousRelease",
+                    recentTrack.release.url,
+                );
             });
-            sessionStorage.setItem("previousRelease", recentTrack.release.url);
         }
 
         function getAlbumArtColor(rawPalette) {
