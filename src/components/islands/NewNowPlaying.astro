@@ -78,6 +78,7 @@
             albumImage.src = `https://wsrv.nl?url=${recentTrack.release.image_url}&w=350&output=webp`;
             albumImage.alt = recentTrack.release.name;
             albumImage.addEventListener("load", () => {
+                getAlbumArtColor(recentTrack.release.image_palette);
                 sessionStorage.setItem(
                     "previousRelease",
                     recentTrack.release.url,
