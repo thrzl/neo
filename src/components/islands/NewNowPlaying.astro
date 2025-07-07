@@ -67,6 +67,10 @@
 
             const previousRelease = sessionStorage.getItem("previousRelease");
             if (previousRelease === recentTrack.release.url) {
+                if (!albumImage.src) {
+                    albumImage.src = `https://wsrv.nl?url=${recentTrack.release.image_url}&w=350&output=webp`;
+                    albumImage.alt = recentTrack.release.name;
+                }
                 return;
             }
             console.log("did not match album image data");
@@ -81,7 +85,7 @@
             });
         }
 
-        function getAlbumArtColor(rawPalette) {
+        function getAlbumArtColor(rawPalette: [number, number, number][]) {
             const palette = getPalette(rawPalette);
 
             sessionStorage.setItem("previousImg", albumImage.src);

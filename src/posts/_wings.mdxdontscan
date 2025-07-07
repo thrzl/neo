@@ -1,0 +1,12 @@
+---
+date: 2025-06-14
+title: "#wings"
+description: "i think so too"
+tags: ["music"]
+---
+import MusicBrainzRelease from "../components/MusicBrainzRelease.astro";
+
+13/13 album, been on loop since it came layout
+<MusicBrainzRelease mbid="527fc371-2ffe-4cf9-9f6b-ccd174a7ae11"></MusicBrainzRelease>
+
+my favorites are dotsong,
