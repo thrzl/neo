@@ -103,13 +103,18 @@
         }
         trackTitleMarquee?.refresh();
 
-        const socket = new WebSocket("wss://music.thrzl.xyz");
+        const socket = new WebSocket("wss://spot-ws.thrzl.xyz/ws");
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            console.log(data);
+            sessionStorage.setItem("lastTrack", data);
             updateDOM(data);
             trackTitleOverflowing();
         };
+        // let onLoadLastTrack = sessionStorage.getItem("lastTrack");
+        // console.log(onLoadLastTrack, "ollt");
+        // if (onLoadLastTrack) {
+        //     updateDOM(onLoadLastTrack);
+        // }
     });
 </script>
 
