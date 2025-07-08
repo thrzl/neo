@@ -69,12 +69,14 @@
             albumImage.src = `https://wsrv.nl?url=${recentTrack.release.image_url}&w=350&output=webp`;
             albumImage.alt = recentTrack.release.name;
             albumImage.addEventListener("load", () => {
+                console.log("getting color");
                 getAlbumArtColor(recentTrack.release.image_palette);
                 if (
                     albumImage.src !==
-                    `https://wsrv.nl?url=${recentTrack.release.image_url}&w=350&output=webp`
+                    `https://wsrv.nl/?url=${recentTrack.release.image_url}&w=350&output=webp`
                 ) {
-                    albumImage.src = `https://wsrv.nl?url=${recentTrack.release.image_url}&w=350&output=webp`;
+                    console.log(albumImage.src);
+                    albumImage.src = `https://wsrv.nl/?url=${recentTrack.release.image_url}&w=350&output=webp`;
                 }
             });
         }
@@ -87,7 +89,6 @@
             sessionStorage.setItem("textColor", palette.textColor);
 
             const root = document.documentElement;
-            console.log(palette);
             root.style.setProperty("--dominant", palette.dominant || "#000000");
             root.style.setProperty("--accent-bg", palette.palette[0] || "#fff");
             root.style.setProperty(
@@ -110,6 +111,7 @@
         const socket = new WebSocket("wss://spot-ws.thrzl.xyz/ws");
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
+            console.log(data);
             updateDOM(data);
             trackTitleOverflowing();
         };
