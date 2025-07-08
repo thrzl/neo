@@ -66,18 +66,13 @@
                 .join(", ");
 
             console.log("did not match album image data");
-            albumImage.src = `https://wsrv.nl?url=${recentTrack.release.image_url}&w=350&output=webp`;
-            albumImage.alt = recentTrack.release.name;
+            let newImg = albumImage;
+            newImg.src = `https://wsrv.nl/?url=${recentTrack.release.image_url}&w=350&output=webp`;
+            newImg.alt = recentTrack.release.name;
+            albumImage.replaceWith(newImg);
             albumImage.addEventListener("load", () => {
                 console.log("getting color");
                 getAlbumArtColor(recentTrack.release.image_palette);
-                if (
-                    albumImage.src !==
-                    `https://wsrv.nl/?url=${recentTrack.release.image_url}&w=350&output=webp`
-                ) {
-                    console.log(albumImage.src);
-                    albumImage.src = `https://wsrv.nl/?url=${recentTrack.release.image_url}&w=350&output=webp`;
-                }
             });
         }
 
@@ -108,7 +103,7 @@
         }
         trackTitleMarquee?.refresh();
 
-        const socket = new WebSocket("wss://spot-ws.thrzl.xyz/ws");
+        const socket = new WebSocket("ws://localhost:8787");
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
             console.log(data);
