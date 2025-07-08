@@ -103,7 +103,7 @@
         }
         trackTitleMarquee?.refresh();
 
-        const socket = new WebSocket("ws://localhost:8787");
+        const socket = new WebSocket("wss://music.thrzl.xyz");
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
             console.log(data);
