@@ -28,6 +28,11 @@
         const albumImage = document.getElementById(
             "album-image",
         ) as HTMLImageElement;
+        const lastSessionTrack = sessionStorage.getItem("lastTrack");
+        if (lastSessionTrack) {
+            updateDOM(JSON.parse(lastSessionTrack));
+            trackTitleOverflowing();
+        }
 
         function trackTitleOverflowing() {
             if (!trackTitle) {
@@ -106,7 +111,7 @@
         const socket = new WebSocket("wss://spot-ws.thrzl.xyz/ws");
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            sessionStorage.setItem("lastTrack", data);
+            sessionStorage.setItem("lastTrack", event.data);
             updateDOM(data);
             trackTitleOverflowing();
         };
