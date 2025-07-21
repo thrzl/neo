@@ -48,8 +48,13 @@ for (const [key, items] of Object.entries(processedLinks)) {
                     </a>
                 ))
         }
+        <input
+            placeholder="search..."
+            id="search"
+            class="bg-transparent pb-1 b-cover-accent b-b-2 b-solid outline-none"
+        /><label class="sr-only">search...</label>
     </div>
-    <div class="p-2">
+    <div class="p-2" id="container">
         {
             sections
                 .filter(({ links }) => links.length > 0)
@@ -66,9 +71,7 @@ for (const [key, items] of Object.entries(processedLinks)) {
                                 <Fragment>
                                     <article
                                         class="h-entry mb-4"
-                                        id={
-                                            link.categories.join("-") + link.url
-                                        }
+                                        id={`${link.categories.join("-")}-${link.url}`}
                                     >
                                         <a
                                             href={link.url}
@@ -92,4 +95,27 @@ for (const [key, items] of Object.entries(processedLinks)) {
                 ))
         }
     </div>
+    <script>
+        import { links } from "../lib/data";
+        const searchBox: HTMLInputElement = document.getElementById("search");
+        const container: HTMLDivElement = document.getElementById("container");
+        searchBox.addEventListener("input", (e) => {
+            const data = searchBox.value;
+            // for (const link of links) {
+            //     if (JSON.stringify(link).includes(data)) {
+            //         console.log(`${data}: ${link.title}`);
+            //     }
+            //     // console.log(JSON.stringify(link));
+            // }
+            const links = container.querySelectorAll("article");
+            for (const link of links) {
+                if (!link.textContent.includes(data)) {
+                    console.log(link);
+                    link.style.display = "none";
+                } else {
+                    link.style.display = "block";
+                }
+            }
+        });
+    </script>
 </Layout>
