@@ -30,8 +30,12 @@
         ) as HTMLImageElement;
         const lastSessionTrack = sessionStorage.getItem("lastTrack");
         if (lastSessionTrack) {
-            updateDOM(JSON.parse(lastSessionTrack));
-            trackTitleOverflowing();
+            try {
+                updateDOM(JSON.parse(lastSessionTrack));
+                trackTitleOverflowing();
+            } catch {
+                console.log(lastSessionTrack);
+            }
         }
 
         function trackTitleOverflowing() {
