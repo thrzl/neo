@@ -13,7 +13,44 @@ import Footer from "../components/Footer.astro";
 
 <Html backgroundColor={backgroundColor} title={pageTitle}>
     <script>
+        import type { CompletePalette } from "../lib/colors";
         document.addEventListener("DOMContentLoaded", () => {
+            const palette: CompletePalette = JSON.parse(
+                sessionStorage.getItem("palette") || "",
+            );
+            if (palette) {
+                document.documentElement.style.setProperty(
+                    "--dominant",
+                    palette.dominant || "#000000",
+                );
+                document.documentElement.style.setProperty(
+                    "--accent-bg",
+                    palette.palette[0] || "#fff",
+                );
+                document.documentElement.style.setProperty(
+                    "--accent-bg-light",
+                    palette.palette[1] || "#fff",
+                );
+                document.documentElement.style.setProperty(
+                    "--accent-muted-light",
+                    palette.palette[3] || "#fff",
+                );
+                document.documentElement.style.setProperty(
+                    "--accent-text",
+                    palette.textColor || "#ffffff",
+                );
+            }
+            const scrollPosition = sessionStorage.getItem("scrollPosition");
+            if (scrollPosition) {
+                window.scrollTo(0, parseInt(scrollPosition, 10));
+            }
+            document.documentElement.style.scrollBehavior = "smooth";
+            document.addEventListener("visibilitychange", () => {
+                sessionStorage.setItem(
+                    "scrollPosition",
+                    window.scrollY.toString(),
+                );
+            });
             document.querySelectorAll('[class*="cover-"]').forEach((el) => {
                 el.classList.forEach((cls) => {
                     const match = cls.match(/^(text|bg|border)-cover-(.+)$/);
