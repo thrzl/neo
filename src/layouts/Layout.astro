@@ -19,6 +19,8 @@ import Footer from "../components/Footer.astro";
                 sessionStorage.getItem("palette") || "",
             );
             if (palette) {
+                document.body.style.transition = "none";
+
                 document.documentElement.style.setProperty(
                     "--dominant",
                     palette.dominant || "#000000",
@@ -40,6 +42,31 @@ import Footer from "../components/Footer.astro";
                     palette.textColor || "#ffffff",
                 );
             }
+            requestAnimationFrame(() => {
+                document.body.style.transition = "";
+                document.documentElement.classList.add("colors-fade");
+
+                const dynamicElements =
+                    document.querySelectorAll('[class*="cover-"]');
+                dynamicElements.forEach((el) => {
+                    el.classList.forEach((cls) => {
+                        const match = cls.match(
+                            /^(text|bg|border)-cover-(.+)$/,
+                        );
+                        if (match) {
+                            if (
+                                !(
+                                    el.classList.contains(
+                                        "transition-colors",
+                                    ) && el.classList.contains("duration-200")
+                                )
+                            )
+                                el.classList.add("colors-fade");
+                            // console.log("ele");
+                        }
+                    });
+                });
+            });
             const scrollPosition = sessionStorage.getItem("scrollPosition");
             if (scrollPosition) {
                 window.scrollTo(0, parseInt(scrollPosition, 10));
@@ -50,23 +77,6 @@ import Footer from "../components/Footer.astro";
                     "scrollPosition",
                     window.scrollY.toString(),
                 );
-            });
-            document.querySelectorAll('[class*="cover-"]').forEach((el) => {
-                el.classList.forEach((cls) => {
-                    const match = cls.match(/^(text|bg|border)-cover-(.+)$/);
-                    if (match) {
-                        if (
-                            !(
-                                el.classList.contains("transition-colors") &&
-                                el.classList.contains("duration-200")
-                            )
-                        )
-                            el.classList.add(
-                                "transition-colors",
-                                "duration-1000",
-                            );
-                    }
-                });
             });
         });
     </script>
@@ -98,4 +108,13 @@ import Footer from "../components/Footer.astro";
         <div class="hidden lg:block w-full"></div>
     </div>
     <Footer />
+    <style is:global>
+        .colors-fade {
+            transition-property:
+                color, background-color, border-color, text-decoration-color,
+                fill, stroke;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 1s;
+        }
+    </style>
 </Html>
