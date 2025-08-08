@@ -45,8 +45,9 @@ jobs:
           path: dist
 
       - name: deploy2nekoweb
-        uses: indiefellas/deploy2nekoweb@427ffdb4a6bb0e1dece1ffc8afa133a0e6f8e093
+        uses: indiefellas/deploy2nekoweb
         with:
           nekoweb-api-key: ${{ secrets.NEKOWEB_API_KEY }}
-          nekoweb-folder: /dist
           directory: ./dist
+          nekoweb-domain: thrizzle.nekoweb.org
+          nekoweb-username: thrizzle
