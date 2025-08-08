@@ -8,6 +8,12 @@ const aniListData = await fetchAniListData();
 ---
 
 <NewLayout>
+    <script>
+        const animeNames = document.querySelectorAll("#anilist-data a");
+        animeNames.forEach((link) => {
+            link.innerHTML = link.innerHTML.trim();
+        });
+    </script>
     <h2
         class="text-2xl font-bold underline underline-dotted decoration-cover-accent w-max mb-2"
     >
@@ -46,14 +52,14 @@ const aniListData = await fetchAniListData();
                 design)
             </li>
             <li>
-                <h3 class="list-header">underground alt hip-hop</h3>
+                <h3 class="list-header">music</h3>
                 top 5:
                 <ol class="list-decimal-inside">
-                    <li>ayowitty</li>
                     <li>bunii</li>
+                    <li>ayowitty</li>
+                    <li>yulia</li>
                     <li>MIKE</li>
                     <li>MAVI</li>
-                    <li>colin!</li>
                 </ol>
             </li>
         </ul>
@@ -62,12 +68,13 @@ const aniListData = await fetchAniListData();
             im not really super into anime (or much other tv/film), but i have
             been getting more into it to help me learn japanese:
         </p>
-        <ul class="lowercase">
+        <ul class="lowercase" id="anilist-data">
             <li>
                 right now, i'm watching {
                     aniListData.MediaListCollection.lists
                         .find((list) => list.status === "CURRENT")
-                        ?.entries.map((entry, i, entries) => (
+                        ?.entries.reverse()
+                        .map((entry, i, entries) => (
                             <Fragment>
                                 <a
                                     href={entry.media.siteUrl}
@@ -91,7 +98,8 @@ const aniListData = await fetchAniListData();
                 i'm planning to watch {
                     aniListData.MediaListCollection.lists
                         .find((list) => list.status === "PLANNING")
-                        ?.entries.slice(0, 3)
+                        ?.entries.reverse()
+                        .slice(0, 3)
                         .map((entry, i, entries) => (
                             <Fragment>
                                 <a
