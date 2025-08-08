@@ -45,7 +45,7 @@ jobs:
           path: dist
 
       - name: deploy2nekoweb
-        uses: indiefellas/deploy2nekoweb
+        uses: indiefellas/deploy2nekoweb@main
         with:
           nekoweb-api-key: ${{ secrets.NEKOWEB_API_KEY }}
           directory: ./dist
