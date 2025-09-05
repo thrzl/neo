@@ -80,7 +80,7 @@ const aniListData = await fetchAniListData();
                                     href={entry.media.siteUrl}
                                     style={`text-decoration-color: ${entry.media.coverImage.color || "#fff"}`}
                                 >
-                                    {entry.media.title.english.replace(
+                                    {(entry.media.title.english || entry.media.title.native).replace(
                                         /(?=.+)\sSeason\s\d/g,
                                         "",
                                     )}
@@ -106,7 +106,7 @@ const aniListData = await fetchAniListData();
                                     href={entry.media.siteUrl}
                                     style={`text-decoration-color: ${entry.media.coverImage.color || "#fff"}`}
                                 >
-                                    {entry.media.title.english.replace(
+                                    {(entry.media.title.english || entry.media.title.native).replace(
                                         /(?=.+)\sSeason\s\d/g,
                                         "",
                                     )}
