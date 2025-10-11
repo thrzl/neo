@@ -9,6 +9,7 @@ const {
 import Html from "./Html.astro";
 import Sidebar from "../components/Sidebar.astro";
 import Footer from "../components/Footer.astro";
+import Sun from "../assets/sun.svg";
 ---
 
 <Html backgroundColor={backgroundColor} title={pageTitle}>
@@ -59,7 +60,7 @@ import Footer from "../components/Footer.astro";
     >
         <Sidebar class="snap-start min-w-full lg:min-w-0" />
         <main
-            class="relative self-start text-center inline-block bg-cover-base w-full min-h-screen px-8 pt-16 lg:mt-16 mb-16 snap-start min-w-full lg:min-w-0"
+            class="relative self-start text-center inline-block w-full min-h-screen px-8 pt-16 lg:mt-16 mb-16 snap-start min-w-full lg:min-w-0"
         >
             {
                 showHeader && (

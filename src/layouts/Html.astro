@@ -1,6 +1,7 @@
 ---
 // import ClientRouter from "astro/components/ClientRouter.astro";
 const { neko, backgroundColor, title } = Astro.props;
+import Sun from "../components/Sun.astro";
 ---
 
 <html lang="en">
@@ -64,6 +65,7 @@ const { neko, backgroundColor, title } = Astro.props;
     <body style="background-color: var(--dominant)">
         <!-- {neko && <script src="../assets/oneko.js" />} -->
         <slot />
+        <Sun />
     </body>
 </html>
 

@@ -1,0 +1,26 @@
+---
+import SunSVG from "../assets/sun.svg";
+---
+
+<div id="sun"><SunSVG /></div>
+
+<style>
+    #sun {
+        position: fixed;
+        opacity: 10%;
+        transform-origin: center;
+        z-index: -999;
+        color: var(--accent-bg);
+        top: -125px;
+        right: -140px;
+        animation: spin 20s linear infinite;
+        height: 500px;
+    }
+
+    @keyframes spin {
+        100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+</style>
