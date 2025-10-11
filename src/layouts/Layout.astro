@@ -14,34 +14,27 @@ import Footer from "../components/Footer.astro";
 <Html backgroundColor={backgroundColor} title={pageTitle}>
     <script>
         import type { CompletePalette } from "../lib/colors";
-        document.addEventListener("DOMContentLoaded", () => {
-            const palette: CompletePalette = JSON.parse(
-                sessionStorage.getItem("palette") || "",
+        const palette: CompletePalette = JSON.parse(
+            sessionStorage.getItem("palette") || "",
+        );
+        if (palette) {
+            const root = document.documentElement;
+            root.style.setProperty("--dominant", palette.dominant || "#000000");
+            root.style.setProperty("--accent-bg", palette.palette[0] || "#fff");
+            root.style.setProperty(
+                "--accent-bg-light",
+                palette.palette[1] || "#fff",
             );
-            if (palette) {
-                document.body.style.transition = "none";
-
-                document.documentElement.style.setProperty(
-                    "--dominant",
-                    palette.dominant || "#000000",
-                );
-                document.documentElement.style.setProperty(
-                    "--accent-bg",
-                    palette.palette[0] || "#fff",
-                );
-                document.documentElement.style.setProperty(
-                    "--accent-bg-light",
-                    palette.palette[1] || "#fff",
-                );
-                document.documentElement.style.setProperty(
-                    "--accent-muted-light",
-                    palette.palette[3] || "#fff",
-                );
-                document.documentElement.style.setProperty(
-                    "--accent-text",
-                    palette.textColor || "#ffffff",
-                );
-            }
+            root.style.setProperty(
+                "--accent-muted-light",
+                palette.palette[2] || "#fff",
+            );
+            root.style.setProperty(
+                "--accent-text",
+                palette.textColor || "#ffffff",
+            );
+        }
+        document.addEventListener("DOMContentLoaded", () => {
             requestAnimationFrame(() => {
                 document.body.style.transition = "";
                 document.documentElement.classList.add("colors-fade");
@@ -61,8 +54,8 @@ import Footer from "../components/Footer.astro";
                                     ) && el.classList.contains("duration-200")
                                 )
                             )
-                                el.classList.add("colors-fade");
-                            // console.log("ele");
+                                // el.classList.add("colors-fade");
+                                console.log("");
                         }
                     });
                 });
@@ -115,6 +108,13 @@ import Footer from "../components/Footer.astro";
                 fill, stroke;
             transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
             transition-duration: 1s;
+        }
+        :root {
+            --dominant: rgb(20, 83, 45);
+            --accent-bg: rgb(22, 101, 52);
+            --accent-muted-light: rgb(22, 101, 52);
+            --accent-bg-light: rgb(22, 101, 52);
+            --accent-bg: rgb(74, 222, 128);
         }
     </style>
 </Html>

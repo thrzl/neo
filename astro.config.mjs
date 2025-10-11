@@ -23,17 +23,15 @@ export default defineConfig({
               "margin-right": "auto",
             },
             a: {
-              "text-decoration":
-                "underline dotted 2px var(--accent-bg, rgb(74 222 128))",
+              "text-decoration": "underline dotted 2px var(--accent-bg)",
               "font-style": "italic",
             },
             "a:hover": {
               // "text-shadow": "0 0 0.125rem var(--accent-text, #fff)",
-              "text-decoration":
-                "underline wavy 1px var(--accent-bg-light, rgb(22 101 52))",
+              "text-decoration": "underline wavy 1px var(--accent-bg-light)",
             },
             'input[type="checkbox"]:checked': {
-              "background-color": "var(--accent-bg-light, rgb(22 101 52))",
+              "background-color": "var(--accent-bg-light)",
               /* Add checkmark if desired */
             },
             'input[type="checkbox"]': {
@@ -41,7 +39,7 @@ export default defineConfig({
               width: "1.25rem",
               height: "1.25rem",
               "margin-right": "0.1rem",
-              border: "2px solid var(--accent-bg-light, rgb(22 101 52))",
+              border: "2px solid var(--accent-bg-light)",
               "background-color": "transparent",
               "border-radius": "0.25rem",
               cursor: "pointer",
@@ -49,9 +47,9 @@ export default defineConfig({
               "vertical-align": "middle",
             },
             "h1, h2, h3, h4, h5, h6": {
-              "text-decoration":
-                "underline wavy 1px var(--accent-bg, rgb(74 222 128))",
+              "text-decoration": "underline wavy 1px var(--accent-bg)",
               width: "max-content",
+              color: "var(--accent-text)",
             },
             "#footnote-label": {
               "text-transform": "lowercase",
@@ -62,6 +60,9 @@ export default defineConfig({
             },
             "li.task-list-item": {
               "list-style-type": "none",
+            },
+            "*": {
+              color: "var(--accent-text)",
             },
           },
         }),

@@ -24,18 +24,15 @@ String.prototype.toRespectfulLowerCase = function () {
 };
 
 export type Track = {
-  release: {
-    url: string;
-    name: string;
-    image_url: string;
-    image_palette: [number, number, number][];
-  };
+  image_url: string;
+  image_palette: [number, number, number][];
   artists: {
-    name: string;
+    artist_credit_name: string;
     join_phrase: string;
     url: string;
   }[];
   name: string;
+  release_url: string;
   url: string;
 };
 

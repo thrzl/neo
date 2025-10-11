@@ -15,11 +15,12 @@ export default defineConfig({
   theme: {
     colors: {
       cover: {
-        base: "var(--dominant, rgb(20 83 45))",
-        muted: "var(--accent-bg, rgb(22 101 52))",
-        mutedlight: "var(--accent-muted-light, rgb(22 101 52))",
-        bright: "var(--accent-bg-light, rgb(22 101 52))",
-        accent: "var(--accent-bg, rgb(74 222 128))",
+        base: "var(--dominant)",
+        muted: "var(--accent-bg)",
+        mutedlight: "var(--accent-muted-light)",
+        bright: "var(--accent-bg-light)",
+        accent: "var(--accent-bg)",
+        "text-color": "var(--accent-text)",
       },
     },
   },

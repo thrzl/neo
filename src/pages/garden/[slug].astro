@@ -70,7 +70,7 @@ const { Content } = await render(post);
             <Content />
         </div>
     </article>
-    <hr class="divider" style="color: var(--accent-text, #fff)" />
+    <hr class="divider" style="color: var(--accent-text)" />
     <section class="mt-2">
         <h2
             class="text-xl mb-2 font-bold b-b-dotted b-b-1 b-b-cover-accent w-max"
@@ -151,3 +151,13 @@ const { Content } = await render(post);
         });
     });
 </script>
+<style is:global>
+    /*.e-content p {
+        margin-top: 1.25rem;
+        margin-bottom: 1.25rem;
+    }
+    .e-content {
+        font-size: 1rem;
+        line-height: 1.75;
+    }*/
+</style>
