@@ -26,7 +26,7 @@ if (import.meta.env.PROD) {
 ---
 
 <div
-    class="justify-self-end w-full inline-block max-w-64 align-top mt-76 px-8 text-right b-r-cover-bright b-solid b-r-1 mb-6"
+    class="justify-self-end w-full inline-block max-w-64 align-top mt-76 px-8 text-right b-r-cover-bright b-solid b-r-1 mb-6 position-sticky top-3 self-start"
 >
     <!-- navigation links -->
     <h2 class="font-bold text-lg">navigation</h2>
@@ -47,7 +47,7 @@ if (import.meta.env.PROD) {
     </div>
 
     <!-- mastodon status -->
-    <svg
+    <!-- <svg
         xmlns="http://www.w3.org/2000/svg"
         class="text-blue h-4 text-right inline"
         viewBox="0 0 24 24"
@@ -65,7 +65,7 @@ if (import.meta.env.PROD) {
     <MastodonRecent>
         <span class="italic op-75 text-sm">right now &nbsp;</span>
         <p class="text-base line-height-tight">fetching latest post...</p>
-    </MastodonRecent>
+    </MastodonRecent> -->
 
     <!-- github commit -->
     <svg
@@ -143,7 +143,7 @@ if (import.meta.env.PROD) {
     <!-- buttons -->
 
     <section
-        class="text-right mt-4 block w-full flex flex-col items-end"
+        class="text-right mt-4 block w-full flex flex-row flex-wrap flex-row-reverse text-right items-end"
         id="buttons"
     >
         <a href="https://indieweb.org/">
