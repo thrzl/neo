@@ -30,6 +30,36 @@ const { neko, backgroundColor, title } = Astro.props;
             href={new URL("rss.xml", Astro.site)}
         />
         <meta name="viewport" content="width=device-width" />
+        <script>
+            // load palette
+            import type { CompletePalette } from "../lib/colors";
+            const palette: CompletePalette = JSON.parse(
+                sessionStorage.getItem("palette") || "",
+            );
+            if (palette) {
+                const root = document.documentElement;
+                root.style.setProperty(
+                    "--dominant",
+                    palette.dominant || "#000000",
+                );
+                root.style.setProperty(
+                    "--accent-bg",
+                    palette.palette[0] || "#fff",
+                );
+                root.style.setProperty(
+                    "--accent-bg-light",
+                    palette.palette[1] || "#fff",
+                );
+                root.style.setProperty(
+                    "--accent-muted-light",
+                    palette.palette[2] || "#fff",
+                );
+                root.style.setProperty(
+                    "--accent-text",
+                    palette.textColor || "#ffffff",
+                );
+            }
+        </script>
     </head>
     <body style="background-color: var(--dominant)">
         <!-- {neko && <script src="../assets/oneko.js" />} -->
