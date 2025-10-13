@@ -84,48 +84,63 @@
                 albumImage.addEventListener("load", () => {
                     console.log("getting color");
                     getAlbumArtColor(recentTrack.image_palette);
+                    // update track title:
+                    trackTitle.innerHTML = `<a href="${recentTrack.url}" class="font-bold inline hover:underline decoration-2 decoration-dotted hover:text-glow hover:decoration-wavy hover:decoration-1 b-b-0" id="track-title-inner">${recentTrack.name.toRespectfulLowerCase()}</a>`;
+
+                    // update artist name:
+                    artistName.innerHTML = recentTrack.artists
+                        .map(
+                            (artist) =>
+                                `<a class="link" href="${artist.url}">${artist.artist_credit_name.toRespectfulLowerCase()}</a>`,
+                        )
+                        .join(", ");
                 });
             } else {
                 newImg.src = "/music.avif";
                 albumImage.replaceWith(newImg);
                 console.log("replaced image");
-                const root = document.documentElement;
-                sessionStorage.setItem(
-                    "palette",
-                    JSON.stringify(defaultColors),
-                );
-                sessionStorage.setItem("textColor", defaultColors.textColor);
-                root.style.setProperty(
-                    "--dominant",
-                    defaultColors.dominant || "#000000",
-                );
-                root.style.setProperty(
-                    "--accent-bg",
-                    defaultColors.palette[0] || "#fff",
-                );
-                root.style.setProperty(
-                    "--accent-bg-light",
-                    defaultColors.palette[1] || "#fff",
-                );
-                root.style.setProperty(
-                    "--accent-muted-light",
-                    defaultColors.palette[2] || "#fff",
-                );
-                root.style.setProperty(
-                    "--accent-text",
-                    defaultColors.textColor || "#ffffff",
-                );
-            }
-            // update track title:
-            trackTitle.innerHTML = `<a href="${recentTrack.url}" class="font-bold inline hover:underline decoration-2 decoration-dotted hover:text-glow hover:decoration-wavy hover:decoration-1 b-b-0" id="track-title-inner">${recentTrack.name.toRespectfulLowerCase()}</a>`;
+                albumImage.addEventListener("load", () => {
+                    const root = document.documentElement;
+                    sessionStorage.setItem(
+                        "palette",
+                        JSON.stringify(defaultColors),
+                    );
+                    sessionStorage.setItem(
+                        "textColor",
+                        defaultColors.textColor,
+                    );
+                    root.style.setProperty(
+                        "--dominant",
+                        defaultColors.dominant || "#000000",
+                    );
+                    root.style.setProperty(
+                        "--accent-bg",
+                        defaultColors.palette[0] || "#fff",
+                    );
+                    root.style.setProperty(
+                        "--accent-bg-light",
+                        defaultColors.palette[1] || "#fff",
+                    );
+                    root.style.setProperty(
+                        "--accent-muted-light",
+                        defaultColors.palette[2] || "#fff",
+                    );
+                    root.style.setProperty(
+                        "--accent-text",
+                        defaultColors.textColor || "#ffffff",
+                    );
+                    // update track title:
+                    trackTitle.innerHTML = `<a href="${recentTrack.url}" class="font-bold inline hover:underline decoration-2 decoration-dotted hover:text-glow hover:decoration-wavy hover:decoration-1 b-b-0" id="track-title-inner">${recentTrack.name.toRespectfulLowerCase()}</a>`;
 
-            // update artist name:
-            artistName.innerHTML = recentTrack.artists
-                .map(
-                    (artist) =>
-                        `<a class="link" href="${artist.url}">${artist.artist_credit_name.toRespectfulLowerCase()}</a>`,
-                )
-                .join(", ");
+                    // update artist name:
+                    artistName.innerHTML = recentTrack.artists
+                        .map(
+                            (artist) =>
+                                `<a class="link" href="${artist.url}">${artist.artist_credit_name.toRespectfulLowerCase()}</a>`,
+                        )
+                        .join(", ");
+                });
+            }
         }
 
         function getAlbumArtColor(rawPalette: [number, number, number][]) {
