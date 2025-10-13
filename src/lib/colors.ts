@@ -73,7 +73,7 @@ export function getPalette(ct_palette: RGBColor[]) {
 
   // calculate text color from dominant color luminance
   const textColor =
-    rawDominant.brightness() > 0.4
+    rawDominant.brightness() > 0.6
       ? { r: 0, g: 0, b: 0, a: 255 }
       : { r: 255, g: 255, b: 255, a: 255 };
 

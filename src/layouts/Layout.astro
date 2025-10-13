@@ -5,11 +5,15 @@ const {
     description = "a home for all my hopes, dreams, thoughts and schemes",
     showHeader = true,
     pageTitle = "",
+    fullTitle = "",
 } = Astro.props;
 import Html from "./Html.astro";
 import Sidebar from "../components/Sidebar.astro";
 import Footer from "../components/Footer.astro";
 import Sun from "../assets/sun.svg";
+
+const italicizedWord = fullTitle.split(" ").pop();
+const trueTitle = fullTitle.split(" ").slice(0, -1).join(" ");
 ---
 
 <Html backgroundColor={backgroundColor} title={pageTitle}>
@@ -65,8 +69,17 @@ import Sun from "../assets/sun.svg";
             {
                 showHeader && (
                     <div class="b-cover-accent b-4 b-solid flex flex-col justify-end w-80vw lg:w-full min-h-3/4 py-4 my-4">
-                        <h1 class="text-5xl font-bold z-1">
-                            thrizzle's <span class="italic">{title}</span>
+                        <h1 class="text-5xl font-bold z-1 text-wrap px-2">
+                            {fullTitle ? (
+                                <>
+                                    {trueTitle} <i> {italicizedWord}</i>
+                                </>
+                            ) : (
+                                <>
+                                    thrizzle's{" "}
+                                    <span class="italic">{title}</span>
+                                </>
+                            )}
                         </h1>
                         <p class="b-t-dotted b-t-1 b-t-cover-muted w-max mx-auto mb-2 print-hidden">
                             {description}
@@ -82,7 +95,7 @@ import Sun from "../assets/sun.svg";
     </div>
     <Footer />
     <style is:global>
-        .colors-fade {
+        .colors-fade * {
             transition-property:
                 color, background-color, border-color, text-decoration-color,
                 fill, stroke;
@@ -90,11 +103,11 @@ import Sun from "../assets/sun.svg";
             transition-duration: 1s;
         }
         :root {
-            --dominant: rgb(20, 83, 45);
-            --accent-bg: rgb(22, 101, 52);
-            --accent-muted-light: rgb(22, 101, 52);
-            --accent-bg-light: rgb(22, 101, 52);
-            --accent-bg: rgb(74, 222, 128);
+            --dominant: rgba(57, 82, 38, 1);
+            --accent-bg: rgba(189, 149, 93, 1);
+            --accent-muted-light: rgba(114, 113, 168, 1);
+            --accent-bg-light: rgba(127, 174, 98, 1);
+            --text-color: rgba(255, 255, 255, 1);
         }
     </style>
 </Html>

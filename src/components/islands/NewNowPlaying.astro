@@ -5,6 +5,17 @@
 
     let trackTitleMarquee: marquee;
 
+    const defaultColors = {
+        palette: [
+            "rgba(189,149,93,1)",
+            "rgba(114,113,168,1)",
+            "rgba(127,174,98,1)",
+        ],
+        textColor: "rgba(255,255,255,255)",
+        dominant: "rgba(57,82,38,1)",
+        secondaryTextColor: "rgba(0,0,0,255)",
+    };
+
     String.prototype.toRespectfulLowerCase = function () {
         if (this === this.toUpperCase() || this === this.toLowerCase()) {
             return this.toString();
@@ -63,6 +74,48 @@
         function updateDOM(recentTrack: Track | null) {
             if (!recentTrack) return;
 
+            let newImg: HTMLImageElement = albumImage;
+            newImg.alt = recentTrack.name;
+            if (recentTrack.image_url) {
+                console.log("got image!");
+                newImg.src = `https://wsrv.nl/?url=${recentTrack.image_url}&w=350&output=webp`;
+                albumImage.replaceWith(newImg);
+                console.log("replaced image");
+                albumImage.addEventListener("load", () => {
+                    console.log("getting color");
+                    getAlbumArtColor(recentTrack.image_palette);
+                });
+            } else {
+                newImg.src = "/music.avif";
+                albumImage.replaceWith(newImg);
+                console.log("replaced image");
+                const root = document.documentElement;
+                sessionStorage.setItem(
+                    "palette",
+                    JSON.stringify(defaultColors),
+                );
+                sessionStorage.setItem("textColor", defaultColors.textColor);
+                root.style.setProperty(
+                    "--dominant",
+                    defaultColors.dominant || "#000000",
+                );
+                root.style.setProperty(
+                    "--accent-bg",
+                    defaultColors.palette[0] || "#fff",
+                );
+                root.style.setProperty(
+                    "--accent-bg-light",
+                    defaultColors.palette[1] || "#fff",
+                );
+                root.style.setProperty(
+                    "--accent-muted-light",
+                    defaultColors.palette[2] || "#fff",
+                );
+                root.style.setProperty(
+                    "--accent-text",
+                    defaultColors.textColor || "#ffffff",
+                );
+            }
             // update track title:
             trackTitle.innerHTML = `<a href="${recentTrack.url}" class="font-bold inline hover:underline decoration-2 decoration-dotted hover:text-glow hover:decoration-wavy hover:decoration-1 b-b-0" id="track-title-inner">${recentTrack.name.toRespectfulLowerCase()}</a>`;
 
@@ -73,28 +126,17 @@
                         `<a class="link" href="${artist.url}">${artist.artist_credit_name.toRespectfulLowerCase()}</a>`,
                 )
                 .join(", ");
-
-            console.log("did not match album image data");
-            let newImg = albumImage;
-            newImg.src = `https://wsrv.nl/?url=${recentTrack.image_url}&w=350&output=webp`;
-            newImg.alt = recentTrack.name;
-            albumImage.replaceWith(newImg);
-            albumImage.addEventListener("load", () => {
-                console.log("getting color");
-                getAlbumArtColor(recentTrack.image_palette);
-            });
         }
 
         function getAlbumArtColor(rawPalette: [number, number, number][]) {
             const palette = getPalette(rawPalette);
-            console.log(palette);
 
             sessionStorage.setItem("previousImg", albumImage.src);
             sessionStorage.setItem("palette", JSON.stringify(palette));
             sessionStorage.setItem("textColor", palette.textColor);
 
             const root = document.documentElement;
-            root.classList.remove("colors-fade");
+            // root.classList.remove("colors-fade");
             root.style.setProperty("--dominant", palette.dominant || "#000000");
             root.style.setProperty("--accent-bg", palette.palette[0] || "#fff");
             root.style.setProperty(
@@ -109,7 +151,7 @@
                 "--accent-text",
                 palette.textColor || "#ffffff",
             );
-            root.classList.add("colors-fade");
+            // root.classList.add("colors-fade");
 
             return;
         }
