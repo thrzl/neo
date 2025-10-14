@@ -23,7 +23,7 @@ export default defineConfig({
               "margin-right": "auto",
             },
             a: {
-              "text-decoration": "underline dotted 2px var(--accent-bg)",
+              "text-decoration": "underline dotted 1px var(--accent-bg)",
               "font-style": "italic",
             },
             "a:hover": {
@@ -60,6 +60,14 @@ export default defineConfig({
             },
             "li.task-list-item": {
               "list-style-type": "none",
+            },
+            "sup > a": {
+              "text-decoration": "none",
+              color: "var(--accent-bg) !important",
+              "font-style": "normal",
+            },
+            pre: {
+              "font-size": "0.8rem",
             },
             "*": {
               color: "var(--accent-text)",
