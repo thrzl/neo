@@ -26,5 +26,5 @@ maybe i'll write more soon<br/>
 hopefully i wasn't egregiously wrong about anything
 
 [^1]: [Yudkowsky, 2007](https://www.lesswrong.com/posts/4ARaTpNX62uaL86j6/the-hidden-complexity-of-wishes)
-[^2]: [Lynch, et al., 2025](https://en.wikipedia.org/wiki/ThinkPad_X_series#2007)
+[^2]: [Lynch, et al., 2025](https://www.anthropic.com/research/agentic-misalignment)
 [^3]: [Yudkowsky, 2004](https://intelligence.org/files/CEV.pdf) (how was he this far ahead??)
