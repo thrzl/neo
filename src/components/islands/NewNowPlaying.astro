@@ -43,7 +43,7 @@
         if (lastSessionTrack) {
             try {
                 updateDOM(JSON.parse(lastSessionTrack));
-                trackTitleOverflowing();
+                // trackTitleOverflowing();
             } catch {
                 console.log(lastSessionTrack);
             }
@@ -70,6 +70,7 @@
             trackTitleMarquee?.destroy();
             return false;
         }
+        // window.resetMarquee = trackTitleOverflowing;
 
         function updateDOM(recentTrack: Track | null) {
             if (!recentTrack) return;
@@ -94,6 +95,7 @@
                                 `<a class="link" href="${artist.url}">${artist.artist_credit_name.toRespectfulLowerCase()}</a>`,
                         )
                         .join(", ");
+                    trackTitleOverflowing();
                 });
             } else {
                 newImg.src = "/music.avif";
@@ -139,6 +141,7 @@
                                 `<a class="link" href="${artist.url}">${artist.artist_credit_name.toRespectfulLowerCase()}</a>`,
                         )
                         .join(", ");
+                    trackTitleOverflowing();
                 });
             }
         }
@@ -179,7 +182,7 @@
             const data = JSON.parse(event.data);
             sessionStorage.setItem("lastTrack", event.data);
             updateDOM(data);
-            trackTitleOverflowing();
+            // trackTitleOverflowing();
         };
         // let onLoadLastTrack = sessionStorage.getItem("lastTrack");
         // console.log(onLoadLastTrack, "ollt");
