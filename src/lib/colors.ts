@@ -61,7 +61,7 @@ export function getPalette(ct_palette: RGBColor[]) {
 
   const dominant = rawDominant.toRgb();
   rawPalette = rawPalette.sort(
-    (a, b) => colord(a).toHsl().s - colord(b).toHsl().s,
+    (a, b) => colord(a).toHsv().s - colord(b).toHsv().s,
   );
   // sort palette by contrast with dominant (highest first), and then convert to rgb
   if (getContrast(rawDominant, rawPalette[1]) < 0.2) {
