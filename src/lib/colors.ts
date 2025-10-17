@@ -56,18 +56,28 @@ export function getPalette(colorThiefPalette: RGBColor[]): CompletePalette {
   const rawDominant = rawPalette.shift()!;
 
   if (rawPalette.length < 3) {
-    // if not enough colors, generate a color scheme ourselves
-    const harmony = rawDominant.harmonies("analogous");
+    console.log("not enough colors");
+
+    // if not enough colors, make everything else white/black
+    const fillerColor = colord(
+      rawDominant.brightness() > 0.6
+        ? { r: 0, b: 0, g: 0 }
+        : { r: 255, b: 255, g: 255 },
+    );
 
     // keep original dominant color and whatever other colors we have
-    rawPalette = [rawDominant, ...rawPalette, ...harmony.slice(1)].slice(0, 4);
-    console.log(`harmonized rawPalette: ${rawPalette}`);
+    rawPalette = [
+      ...rawPalette,
+      ...Array(Math.max(0, 4 - rawPalette.length)).fill(fillerColor),
+    ].slice(0, 4);
+    console.log(rawPalette);
   }
 
   const dominant = rawDominant.toRgb();
   const palette = rawPalette.sort(
     (a, b) => colord(a).toLch().c - colord(b).toLch().c,
   );
+  console.log("palette", palette);
   // sort palette by contrast with dominant (highest first), and then convert to rgb
   // if (getContrast(rawDominant, rawPalette[1]) < 0.2) {
   //   const bgLuminance = rawDominant.brightness();
