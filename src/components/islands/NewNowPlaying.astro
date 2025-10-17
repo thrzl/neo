@@ -174,16 +174,25 @@
             return;
         }
         trackTitleMarquee?.refresh();
-
-        const socket = new WebSocket(
-            "wss://enchanting-communication-production.up.railway.app/ws",
-        );
-        socket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            sessionStorage.setItem("lastTrack", event.data);
-            updateDOM(data);
-            // trackTitleOverflowing();
-        };
+        let socket: WebSocket | undefined;
+        function connectWebSocket() {
+            let socket = new WebSocket(
+                "wss://enchanting-communication-production.up.railway.app/ws",
+            );
+            socket.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                sessionStorage.setItem("lastTrack", event.data);
+                updateDOM(data);
+                // trackTitleOverflowing();
+            };
+        }
+        window.addEventListener("focus", () => {
+            if (!socket || socket.readyState === WebSocket.CLOSED) {
+                console.log("we lost the socket while u were gone, whoops");
+                connectWebSocket();
+            }
+        });
+        connectWebSocket();
         // let onLoadLastTrack = sessionStorage.getItem("lastTrack");
         // console.log(onLoadLastTrack, "ollt");
         // if (onLoadLastTrack) {
