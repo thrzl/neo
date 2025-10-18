@@ -1,39 +1,41 @@
-import type { Colord, RgbaColor } from "colord";
-import { colord, extend } from "colord";
-import harmoniesPlugin from "colord/plugins/harmonies";
-import lchPlugin from "colord/plugins/lch";
+import type { Rgb, Oklab } from "culori/fn";
+import { convertRgbToOklab, convertOklabToRgb } from "culori/fn";
 
-extend([harmoniesPlugin, lchPlugin]);
-
-function rgbToArray(color: RgbaColor) {
-  return [color.r, color.g, color.b].join(", ");
-}
-
-export const defaultPalette: [number, number, number][] = [
-  [210, 210, 210],
-  [71, 71, 74],
-  [108, 107, 109],
-  [113, 116, 108],
+// oklab palette of bipolar - beige
+export const defaultPalette: Oklab[] = [
+  {
+    mode: "oklab",
+    l: 69.06602336138803,
+    a: 0,
+    b: 0,
+  },
+  {
+    mode: "oklab",
+    l: 29.11249592086589,
+    a: 0.12069486237930604,
+    b: -0.4174270801306612,
+  },
+  {
+    mode: "oklab",
+    l: 40.41316317433956,
+    a: 0.17724679413204214,
+    b: -0.2237753329012122,
+  },
+  {
+    mode: "oklab",
+    l: 42.52903400503874,
+    a: -0.6038378576813876,
+    b: 0.9063638438680073,
+  },
 ];
 
-export type RGBColor = [number, number, number];
+export type RGBArray = [number, number, number];
 export type CompletePalette = {
   palette: string[];
   dominant: string;
   textColor: string;
   secondaryTextColor: string;
 };
-
-function hexToRgb(hex: string) {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result
-    ? [
-        Number.parseInt(result[1], 16),
-        Number.parseInt(result[2], 16),
-        Number.parseInt(result[3], 16),
-      ]
-    : null;
-}
 
 function targetLuminance(bgLuminance: number, lighten = false) {
   if (lighten) {
@@ -42,14 +44,18 @@ function targetLuminance(bgLuminance: number, lighten = false) {
   return (bgLuminance + 0.05) / 4.5 - 0.05;
 }
 
-export function getPalette(colorThiefPalette: RGBColor[]): CompletePalette {
-  let rawPalette: Colord[] = (colorThiefPalette || defaultPalette).map(
-    ([r, g, b]) => colord({ r, g, b }),
+function oklabSaturation(color: Oklab) {
+  return Math.sqrt(color.a ** 2 + color.b ** 2);
+}
+
+export function getPalette(colorThiefPalette: RGBArray[]): CompletePalette {
+  let rawPalette: Oklab[] = (colorThiefPalette || defaultPalette).map(
+    ([r, g, b]) => convertRgbToOklab({ r, g, b }), // manually convert to proper RGB type
   );
 
   if (rawPalette.length === 0) {
     // if no rawPalette, resort to default palette
-    rawPalette = defaultPalette.map(([r, g, b]) => colord({ r, g, b }));
+    rawPalette = defaultPalette;
   }
 
   // biome-ignore lint/style/noNonNullAssertion: bro shut up i JUST checked it
@@ -59,53 +65,38 @@ export function getPalette(colorThiefPalette: RGBColor[]): CompletePalette {
     console.log("not enough colors");
 
     // if not enough colors, make everything else white/black
-    const fillerColor = colord(
-      rawDominant.brightness() > 0.6
-        ? { r: 0, b: 0, g: 0 }
-        : { r: 255, b: 255, g: 255 },
-    );
+    const fillerColor =
+      rawDominant.l > 0.6 ? { r: 0, b: 0, g: 0 } : { r: 255, b: 255, g: 255 };
 
     // keep original dominant color and whatever other colors we have
     rawPalette = [
       ...rawPalette,
       ...Array(Math.max(0, 4 - rawPalette.length)).fill(fillerColor),
     ].slice(0, 4);
-    console.log(rawPalette);
   }
 
-  const dominant = rawDominant.toRgb();
   const palette = rawPalette.sort(
-    (a, b) => colord(a).toLch().c - colord(b).toLch().c,
+    (a, b) => oklabSaturation(b) - oklabSaturation(a),
   );
-  console.log("palette", palette);
-  // sort palette by contrast with dominant (highest first), and then convert to rgb
-  // if (getContrast(rawDominant, rawPalette[1]) < 0.2) {
-  //   const bgLuminance = rawDominant.brightness();
-  //   const secondary = rawPalette[1].toHsl();
-  //   secondary.l = targetLuminance(bgLuminance, bgLuminance < 0.5);
-  //   rawPalette[1] = colord(secondary);
-  // }
 
   // calculate text color from dominant color luminance
-  const textColor =
-    rawDominant.brightness() > 0.6
-      ? { r: 0, g: 0, b: 0, a: 255 }
-      : { r: 255, g: 255, b: 255, a: 255 };
+  const textColor: Rgb =
+    rawDominant.l / 100 > 0.6
+      ? { r: 0, g: 0, b: 0, mode: "rgb" }
+      : { r: 255, g: 255, b: 255, mode: "rgb" };
 
-  // if (getContrast(rawDominant, rawPalette[0]) < 0.2) {
-  //   palette[0] = rgbToArray(textColor);
-  //   rawPalette[0] = colord(textColor);
-  // }
-  const secondaryTextColor =
-    palette[0].brightness() > 0.4
-      ? { r: 0, g: 0, b: 0, a: 255 }
-      : { r: 255, g: 255, b: 255, a: 255 };
+  const secondaryTextColor: Rgb =
+    palette[0].l / 100 > 0.4
+      ? { r: 0, g: 0, b: 0, mode: "rgb" }
+      : { r: 255, g: 255, b: 255, mode: "rgb" };
 
   const result = {
-    palette: palette.map((color) => rgbToString(color.toRgb())),
-    textColor: rgbToString(textColor),
-    dominant: rgbToString(dominant),
-    secondaryTextColor: rgbToString(secondaryTextColor),
+    palette: palette
+      .map(convertOklabToRgb)
+      .map(({ r, g, b }) => rgbToString({ r, g, b, a: 1 })),
+    textColor: rgbToString({ ...textColor, a: 1 }),
+    dominant: oklabToRgbString(rawDominant),
+    secondaryTextColor: rgbToString({ ...secondaryTextColor, a: 1 }),
   };
   return result;
 }
@@ -129,6 +120,8 @@ function rgbToString({
   return `rgb(${colors})`;
 }
 
-function getContrast(color1: Colord, color2: Colord) {
-  return Math.abs(color1.brightness() - color2.brightness());
+function oklabToRgbString(color: Oklab) {
+  const { r, g, b }: Rgb = convertOklabToRgb(color);
+  console.log({ r, g, b });
+  return rgbToString({ r, g, b, a: color.alpha || 1 });
 }

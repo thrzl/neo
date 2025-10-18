@@ -16,12 +16,11 @@
     "@biomejs/biome": "^2.2.5",
     "@unocss/reset": "^66.5.3",
     "astro": "^5.14.4",
-    "chroma-js": "^3.1.2",
-    "colord": "^2.9.3",
+    "culori": "^4.0.2",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.18",
     "jsdom": "^27.0.0",
-    "rollup-plugin-visualizer": "^6.0.4",
+    "rollup-plugin-visualizer": "^6.0.5",
     "typescript": "^5.9.3",
     "unocss": "^66.5.3",
     "vanilla-marquee": "^1.1.2"
@@ -29,6 +28,7 @@
   "devDependencies": {
     "@inquirer/prompts": "^7.8.6",
     "@types/chroma-js": "^3.1.1",
+    "@types/culori": "^4.0.1",
     "spotify-types": "^1.0.7"
   }
 }
