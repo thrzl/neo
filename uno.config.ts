@@ -62,6 +62,7 @@ export default defineConfig({
           "text-decoration": "underline wavy 1px var(--accent-bg)",
           width: "max-content",
           color: "var(--accent-text)",
+          "margin-bottom": "0",
         },
         "#footnote-label": {
           "text-transform": "lowercase",
