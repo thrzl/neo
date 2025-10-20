@@ -71,7 +71,7 @@ export function getPalette(colorThiefPalette: RGBArray[]): CompletePalette {
 
     // if not enough colors, make everything else white/black
     const fillerColor =
-      rawDominant.l > 0.6 ? { r: 0, b: 0, g: 0 } : { r: 255, b: 255, g: 255 };
+      rawDominant.l / 100 > 0.6 ? { l: 0, b: 0, a: 0 } : { l: 100, b: 0, 1: 0 };
 
     // keep original dominant color and whatever other colors we have
     rawPalette = [
