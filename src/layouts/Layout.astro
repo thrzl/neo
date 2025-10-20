@@ -60,7 +60,7 @@ const trueTitle = fullTitle.split(" ").slice(0, -1).join(" ");
 
     <div
         class="grid grid-cols-[100vw_100vw_0] lg:grid-cols-[25%_50%_25%] justify-center overflow-x-auto snap-x snap-mandatory lg:overflow-x-visible lg:snap-none min-w-screen"
-        style="color: var(--accent-text, #fff)"
+        style="color: var(--accent-text)"
     >
         <Sidebar class="snap-start min-w-full lg:min-w-0" />
         <main
@@ -101,7 +101,7 @@ const trueTitle = fullTitle.split(" ").slice(0, -1).join(" ");
                 fill, stroke;
             transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
             transition-duration: 1s;
-            transition-delay: 0;
+            transition-delay: 0s;
         }
         :root {
             --dominant: rgba(57, 82, 38, 1);
