@@ -109,7 +109,7 @@ export function getPalette(colorThiefPalette: RGBArray[]): CompletePalette {
     .filter(
       (color) =>
         Math.abs(oklabHue(color) - trueSecondaryHue) <= 15 &&
-        oklabBrownCheck(color),
+        !oklabBrownCheck(color),
     );
 
   // and then we can get the most saturated one!
