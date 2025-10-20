@@ -48,6 +48,11 @@ function oklabSaturation(color: Oklab) {
   return Math.sqrt(color.a ** 2 + color.b ** 2);
 }
 
+function oklabHue(color: Oklab) {
+  const rawDeg = Math.atan2(color.b, color.a) * (180 / Math.PI);
+  return rawDeg < 0 ? rawDeg + 360 : rawDeg;
+}
+
 export function getPalette(colorThiefPalette: RGBArray[]): CompletePalette {
   let rawPalette: Oklab[] = (colorThiefPalette || defaultPalette).map(
     ([r, g, b]) => convertRgbToOklab({ r, g, b }), // manually convert to proper RGB type
@@ -74,10 +79,30 @@ export function getPalette(colorThiefPalette: RGBArray[]): CompletePalette {
       ...Array(Math.max(0, 4 - rawPalette.length)).fill(fillerColor),
     ].slice(0, 4);
   }
+  console.log(rawPalette);
 
-  const palette = rawPalette.sort(
+  // change secondary color to the most saturated form of itself that we received
+  // first we gotta get the hue of the color
+  const trueSecondaryHue = oklabHue(rawPalette[0]);
+
+  // then we can find colors with a hue difference of less than 15 deg..
+  const secondaryCandidates = rawPalette
+    .slice(1)
+    .filter((color) => Math.abs(oklabHue(color) - trueSecondaryHue) <= 15);
+
+  // and then we can get the most saturated one!
+  const newSecondary = secondaryCandidates.sort(
     (a, b) => oklabSaturation(b) - oklabSaturation(a),
-  );
+  )[0];
+
+  // if we found a better secondary choice, use that
+  // otherwise just sort by saturation
+  const palette = newSecondary
+    ? [
+        newSecondary,
+        ...rawPalette.filter((color) => color !== newSecondary),
+      ].filter(Boolean)
+    : rawPalette.sort((a, b) => oklabSaturation(b) - oklabSaturation(a));
 
   // calculate text color from dominant color luminance
   const textColor: Rgb =
@@ -122,6 +147,10 @@ function rgbToString({
 
 function oklabToRgbString(color: Oklab) {
   const { r, g, b }: Rgb = convertOklabToRgb(color);
-  console.log({ r, g, b });
-  return rgbToString({ r, g, b, a: color.alpha || 1 });
+  return rgbToString({
+    r: Math.round(r),
+    g: Math.round(g),
+    b: Math.round(b),
+    a: color.alpha || 1,
+  });
 }
