@@ -50,8 +50,25 @@ function oklabSaturation(color: Oklab) {
 
 function oklabHue(color: Oklab) {
   const rawDeg = Math.atan2(color.b, color.a) * (180 / Math.PI);
-  return rawDeg < 0 ? rawDeg + 360 : rawDeg;
+  return (rawDeg + 360) % 360;
 }
+
+function oklabBrownCheck(color: Oklab) {
+  const hue = oklabHue(color); // degrees
+  const chroma = Math.sqrt(color.a ** 2 + color.b ** 2);
+
+  const isOrange = hue > 20 && hue < 80;
+  const isDark = color.l / 100 < 0.6;
+  const isDull = chroma / 100 < 0.3;
+
+  console.log(`isOrange: ${isOrange} (hue: ${hue})`);
+  console.log(`isDark: ${isDark} (luminance: ${color.l})`);
+  console.log(`isDull: ${isDull} (chroma: ${chroma / 100})`);
+
+  return isOrange && isDark && isDull; // its prolly orange
+}
+
+window.brownCheck = oklabBrownCheck;
 
 export function getPalette(colorThiefPalette: RGBArray[]): CompletePalette {
   let rawPalette: Oklab[] = (colorThiefPalette || defaultPalette).map(
@@ -80,15 +97,20 @@ export function getPalette(colorThiefPalette: RGBArray[]): CompletePalette {
     ].slice(0, 4);
   }
   console.log(rawPalette);
+  window.rawPalette = rawPalette;
 
   // change secondary color to the most saturated form of itself that we received
   // first we gotta get the hue of the color
   const trueSecondaryHue = oklabHue(rawPalette[0]);
 
-  // then we can find colors with a hue difference of less than 15 deg..
+  // then we can find colors with a hue difference of less than 15 deg.. (and theyre not brown)
   const secondaryCandidates = rawPalette
     .slice(1)
-    .filter((color) => Math.abs(oklabHue(color) - trueSecondaryHue) <= 15);
+    .filter(
+      (color) =>
+        Math.abs(oklabHue(color) - trueSecondaryHue) <= 15 &&
+        oklabBrownCheck(color),
+    );
 
   // and then we can get the most saturated one!
   const newSecondary = secondaryCandidates.sort(
@@ -102,7 +124,13 @@ export function getPalette(colorThiefPalette: RGBArray[]): CompletePalette {
         newSecondary,
         ...rawPalette.filter((color) => color !== newSecondary),
       ].filter(Boolean)
-    : rawPalette.sort((a, b) => oklabSaturation(b) - oklabSaturation(a));
+    : rawPalette.sort(
+        (a, b) =>
+          oklabSaturation(b) -
+          oklabSaturation(a) -
+          (oklabBrownCheck(b) ? 100 : 0), // harsh penalty for being brown
+      );
+  window.palette = palette;
 
   // calculate text color from dominant color luminance
   const textColor: Rgb =
@@ -154,3 +182,14 @@ function oklabToRgbString(color: Oklab) {
     a: color.alpha || 1,
   });
 }
+
+const printOklab = ({ l, a, b }: Oklab) => {
+  const rgb = oklabToRgbString({ l, a, b, mode: "oklab" });
+  console.log(`%c oklab(${l}, ${a}, ${b})`, `background-color: ${rgb}`);
+};
+
+window.printOklab = printOklab;
+
+window.printPalette = (palette: Oklab[]) => {
+  palette.forEach(printOklab);
+};
