@@ -103,12 +103,20 @@ export function getPalette(colorThiefPalette: RGBArray[]): CompletePalette {
   // first we gotta get the hue of the color
   const trueSecondaryHue = oklabHue(rawPalette[0]);
 
+  // now we should check if all but one color is roughly achromatic. if not, then we shouldnt care about browns
+  const shouldBrownCheck =
+    rawPalette.filter((color) => Math.sqrt(color.a ** 2 + color.b ** 2) > 0.03)
+      .length < 2;
+
+  console.log(`shouldBrownCheck: ${shouldBrownCheck}`);
+
   // then we can find colors with a hue difference of less than 15 deg.. (and theyre not brown)
   const secondaryCandidates = rawPalette
     .slice(1)
     .filter(
       (color) =>
         Math.abs(oklabHue(color) - trueSecondaryHue) <= 15 &&
+        shouldBrownCheck &&
         !oklabBrownCheck(color),
     );
 
@@ -128,7 +136,7 @@ export function getPalette(colorThiefPalette: RGBArray[]): CompletePalette {
         (a, b) =>
           oklabSaturation(b) -
           oklabSaturation(a) -
-          (oklabBrownCheck(b) ? 100 : 0), // harsh penalty for being brown
+          (shouldBrownCheck && oklabBrownCheck(b) ? 100 : 0), // harsh penalty for being brown
       );
   window.palette = palette;
 
