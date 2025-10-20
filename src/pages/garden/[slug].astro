@@ -65,9 +65,7 @@ const { Content } = await render(post);
                 >written on {post.data.date.toDateString()}</time
             >
         </header>
-        <div
-            class="prose text-2xl lg:text-lg max-w-full text-justify e-content"
-        >
+        <div class="prose text-2xl lg:text-lg max-w-full e-content">
             <Content />
         </div>
     </article>
@@ -148,7 +146,9 @@ const { Content } = await render(post);
         ) as HTMLButtonElement;
         const content = document.querySelector(".e-content") as HTMLDivElement;
         textJustifyToggle.addEventListener("click", () => {
-            content.classList.toggle("text-justify");
+            const currentAlignment = getComputedStyle(content).textAlign;
+            content.style.textAlign =
+                currentAlignment === "justify" ? "left" : "justify";
         });
     });
 </script>
