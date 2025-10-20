@@ -59,7 +59,7 @@ function oklabBrownCheck(color: Oklab) {
 
   const isOrange = hue > 40 && hue < 80;
   const isDark = color.l / 100 < 0.6;
-  const isDull = chroma / 100 < 0.3;
+  const isDull = chroma / 100 < 0.015;
 
   console.log(`isOrange: ${isOrange} (hue: ${hue})`);
   console.log(`isDark: ${isDark} (luminance: ${color.l})`);
