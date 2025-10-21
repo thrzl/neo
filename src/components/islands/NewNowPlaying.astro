@@ -64,6 +64,7 @@
                     recalcResize: true,
                     startVisible: true,
                     gap: 50,
+                    direction: "right",
                 });
                 return true;
             }
@@ -176,7 +177,7 @@
         trackTitleMarquee?.refresh();
         let socket: WebSocket | undefined;
         function connectWebSocket() {
-            let socket = new WebSocket(
+            socket = new WebSocket(
                 "wss://enchanting-communication-production.up.railway.app/ws",
             );
             socket.onmessage = (event) => {
