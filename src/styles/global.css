@@ -24,3 +24,12 @@ input[type="submit"]:hover,
     text-shadow: 0 0 0.125rem var(--accent-bg);
     border-style: solid;
 }
+
+hr {
+    border: var(--accent-bg) 8px dotted;
+    border-bottom: 0;
+    height: 0;
+    padding: 0;
+    margin: 2rem auto;
+    width: 25%;
+}
