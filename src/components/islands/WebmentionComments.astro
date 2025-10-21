@@ -42,8 +42,8 @@
                 class="h-4 inline"
             />
             <a
-                href=${comment.author.url}
-                class=" font-bold text-sm u-author h-card link"
+                href="${comment.author.url}"
+                class="font-bold text-xl u-author h-card"
                 >${comment.author.name}</a
             >
             <p class="prose lg:text-2xl text-4xl p-content p-name">
@@ -58,7 +58,7 @@
                         new Date(comment["wm-received"]).toDateString()
                     }</time
                 >
-                <a href={comment.url} class="u-url link">view source</a>
+                <a href="${comment.url}" class="u-url link">view source</a>
             </div>
         </div>`,
             )
