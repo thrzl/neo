@@ -1,6 +1,17 @@
 import type { Rgb, Oklab } from "culori/fn";
 import { convertRgbToOklab, convertOklabToRgb } from "culori/fn";
 
+const printOklab = ({ l, a, b }: Oklab) => {
+  const rgb = oklabToRgbString({ l, a, b, mode: "oklab" });
+  console.log(`%c oklab(${l}, ${a}, ${b})`, `background-color: ${rgb}`);
+};
+
+window.printOklab = printOklab;
+
+window.printPalette = (palette: Oklab[]) => {
+  palette.forEach(printOklab);
+};
+
 // oklab palette of bipolar - beige
 export const defaultPalette: Oklab[] = [
   {
@@ -65,7 +76,7 @@ function oklabBrownCheck(color: Oklab) {
   console.log(`isDark: ${isDark} (luminance: ${color.l})`);
   console.log(`isDull: ${isDull} (chroma: ${chroma / 100})`);
 
-  return isOrange && isDark && isDull; // its prolly orange
+  return isOrange && isDark && isDull; // its prolly brown
 }
 
 window.brownCheck = oklabBrownCheck;
@@ -104,20 +115,22 @@ export function getPalette(colorThiefPalette: RGBArray[]): CompletePalette {
   const trueSecondaryHue = oklabHue(rawPalette[0]);
 
   // now we should check if all but one color is roughly achromatic. if not, then we shouldnt care about browns
-  const shouldBrownCheck =
+  const shouldBrownCheck = !(
     rawPalette.filter((color) => Math.sqrt(color.a ** 2 + color.b ** 2) > 0.03)
-      .length < 2;
+      .length < 2 &&
+    oklabBrownCheck(
+      rawPalette.sort((a, b) => oklabSaturation(b) - oklabSaturation(a))[0],
+    )
+  );
 
   console.log(`shouldBrownCheck: ${shouldBrownCheck}`);
 
   // then we can find colors with a hue difference of less than 15 deg.. (and theyre not brown)
-  const secondaryCandidates = rawPalette
-    .slice(1)
-    .filter(
-      (color) =>
-        Math.abs(oklabHue(color) - trueSecondaryHue) <= 15 &&
-        (shouldBrownCheck ? !oklabBrownCheck(color) : true),
-    );
+  const secondaryCandidates = rawPalette.filter(
+    (color) =>
+      Math.abs(oklabHue(color) - trueSecondaryHue) <= 15 &&
+      (shouldBrownCheck ? !oklabBrownCheck(color) : true),
+  );
 
   // and then we can get the most saturated one!
   const newSecondary = secondaryCandidates.sort(
@@ -189,14 +202,3 @@ function oklabToRgbString(color: Oklab) {
     a: color.alpha || 1,
   });
 }
-
-const printOklab = ({ l, a, b }: Oklab) => {
-  const rgb = oklabToRgbString({ l, a, b, mode: "oklab" });
-  console.log(`%c oklab(${l}, ${a}, ${b})`, `background-color: ${rgb}`);
-};
-
-window.printOklab = printOklab;
-
-window.printPalette = (palette: Oklab[]) => {
-  palette.forEach(printOklab);
-};
