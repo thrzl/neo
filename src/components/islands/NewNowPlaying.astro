@@ -92,7 +92,7 @@
                     artistName.innerHTML = recentTrack.artists
                         .map(
                             (artist) =>
-                                `<a class="link" href="${artist.url}">${artist.artist_credit_name.toRespectfulLowerCase()}</a>`,
+                                `<a href="${artist.url}">${artist.artist_credit_name.toRespectfulLowerCase()}</a>`,
                         )
                         .join(", ");
                     trackTitleOverflowing();
@@ -138,7 +138,7 @@
                     artistName.innerHTML = recentTrack.artists
                         .map(
                             (artist) =>
-                                `<a class="link" href="${artist.url}">${artist.artist_credit_name.toRespectfulLowerCase()}</a>`,
+                                `<a href="${artist.url}">${artist.artist_credit_name.toRespectfulLowerCase()}</a>`,
                         )
                         .join(", ");
                     trackTitleOverflowing();
@@ -227,7 +227,7 @@
             >
         </div>
         <div class="text-sm text-right w-4/5 italic inline" id="artist-names">
-            <p class="link">please wait...</p>
+            <p>please wait...</p>
         </div>
     </div>
 </div>

@@ -25,13 +25,9 @@ const { Content } = await render(post);
     description="my thoughts and ruminations"
 >
     <div class="w-full text-center">
-        <a
-            href="/garden"
-            class="mx-auto italic b-b-2 b-muted b-dotted b-b-cover-accent hover:text-glow"
-            >see other posts...</a
-        >
+        <a href="/garden" class="mx-auto italic">see other posts...</a>
     </div>
-    <hr class="divider" />
+    <hr />
     <article class="h-entry w-full">
         <header class="mb-4">
             <div class="lg:flex lg:flex-row lg:justify-between">
@@ -53,7 +49,7 @@ const { Content } = await render(post);
                             fill="currentColor"></path>
                     </svg>
                 </h1>
-                <button class="link text-sm" id="text-justify-toggle"
+                <button class="text-sm" id="text-justify-toggle"
                     >text justify toggle</button
                 >
             </div>
@@ -69,10 +65,10 @@ const { Content } = await render(post);
             <Content />
         </div>
     </article>
-    <hr class="divider" style="color: var(--accent-text)" />
+    <hr style="color: var(--accent-text)" />
     <section class="mt-2">
         <h2
-            class="text-xl mb-2 font-bold b-b-dotted b-b-1 b-b-cover-accent w-max"
+            class="text-xl mb-2 font-bold underline decoration-2 decoration-dotted decoration-cover-accent b-b-cover-accent w-max"
         >
             comments
         </h2>
@@ -98,7 +94,6 @@ const { Content } = await render(post);
                     <input
                         type="submit"
                         value="send webmention"
-                        class="link b-2 b-accent p-2 px-2 py-1 rounded-full b-dotted hover:b-solid decoration-none b-cover-accent"
                         id="webmention-form-submit"
                     />
                 </div>
@@ -119,11 +114,7 @@ const { Content } = await render(post);
             <input type="hidden" name="dontask" value="1" />
             <input type="hidden" name="me" value="https://commentpara.de/" />
             <label class="mt-4" for="">(no sign-up!) add a comment via </label>
-            <input
-                class="inline px-2 py-1 b-1 b-dotted link rounded-full hover:b-solid decoration-none b-cover-accent"
-                type="submit"
-                value="commentpara.de"
-            />
+            <input class="inline" type="submit" value="commentpara.de" />
             <input type="hidden" name="reply" value={Astro.url.href} />
         </form>
         <WebmentionComments baseUrl={Astro.site} slug={slug} />
@@ -152,13 +143,13 @@ const { Content } = await render(post);
         });
     });
 </script>
-<style is:global>
-    /*.e-content p {
-        margin-top: 1.25rem;
-        margin-bottom: 1.25rem;
+<style>
+    hr {
+        border: var(--accent-bg) 8px dotted;
+        border-bottom: 0;
+        height: 0;
+        padding: 0;
+        margin: 2rem auto;
+        width: 25%;
     }
-    .e-content {
-        font-size: 1rem;
-        line-height: 1.75;
-    }*/
 </style>

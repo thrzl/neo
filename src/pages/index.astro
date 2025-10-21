@@ -80,10 +80,10 @@ const aniListData = await fetchAniListData();
                                     href={entry.media.siteUrl}
                                     style={`text-decoration-color: ${entry.media.coverImage.color || "#fff"}`}
                                 >
-                                    {(entry.media.title.english || entry.media.title.native).replace(
-                                        /(?=.+)\sSeason\s\d/g,
-                                        "",
-                                    )}
+                                    {(
+                                        entry.media.title.english ||
+                                        entry.media.title.native
+                                    ).replace(/(?=.+)\sSeason\s\d/g, "")}
                                 </a>
                                 {i < entries.length - 2
                                     ? ", "
@@ -106,10 +106,10 @@ const aniListData = await fetchAniListData();
                                     href={entry.media.siteUrl}
                                     style={`text-decoration-color: ${entry.media.coverImage.color || "#fff"}`}
                                 >
-                                    {(entry.media.title.english || entry.media.title.native).replace(
-                                        /(?=.+)\sSeason\s\d/g,
-                                        "",
-                                    )}
+                                    {(
+                                        entry.media.title.english ||
+                                        entry.media.title.native
+                                    ).replace(/(?=.+)\sSeason\s\d/g, "")}
                                 </a>
                                 {i < entries.length - 2
                                     ? ", "

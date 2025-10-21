@@ -11,11 +11,16 @@ if (import.meta.env.PROD) {
         await fetch("https://api.github.com/repos/thrzl/neo/commits?per_page=1")
     ).json();
 
-    commit = {
-        message: commitRes[0].commit.message,
-        hash: commitRes[0].sha.slice(0, 7),
-        date: commitRes[0].commit.committer.date,
-    };
+    if (commitRes) {
+        commit = {
+            message: commitRes[0].commit.message,
+            hash: commitRes[0].sha.slice(0, 7),
+            date: commitRes[0].commit.committer.date,
+        };
+    } else {
+        console.error("failed to fetch latest commit");
+        console.log(commitRes);
+    }
 } else {
     commit = {
         message: "now working!",
@@ -35,11 +40,7 @@ if (import.meta.env.PROD) {
     <div class="justify-items-end text-right">
         {
             personalLinks.map((link) => (
-                <a
-                    href={link.url}
-                    class="block link w-full"
-                    rel={link.rel || "me"}
-                >
+                <a href={link.url} class="block w-full" rel={link.rel || "me"}>
                     {link.title}
                 </a>
             ))
