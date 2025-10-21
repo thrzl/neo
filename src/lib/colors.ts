@@ -12,32 +12,12 @@ window.printPalette = (palette: Oklab[]) => {
   palette.forEach(printOklab);
 };
 
-// oklab palette of bipolar - beige
-export const defaultPalette: Oklab[] = [
-  {
-    mode: "oklab",
-    l: 69.06602336138803,
-    a: 0,
-    b: 0,
-  },
-  {
-    mode: "oklab",
-    l: 29.11249592086589,
-    a: 0.12069486237930604,
-    b: -0.4174270801306612,
-  },
-  {
-    mode: "oklab",
-    l: 40.41316317433956,
-    a: 0.17724679413204214,
-    b: -0.2237753329012122,
-  },
-  {
-    mode: "oklab",
-    l: 42.52903400503874,
-    a: -0.6038378576813876,
-    b: 0.9063638438680073,
-  },
+// palette of bipolar - beige
+export const defaultPalette: Rgb[] = [
+  { r: 189, g: 149, b: 93, mode: "rgb" },
+  { r: 114, g: 113, b: 168, mode: "rgb" },
+  { r: 127, g: 174, b: 98, mode: "rgb" },
+  { r: 57, g: 82, b: 38, mode: "rgb" },
 ];
 
 export type RGBArray = [number, number, number];
