@@ -139,17 +139,17 @@ export function getPalette(colorThiefPalette: RGBArray[]): CompletePalette {
 
   // if we found a better secondary choice, use that
   // otherwise just sort by saturation
+  const saturationSort = (a: Oklab, b: Oklab) =>
+    oklabSaturation(b) -
+    oklabSaturation(a) -
+    (shouldBrownCheck && oklabBrownCheck(b) ? 100 : 0); // harsh penalty for being brown
   const palette = newSecondary
     ? [
         newSecondary,
         ...rawPalette.filter((color) => color !== newSecondary),
       ].filter(Boolean)
-    : rawPalette.sort(
-        (a, b) =>
-          oklabSaturation(b) -
-          oklabSaturation(a) -
-          (shouldBrownCheck && oklabBrownCheck(b) ? 100 : 0), // harsh penalty for being brown
-      );
+    : rawPalette;
+  palette.sort(saturationSort);
   window.palette = palette;
 
   // calculate text color from dominant color luminance
