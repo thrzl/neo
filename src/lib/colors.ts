@@ -128,8 +128,7 @@ export function getPalette(colorThiefPalette: RGBArray[]): CompletePalette {
         newSecondary,
         ...rawPalette.filter((color) => color !== newSecondary),
       ].filter(Boolean)
-    : rawPalette;
-  palette.sort(saturationSort);
+    : rawPalette.sort(saturationSort);
   window.palette = palette;
 
   // calculate text color from dominant color luminance
