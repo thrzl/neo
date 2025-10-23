@@ -99,7 +99,7 @@ export function getPalette(colorThiefPalette: RGBArray[]): CompletePalette {
     rawPalette.filter((color) => Math.sqrt(color.a ** 2 + color.b ** 2) > 0.03)
       .length < 2 &&
     oklabBrownCheck(
-      rawPalette.sort((a, b) => oklabSaturation(b) - oklabSaturation(a))[0],
+      rawPalette.toSorted((a, b) => oklabSaturation(b) - oklabSaturation(a))[0],
     )
   );
 
