@@ -54,13 +54,14 @@
         }
 
         function updateTrackInfo(recentTrack: Track) {
-            const trackTitleInner = Array.from(trackTitle.childNodes).filter(
-                (node) => node.nodeName === "A",
-            )[0] as HTMLAnchorElement;
+            const trackTitleInner = trackTitle.querySelector(
+                "a",
+            ) as HTMLAnchorElement;
             const newTitleInner = trackTitleInner;
+            console.log(newTitleInner);
             newTitleInner.innerText = recentTrack.name.toRespectfulLowerCase();
             newTitleInner.href = recentTrack.url;
-            trackTitle.replaceChild(trackTitleInner, newTitleInner);
+            trackTitle.replaceChildren(newTitleInner);
 
             // update artist name:
             artistName.replaceChildren(
