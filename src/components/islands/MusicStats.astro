@@ -26,7 +26,7 @@ async function getStats(): Promise<SimplifiedAlbum[]> {
 async function processCoverArt(
 	release: SimplifiedAlbum,
 	size = "250",
-): Promise<string | ImageMetadata> {
+): Promise<string> {
     return `https://wsrv.nl/?url=${release.images[0].url}&output=webp&size=${size}`;
 }
 
@@ -36,7 +36,7 @@ const stats = await getStats();
 
     <div class="music-stats">
         <ul class="flex flex-wrap-reverse flex-row gap-0 w-full justify-center">
-            {[...stats].reverse().map(async (release, i) => (
+            {stats.reverse().map(async (release, i) => (
                 <a
                     href={release.external_urls.spotify}
                     class={`order-${i} relative overflow-hidden inline-block min-w-64 grow basis-64 group aspect-ratio-square duration-300 cursor-help gap-4`}
