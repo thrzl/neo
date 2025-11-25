@@ -29,7 +29,7 @@ export async function fetchTopTracks(
   accessToken: string,
 ): Promise<Track[]> {
   const res = await fetch(
-    `https://api.spotify.com/v1/me/top/tracks?period=${period}`,
+    `https://api.spotify.com/v1/me/top/tracks?time_range=${period}`,
     {
       headers: { Authorization: `Bearer ${accessToken}` },
     },
