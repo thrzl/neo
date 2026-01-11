@@ -123,9 +123,7 @@
         trackTitleMarquee?.refresh();
         let socket: WebSocket | undefined;
         function connectWebSocket() {
-            socket = new WebSocket(
-                "wss://enchanting-communication-production.up.railway.app/ws",
-            );
+            socket = new WebSocket("wss://comeagain.thrzl.xyz/ws");
             socket.onmessage = (event) => {
                 const data = JSON.parse(event.data);
                 sessionStorage.setItem("lastTrack", event.data);
