@@ -8,154 +8,158 @@ const aniListData = await fetchAniListData();
 ---
 
 <NewLayout>
-    <style is:global>
-        h3 {
-            font-style: italic;
-            font-weight: bold;
-            margin-top: 0.5rem;
-        }
-    </style>
     <script>
         const animeNames = document.querySelectorAll("#anilist-data a");
         animeNames.forEach((link) => {
             link.innerHTML = link.innerHTML.trim();
         });
     </script>
-    <h2
-        class="text-2xl font-bold underline underline-dotted decoration-cover-accent w-max mb-2"
-    >
-        about this place
-    </h2>
-    <p class="text-lg mb-2">welcome / bienvenue</p>
-    <p class="mb-2">
-        this site will act as my output to the rest of the world. i need to
-        express my thoughts somehow and this seems like an effective way to do
-        so. i first was inspired to get into neocities/the new web1.0 by 4star
-        and melankorin (u should check their websites out!)
-    </p>
-    <div>
+    <div class="prose text-[112.5%]">
         <h2
             class="text-2xl font-bold underline underline-dotted decoration-cover-accent w-max mb-2"
         >
-            about myself
+            about this place
         </h2>
-        <h3 class="list-header">language</h3>
-        i've recently gotten into it. i'm by no means an expert, but i'm currently
-        learning french and looking more into the field of linguistics itself
-        <br />
-        i also have basic skill at toki pona
-
-        <h3 class="list-header">computers</h3>
-        i've long been interested in computers, especially hardware. i built my own
-        computer, and love tinkering with older computers. i'm currently focused on
-        permacomputing
-
-        <h3 class="list-header">music</h3>
-        top 5:
-        <ol class="list-decimal-inside">
-            <li>bunii</li>
-            <li>yulia</li>
-            <li>slayr</li>
-            <li>ayowitty</li>
-            <li>MIKE</li>
-        </ol>
-        <h3 class="font-bold text-xl mt-2">anime</h3>
-        <p class="mb-1">
-            im not really super into anime (or much other tv/film), but i have
-            been getting more into it to help me learn japanese:
+        <p class="text-lg mb-2">welcome / bienvenue</p>
+        <p class="mb-2">
+            this site will act as my output to the rest of the world. i need to
+            express my thoughts somehow and this seems like an effective way to
+            do so. i first was inspired to get into neocities/the new web1.0 by
+            4star and melankorin (u should check their websites out!)
         </p>
-        <ul class="lowercase" id="anilist-data">
-            <li>
-                right now, i'm watching {
-                    aniListData.MediaListCollection.lists
-                        .find((list) => list.status === "CURRENT")
-                        ?.entries.reverse()
-                        .map((entry, i, entries) => (
-                            <Fragment>
-                                <a
-                                    href={entry.media.siteUrl}
-                                    style={`text-decoration-color: ${entry.media.coverImage.color || "#fff"}`}
-                                >
-                                    {(
-                                        entry.media.title.english ||
-                                        entry.media.title.native
-                                    ).replace(/(?=.+)\sSeason\s\d/g, "")}
-                                </a>
-                                {i < entries.length - 2
-                                    ? ", "
-                                    : i === entries.length - 2
-                                      ? " and "
-                                      : ""}
-                            </Fragment>
-                        ))
-                }
-            </li>
-            <li>
-                i'm planning to watch {
-                    aniListData.MediaListCollection.lists
-                        .find((list) => list.status === "PLANNING")
-                        ?.entries.reverse()
-                        .slice(0, 3)
-                        .map((entry, i, entries) => (
-                            <Fragment>
-                                <a
-                                    href={entry.media.siteUrl}
-                                    style={`text-decoration-color: ${entry.media.coverImage.color || "#fff"}`}
-                                >
-                                    {(
-                                        entry.media.title.english ||
-                                        entry.media.title.native
-                                    ).replace(/(?=.+)\sSeason\s\d/g, "")}
-                                </a>
-                                {i < entries.length - 2
-                                    ? ", "
-                                    : i === entries.length - 2
-                                      ? " and "
-                                      : ""}
-                            </Fragment>
-                        ))
-                } soon.
-            </li>
-            <li>
-                my favorite anime ever are
-                {
-                    (() => {
-                        const seen = new Set();
-                        const entries =
-                            aniListData.User.favourites.anime.nodes || [];
-                        const filtered = entries.filter((entry) => {
-                            const cleanedTitle = entry.title.english.replace(
-                                /(?=.+)\sSeason\s\d/g,
-                                "",
-                            );
-                            if (seen.has(cleanedTitle)) return false;
-                            seen.add(cleanedTitle);
-                            return true;
-                        });
-                        return filtered.map((entry, index) => (
-                            <>
-                                <a
-                                    href={entry.siteUrl}
-                                    style={`text-decoration-color: ${entry.coverImage.color || "#fff"}`}
-                                >
-                                    {entry.title.english.replace(
+        <div>
+            <h2
+                class="text-2xl font-bold underline underline-dotted decoration-cover-accent w-max mb-2"
+            >
+                about myself
+            </h2>
+            <h3 class="list-header">language</h3>
+            <p>
+                i've recently gotten into it. i'm by no means an expert, but i'm
+                currently learning french and looking more into the field of
+                linguistics itself
+            </p>
+            <p>i also have basic skill at toki pona</p>
+
+            <h3 class="list-header">computers</h3>
+            <p>
+                i've long been interested in computers, especially hardware. i
+                built my own computer, and love tinkering with older computers.
+                i'm currently focused on permacomputing
+            </p>
+
+            <h3 class="list-header">music</h3>
+            top 5:
+            <ol class="list-decimal-inside">
+                <li>bunii</li>
+                <li>yulia</li>
+                <li>slayr</li>
+                <li>ayowitty</li>
+                <li>MIKE</li>
+            </ol>
+            <h3 class="font-bold mt-2">anime</h3>
+            <p class="mb-1">
+                im not really super into anime (or much other tv/film), but i
+                have been getting more into it to help me learn japanese:
+            </p>
+            <ul
+                class="lowercase pl-0"
+                id="anilist-data"
+                style="list-style-type: none"
+            >
+                <li>
+                    right now, i'm watching {
+                        aniListData.MediaListCollection.lists
+                            .find((list) => list.status === "CURRENT")
+                            ?.entries.reverse()
+                            .map((entry, i, entries) => (
+                                <Fragment>
+                                    <a
+                                        href={entry.media.siteUrl}
+                                        style={`text-decoration-color: ${entry.media.coverImage.color || "#fff"}; text-decoration-thickness: 2px`}
+                                    >
+                                        {(
+                                            entry.media.title.english ||
+                                            entry.media.title.native
+                                        ).replace(/(?=.+)\sSeason\s\d/g, "")}
+                                    </a>
+                                    {i < entries.length - 2
+                                        ? ", "
+                                        : i === entries.length - 2
+                                          ? " and "
+                                          : ""}
+                                </Fragment>
+                            ))
+                    }
+                </li>
+                <li>
+                    i'm planning to watch {
+                        aniListData.MediaListCollection.lists
+                            .find((list) => list.status === "PLANNING")
+                            ?.entries.reverse()
+                            .slice(0, 3)
+                            .map((entry, i, entries) => (
+                                <Fragment>
+                                    <a
+                                        href={entry.media.siteUrl}
+                                        style={`text-decoration-color: ${entry.media.coverImage.color || "#fff"}; text-decoration-thickness: 2px`}
+                                    >
+                                        {(
+                                            entry.media.title.english ||
+                                            entry.media.title.native
+                                        ).replace(/(?=.+)\sSeason\s\d/g, "")}
+                                    </a>
+                                    {i < entries.length - 2
+                                        ? ", "
+                                        : i === entries.length - 2
+                                          ? " and "
+                                          : ""}
+                                </Fragment>
+                            ))
+                    } soon.
+                </li>
+                <li>
+                    my favorite anime ever are
+                    {
+                        (() => {
+                            const seen = new Set();
+                            const entries =
+                                aniListData.User.favourites.anime.nodes || [];
+                            const filtered = entries.filter((entry) => {
+                                const cleanedTitle =
+                                    entry.title.english.replace(
                                         /(?=.+)\sSeason\s\d/g,
                                         "",
-                                    )}
-                                </a>
-                                {index < filtered.length - 2
-                                    ? ", "
-                                    : index === filtered.length - 2
-                                      ? " and "
-                                      : ""}
-                            </>
-                        ));
-                    })()
-                }
-            </li>
-        </ul>
+                                    );
+                                if (seen.has(cleanedTitle)) return false;
+                                seen.add(cleanedTitle);
+                                return true;
+                            });
+                            return filtered.map((entry, index) => (
+                                <>
+                                    <a
+                                        href={entry.siteUrl}
+                                        style={`text-decoration-color: ${entry.coverImage.color || "#fff"}; text-decoration-thickness: 2px`}
+                                    >
+                                        {entry.title.english.replace(
+                                            /(?=.+)\sSeason\s\d/g,
+                                            "",
+                                        )}
+                                    </a>
+                                    {index < filtered.length - 2
+                                        ? ", "
+                                        : index === filtered.length - 2
+                                          ? " and "
+                                          : ""}
+                                </>
+                            ));
+                        })()
+                    }
+                </li>
+            </ul>
+        </div>
+        <h2 class="font-bold text-lg mt-4">other places</h2>
     </div>
-    <h2 class="font-bold text-lg mt-4">other places</h2>
     <div
         class="flex flex-row gap-x-2 mt-1 mx-auto w-max children:!b-b-none"
         id="people-buttons"
