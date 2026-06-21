@@ -19,7 +19,7 @@ const aniListData = await fetchAniListData();
     >
         about this place
     </h2>
-    <p class="text-lg mb-2">welcome / ようこそ！</p>
+    <p class="text-lg mb-2">welcome / bienvenue</p>
     <p class="mb-2">
         this site will act as my output to the rest of the world. i need to
         express my thoughts somehow and this seems like an effective way to do
@@ -32,37 +32,26 @@ const aniListData = await fetchAniListData();
         >
             about myself
         </h2>
-        <ul id="interests-list">
-            <li>
-                <h3 class="list-header">language</h3>
-                i've recently gotten into it. i'm by no means an expert, but i'm
-                currently learning japanese and looking more into the field of linguistics
-                itself
-                <br />
-                im also moderately skilled at toki pona
-                <br />
-                j'apprends le français (im learning french)
-            </li>
-            <li>
-                <h3 class="list-header">computers</h3>
-                i've long been interested in computers, especially hardware. i built
-                my own computer, and love tinkering with older computers. im currently
-                working on a modern hardware music player that incorporates some
-                of the features that other options lack (i.e. bluetooth and good
-                design)
-            </li>
-            <li>
-                <h3 class="list-header">music</h3>
-                top 5:
-                <ol class="list-decimal-inside">
-                    <li>bunii</li>
-                    <li>ayowitty</li>
-                    <li>yulia</li>
-                    <li>MIKE</li>
-                    <li>MAVI</li>
-                </ol>
-            </li>
-        </ul>
+        <h3 class="list-header">language</h3>
+        i've recently gotten into it. i'm by no means an expert, but i'm currently
+        learning french and looking more into the field of linguistics itself
+        <br />
+        i also have basic skill at toki pona
+
+        <h3 class="list-header">computers</h3>
+        i've long been interested in computers, especially hardware. i built my own
+        computer, and love tinkering with older computers. i'm currently focused on
+        permacomputing
+
+        <h3 class="list-header">music</h3>
+        top 5:
+        <ol class="list-decimal-inside">
+            <li>bunii</li>
+            <li>yulia</li>
+            <li>slayr</li>
+            <li>ayowitty</li>
+            <li>MIKE</li>
+        </ol>
         <h3 class="font-bold text-xl mt-2">anime</h3>
         <p class="mb-1">
             im not really super into anime (or much other tv/film), but i have
@@ -230,14 +219,10 @@ const aniListData = await fetchAniListData();
     }
 
     h3.list-header {
-        @apply italic font-bold;
+        @apply italic font-bold mt-2;
     }
 
     a {
         @apply link;
-    }
-
-    ul#interests-list > li {
-        @apply mb-4;
     }
 </style>
