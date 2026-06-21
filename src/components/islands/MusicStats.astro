@@ -30,7 +30,7 @@ type Stats = {
 	user_id: string;
 };
 
-async function getStats() {
+async function getStats(): Promise<Stats | undefined> {
   if (!import.meta.env.PROD) {
     return defaultListenBrainzResponse;
   }
@@ -40,8 +40,13 @@ async function getStats() {
 	if (!res.ok) {
 		throw new Error("Network response was not ok");
 	}
-	const raw_data: { payload: Stats } = await res.json();
-	return raw_data.payload;
+    try {
+        const raw_data: { payload: Stats } = await res.json();
+        return raw_data.payload;
+    } catch (error) {
+        console.error("Error parsing JSON:", error);
+        return undefined;
+    }
 }
 
 async function processCoverArt(
@@ -58,60 +63,62 @@ const stats = await getStats();
 ---
 
 
-    <div class="music-stats">
-        <ul class="flex flex-wrap-reverse flex-row gap-0 w-full justify-center">
-            {[...stats.releases].reverse().map(async (release, i) => (
-                <a
-                    href={`https://listenbrainz.org/release/${release.release_mbid}`}
-                    class={`order-${i} relative overflow-hidden inline-block min-w-64 grow basis-64 group aspect-ratio-square duration-300 cursor-help gap-4`}
-                >
-                    <Image
-                    width={i ===
+<div class="music-stats">
+{stats !== undefined ? (
+    <ul class="flex flex-wrap-reverse flex-row gap-0 w-full justify-center">
+        {[...stats.releases].reverse().map(async (release, i) => (
+            <a
+                href={`https://listenbrainz.org/release/${release.release_mbid}`}
+                class={`order-${i} relative overflow-hidden inline-block min-w-64 grow basis-64 group aspect-ratio-square duration-300 cursor-help gap-4`}
+            >
+                <Image
+                width={i ===
+                    stats.releases.length - 1 &&
+                stats.releases.length % 2 !== 0
+                    ? "1200"
+                    : "500"}
+                height={i ===
+                    stats.releases.length - 1 &&
+                stats.releases.length % 2 !== 0
+                    ? "1200"
+                    : "500"}
+                    src={await processCoverArt(release, i ===
                         stats.releases.length - 1 &&
                     stats.releases.length % 2 !== 0
                         ? "1200"
-                        : "500"}
-                    height={i ===
-                        stats.releases.length - 1 &&
+                        : "500")}
+                    alt={`${release.release_name} cover art`}
+                    class="w-full h-auto group-hover:m-0 group-hover:blur-none transition duration-300"
+                    loading={i === stats.releases.length - 1 &&
                     stats.releases.length % 2 !== 0
-                        ? "1200"
-                        : "500"}
-                        src={await processCoverArt(release, i ===
-                            stats.releases.length - 1 &&
-                        stats.releases.length % 2 !== 0
-                            ? "1200"
-                            : "500")}
-                        alt={`${release.release_name} cover art`}
-                        class="w-full h-auto group-hover:m-0 group-hover:blur-none transition duration-300"
-                        loading={i === stats.releases.length - 1 &&
-                        stats.releases.length % 2 !== 0
-                            ? "eager"
-                            : "lazy"}
-                    />
+                        ? "eager"
+                        : "lazy"}
+                />
 
-                    <!-- show title and artist in center on hover, and darken background -->
-                    <div
-                        class="absolute bg-cover-base top-0 op-0 group-hover:op-80 duration-200 w-full h-full z-1"
-                    ></div>
-                    <div
-                        class="absolute bottom-0 op-0 group-hover:op-100 transition-delay-150 transition-200 w-full h-full z-2 flex justify-center items-center flex-col"
+                <!-- show title and artist in center on hover, and darken background -->
+                <div
+                    class="absolute bg-cover-base top-0 op-0 group-hover:op-80 duration-200 w-full h-full z-1"
+                ></div>
+                <div
+                    class="absolute bottom-0 op-0 group-hover:op-100 transition-delay-150 transition-200 w-full h-full z-2 flex justify-center items-center flex-col"
+                >
+                    <p
+                        class="text-sm op-50 text-center w-full italic"
                     >
-                        <p
-                            class="text-sm op-50 text-center w-full italic"
-                        >
-                            {release.artist_name
-                                .toRespectfulLowerCase()
-                                .replaceAll("’", "'")}
-                        </p>
-                        <p
-                            class="text-4xl !line-height-none font-bold text-center w-4/5"
-                        >
-                            {release.release_name
-                                .toRespectfulLowerCase()
-                                .replaceAll("’", "'")}
-                        </p>
-                    </div>
-                </a>
-            ))}
-        </ul>
-    </div>
+                        {release.artist_name
+                            .toRespectfulLowerCase()
+                            .replaceAll("’", "'")}
+                    </p>
+                    <p
+                        class="text-4xl !line-height-none font-bold text-center w-4/5"
+                    >
+                        {release.release_name
+                            .toRespectfulLowerCase()
+                            .replaceAll("’", "'")}
+                    </p>
+                </div>
+            </a>
+        ))}
+    </ul>
+) : <p class="text-center text-lg italic">no stats available... whoops</p>}
+</div>
