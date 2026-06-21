@@ -45,17 +45,6 @@ import "../styles/global.css";
                     });
                 });
             });
-            const scrollPosition = sessionStorage.getItem("scrollPosition");
-            if (scrollPosition) {
-                window.scrollTo(0, parseInt(scrollPosition, 10));
-            }
-            document.documentElement.style.scrollBehavior = "smooth";
-            document.addEventListener("visibilitychange", () => {
-                sessionStorage.setItem(
-                    "scrollPosition",
-                    window.scrollY.toString(),
-                );
-            });
         });
     </script>
 
