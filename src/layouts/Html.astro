@@ -61,6 +61,12 @@ import Sun from "../components/Sun.astro";
                 );
             }
         </script>
+        <script>
+            // @ts-ignore
+            import listen from "micromorph/nav";
+
+            listen();
+        </script>
     </head>
     <body style="background-color: var(--dominant)">
         <!-- {neko && <script src="../assets/oneko.js" />} -->

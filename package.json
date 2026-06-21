@@ -21,6 +21,7 @@
     "date-fns": "^4.4.0",
     "dayjs": "^1.11.21",
     "jsdom": "^29.1.1",
+    "micromorph": "^0.4.5",
     "rollup-plugin-visualizer": "^7.0.1",
     "typescript": "^6.0.3",
     "unocss": "^66.7.2",
