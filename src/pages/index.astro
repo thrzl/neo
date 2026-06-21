@@ -8,6 +8,13 @@ const aniListData = await fetchAniListData();
 ---
 
 <NewLayout>
+    <style is:global>
+        h3 {
+            font-style: italic;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+    </style>
     <script>
         const animeNames = document.querySelectorAll("#anilist-data a");
         animeNames.forEach((link) => {
@@ -203,26 +210,3 @@ const aniListData = await fetchAniListData();
         <IndieWebRing />
     </div>
 </NewLayout>
-
-<style>
-    ul,
-    ol {
-        @apply ml-4;
-    }
-
-    ul li {
-        @apply mb-2 list-disc;
-    }
-
-    ol li {
-        @apply mb-2 list-decimal;
-    }
-
-    h3.list-header {
-        @apply italic font-bold mt-2;
-    }
-
-    a {
-        @apply link;
-    }
-</style>
