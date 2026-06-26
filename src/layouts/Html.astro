@@ -35,7 +35,7 @@ import Sun from "../components/Sun.astro";
             // load palette
             import type { CompletePalette } from "../lib/colors";
             const palette: CompletePalette = JSON.parse(
-                sessionStorage.getItem("palette") || "",
+                sessionStorage.getItem("palette") || "null",
             );
             if (palette) {
                 const root = document.documentElement;
