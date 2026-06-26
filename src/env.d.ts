@@ -24,8 +24,8 @@ String.prototype.toRespectfulLowerCase = function () {
 };
 
 export type Track = {
-  image_url: string;
-  image_palette: [number, number, number][];
+  artwork_url: string;
+  palette: [number, number, number][];
   artists: {
     artist_credit_name: string;
     join_phrase: string;

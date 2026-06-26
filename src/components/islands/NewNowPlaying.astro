@@ -85,13 +85,13 @@
 
             let newImg: HTMLImageElement = albumImage;
             newImg.alt = recentTrack.name;
-            newImg.src = recentTrack.image_url
-                ? `https://wsrv.nl/?url=${recentTrack.image_url}&w=350&output=webp`
+            newImg.src = recentTrack.artwork_url
+                ? `https://wsrv.nl/?url=${recentTrack.artwork_url}&w=350&output=webp`
                 : "/music.avif";
             albumImage.replaceWith(newImg);
             albumImage.addEventListener("load", () => {
                 console.log("getting color");
-                getAlbumArtColor(recentTrack.image_palette);
+                getAlbumArtColor(recentTrack.palette);
                 updateTrackInfo(recentTrack);
                 // update track title:
             });
@@ -123,7 +123,7 @@
         trackTitleMarquee?.refresh();
         let socket: WebSocket | undefined;
         function connectWebSocket() {
-            socket = new WebSocket("wss://comeagain.twofortyeight.net/ws");
+            socket = new WebSocket("wss://rich-listenbrainz-np-production.up.railway.app/ws");
             socket.onmessage = (event) => {
                 const data = JSON.parse(event.data);
                 sessionStorage.setItem("lastTrack", event.data);
